@@ -6,8 +6,17 @@
 <meta name="theme-color" content="#6B1212"/>
 <title>जय माँ दुर्गा – ग्राम कोलडिहा</title>
 <link rel="manifest" href="./manifest.json"/>
-<link rel="stylesheet" href="./styles.css?v=7"/>
-<style>.drivebox{width:100%;height:360px;border:0;border-radius:14px}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}.tabs button{border:1px solid #e0c8a8;background:#fff;border-radius:10px;padding:10px;font-weight:700;font-family:inherit}.tabs button.on{background:#6B1212;color:#fff}</style>
+<link rel="stylesheet" href="./styles.css?v=9"/>
+<style>
+.drivebox{width:100%;height:280px;border:0;border-radius:14px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
+.tabs button{border:1px solid #e0c8a8;background:#fff;border-radius:10px;padding:10px;font-weight:700;font-family:inherit}
+.tabs button.on{background:#6B1212;color:#fff}
+.ggrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.ggrid figure{margin:0;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #f0e0c8}
+.ggrid img{width:100%;height:140px;object-fit:cover;display:block}
+.ggrid figcaption{padding:6px 8px;font-size:12px;font-weight:700;color:#6B1212}
+</style>
 </head>
 <body>
 <div class="stage"><div class="phone">
@@ -56,29 +65,29 @@
   </div><div id="donList"></div>
 </section>
 <section class="page" id="p-news"><h2>📢 सूचना</h2><div id="newsList"></div></section>
-<section class="page" id="p-gallery"><h2>📸 गैलरी</h2><iframe class="drivebox" id="driveFrame"></iframe></section>
-<section class="page" id="p-map"><h2>📍</h2><div class="card"><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Gram+Koldiha+231210">रास्ता</a></div></section>
-<section class="page" id="p-aarti"><h2>🪔</h2><div class="card"><p id="aartiMeta">07:00 PM</p></div></section>
+<section class="page" id="p-gallery"></section>
+<section class="page" id="p-map"><h2>📍 पंडाल</h2><div class="card"><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Gram+Koldiha+231210">रास्ता</a></div></section>
+<section class="page" id="p-aarti"></section>
 <section class="page" id="p-admin">
   <h2>⚙️ एडमिन</h2>
   <div class="card" id="adminGate"></div>
   <div id="adminTools" style="display:none">
     <div class="card">
-      <h3>नई ID बनाओ (रोल के साथ)</h3>
+      <h3>नई ID बनाओ</h3>
       <input id="sidName" placeholder="नाम"/>
-      <input id="sidPh" inputmode="tel" maxlength="10" placeholder="मोबाइल 10 अंक"/>
+      <input id="sidPh" inputmode="tel" maxlength="10" placeholder="मोबाइल"/>
       <select id="sidRole">
-        <option value="user">श्रद्धालु — सिर्फ़ चंदा</option>
-        <option value="volunteer">वॉलंटियर — देखना</option>
-        <option value="editor">एडिटर — कार्यक्रम/सूचना/लाइव</option>
-        <option value="treasurer">कोषाध्यक्ष — चंदा/खर्च/UPI</option>
-        <option value="admin">एडमिन — पूरा अक्सेस</option>
+        <option value="user">श्रद्धालु</option>
+        <option value="volunteer">वॉलंटियर</option>
+        <option value="editor">एडिटर</option>
+        <option value="treasurer">कोषाध्यक्ष</option>
+        <option value="admin">एडमिन</option>
       </select>
-      <button class="btn" onclick="createStaff()">ID बनाओ और PIN दिखाओ</button>
+      <button class="btn" onclick="createStaff()">ID बनाओ</button>
       <div id="newIdBox"></div>
     </div>
-    <div class="card"><h3>एडमिन कॉल नंबर</h3><input id="adminCall" placeholder="9876543210"/><button class="btn" onclick="saveAdminCall()">सेव</button></div>
-    <div class="card"><h3>सभी आईडी — रोल / PIN</h3><div id="memList"></div></div>
+    <div class="card"><h3>एडमिन कॉल</h3><input id="adminCall" placeholder="9473746020"/><button class="btn" onclick="saveAdminCall()">सेव</button></div>
+    <div class="card"><h3>सभी ID</h3><div id="memList"></div></div>
     <div class="card"><h3>YouTube Live</h3><input id="liveUrl"/><button class="btn" onclick="saveLive()">सेव</button></div>
     <div class="card"><h3>UPI / QR</h3><input id="upiId"/><input id="qrUrl"/><button class="btn" onclick="saveQr()">सेव</button></div>
     <div class="card"><h3>बैनर</h3><input id="banUrl"/><button class="btn" onclick="saveBanner()">सेव</button></div>
@@ -86,7 +95,6 @@
     <div class="card"><h3>खर्च</h3><input id="expAmt" type="number"/><input id="expNote"/><button class="btn" onclick="addExp()">जोड़ो</button></div>
     <div class="card"><h3>सूचना</h3><input id="anTitle"/><textarea id="anMsg"></textarea><button class="btn" onclick="saveAnnounce()">भेजो</button></div>
     <div class="card"><h3>कार्यक्रम</h3><input id="evDay"/><input id="evTitle"/><input id="evWhen"/><button class="btn" onclick="saveEvent()">सेव</button></div>
-    <div class="card"><h3>आरती</h3><input id="aartiIn"/><button class="btn" onclick="saveAarti()">सेव</button></div>
   </div>
 </section>
 </main>
@@ -94,14 +102,15 @@
 <button data-p="home" onclick="go('home')"><span class="i">🏠</span>होम</button>
 <button data-p="events" onclick="go('events')"><span class="i">📅</span>कार्यक्रम</button>
 <button data-p="donate" onclick="go('donate')"><span class="i">💰</span>सहयोग</button>
-<button data-p="live" onclick="go('live')"><span class="i">🔴</span>LIVE</button>
+<button data-p="gallery" onclick="go('gallery')"><span class="i">📸</span>गैलरी</button>
 <button class="on" data-p="account" onclick="go('account')"><span class="i">📱</span>लॉगिन</button>
 </nav>
 <div class="toast" id="toast"></div>
 </div></div>
-<script src="./firebase-config.js?v=7"></script>
+<script src="./firebase-config.js?v=9"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
-<script src="./app.js?v=7"></script>
-<script src="./auth.js?v=7"></script>
+<script src="./app.js?v=9"></script>
+<script src="./auth.js?v=9"></script>
+<script src="./extra.js?v=9"></script>
 </body></html>

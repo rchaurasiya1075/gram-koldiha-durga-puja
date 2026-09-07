@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=Noto+Serif+Devanagari:wght@500;700;800&family=Cinzel:wght@600;700&display=swap");
+.vhead{text-align:center;flex-shrink:0;padding:2px 4px 4px}
+.vtitle{font-family:"Noto Serif Devanagari","Tiro Devanagari Hindi",serif;font-size:34px;line-height:1.05;font-weight:800;color:#6B1212;margin:0;letter-spacing:.5px;text-shadow:0 1px 0 #f7e7c3}
+.vfest{font-family:Cinzel,"Noto Serif Devanagari",serif;font-size:13px;letter-spacing:1.4px;color:#8a3b12;margin:2px 0 0;font-weight:700}
+.vslogan{font-family:"Tiro Devanagari Hindi","Noto Serif Devanagari",serif;font-style:italic;color:#9a4a16;font-size:12px;margin:3px 0 0}
+.vaddr{font-size:11px;color:#7A5A4A;margin:3px 0 0;font-weight:600}
+.appbar .brand{font-family:"Noto Serif Devanagari",serif;font-size:22px;font-weight:800}
+.slider{height:168px;background:#2a0c0c;display:flex;align-items:center;justify-content:center}
+.slider img{width:100%;height:100%;object-fit:contain;object-position:center;background:#2a0c0c}
+.slideCap{font-family:"Tiro Devanagari Hindi",serif}
+.ticker{display:flex;align-items:center;gap:8px}
+.ticker span{flex:1;min-width:0}
+.speak{border:0;background:#6B1212;color:#fff;border-radius:999px;width:32px;height:32px;flex-shrink:0;font-size:14px}

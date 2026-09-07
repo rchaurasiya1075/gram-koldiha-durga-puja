@@ -12,10 +12,10 @@ window.addDon=async function(){
   if(cloud&&fs){try{var ref=await fs.collection("donations").add(row);row.did=ref.id;}catch(e){}}
   db.donations=db.donations||[];db.donations.push(row);saveLocal();
   var da=document.getElementById("da");if(da)da.value="";
-  renderDon();toast("सबमिट — एडमिन अप्रूव के बाद सभी को दिखेगा");
+  renderDon();toast("सबमिट — अप्रूव के बाद दिखेगा");
 };
 window.approveDon=async function(id){
-  if(!isAdminUser())return toast("सिर्फ़ एडमिन अप्रूव करे");
+  if(!isAdminUser())return toast("सिर्फ़ एडमिन");
   var d=(db.donations||[]).find(function(x){return donKey(x)===String(id);});if(!d)return;
   d.status="approved";saveLocal();
   if(cloud&&fs&&d.did){try{await fs.collection("donations").doc(d.did).set({status:"approved"},{merge:true});}catch(e){}}
@@ -47,4 +47,4 @@ window.renderDon=function(){
   list.innerHTML=html;
 };
 setTimeout(function(){if(!(window.cloud&&window.fs))return;try{fs.collection("donations").onSnapshot(function(qs){db.donations=qs.docs.map(function(d){var x=d.data();x.did=d.id;return x;});saveLocal();if(document.querySelector("#p-donate.on"))renderDon();});}catch(e){}},2000);
-(function(){["gal-perm.js?v=22","social.js?v=24"].forEach(function(src){var s=document.createElement("script");s.src="./"+src;document.body.appendChild(s);});})();
+(function(){["gal-perm.js?v=22","social.js?v=24","chat-ui.js?v=25"].forEach(function(src){var s=document.createElement("script");s.src="./"+src;document.body.appendChild(s);});})();

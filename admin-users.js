@@ -12,11 +12,6 @@ window.waUser=function(ph){
 window.searchUsers=function(){
   var q=((document.getElementById("userQ")||{}).value||"").trim().toLowerCase();
   renderUserDir(q);
-  if(!q)return;
-  var list=Object.values(db.members||{}).filter(function(m){
-    return String(m.name||"").toLowerCase().indexOf(q)>=0 || String(m.phone||"").indexOf(q)>=0;
-  });
-  if(list.length===1)openWA(list[0]);
 };
 function renderUserDir(q){
   var el=document.getElementById("userDir");if(!el)return;
@@ -34,7 +29,7 @@ function ensureUserDir(){
   if(!(user&&(user.phone==="9473746020"||user.role==="admin"||(typeof isChatAdmin==="function"&&isChatAdmin()))))return;
   if(document.getElementById("userDirBox")){renderUserDir((document.getElementById("userQ")||{}).value||"");return;}
   var box=document.createElement("div");box.className="card";box.id="userDirBox";
-  box.innerHTML='<h3>सभी यूज़र</h3><input id="userQ" placeholder="नाम या मोबाइल सेर्च" oninput="searchUsers()"/><button class="btn" onclick="searchUsers()">सर्च और व्हाटसएप</button><div id="userDir"></div>';
+  box.innerHTML='<h3>सभी यूज़र</h3><input id="userQ" placeholder="नाम या मोबाइल सेर्च" oninput="searchUsers()"/><button class="btn" onclick="searchUsers()">सर्च</button><div id="userDir"></div>';
   var fest=document.getElementById("festBox");
   if(fest&&fest.nextSibling)tools.insertBefore(box,fest.nextSibling);
   else tools.insertBefore(box,tools.firstChild);
@@ -42,16 +37,4 @@ function ensureUserDir(){
 }
 const _raU=window.renderAdmin;
 window.renderAdmin=function(){if(typeof _raU==="function")try{_raU();}catch(e){}ensureUserDir();};
-function wrapLoginWA(name){
-  var old=window[name];if(typeof old!=="function"||old._wa)return;
-  var fn=async function(){
-    var r=await old.apply(this,arguments);
-    if(user&&user.phone&&name!=="adminLogin"){
-      openWA(user);
-    }
-    return r;
-  };
-  fn._wa=true;window[name]=fn;
-}
-["doSignup","doUserLogin","doLogin"].forEach(wrapLoginWA);
-setTimeout(function(){["doSignup","doUserLogin","doLogin"].forEach(wrapLoginWA);if(document.getElementById("adminTools"))ensureUserDir();},900);
+setTimeout(function(){if(document.getElementById("adminTools"))ensureUserDir();},900);

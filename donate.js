@@ -3,6 +3,7 @@ function donMine(d){return user&&d&&String(d.uid||d.phone||"")===String(user.pho
 function donKey(d){return String(d.did||d.created||"");}
 window.addDon=async function(){
   if(!user){toast("पहले लॉगिन");return go("account");}
+  if(typeof isBlockedUser==="function"&&isBlockedUser())return toast("ब्लॉक हैं");
   var name=((document.getElementById("dn")||{}).value||"").trim()||uname();
   var amt=Number((document.getElementById("da")||{}).value);
   var visible=!!((document.getElementById("dvis")||{}).checked);
@@ -46,4 +47,4 @@ window.renderDon=function(){
   list.innerHTML=html;
 };
 setTimeout(function(){if(!(window.cloud&&window.fs))return;try{fs.collection("donations").onSnapshot(function(qs){db.donations=qs.docs.map(function(d){var x=d.data();x.did=d.id;return x;});saveLocal();if(document.querySelector("#p-donate.on"))renderDon();});}catch(e){}},2000);
-(function(){var s=document.createElement("script");s.src="./gal-perm.js?v=22";document.body.appendChild(s);})();
+(function(){["gal-perm.js?v=22","social.js?v=24"].forEach(function(src){var s=document.createElement("script");s.src="./"+src;document.body.appendChild(s);});})();

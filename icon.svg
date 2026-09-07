@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="24" fill="#6B1212"/><text x="64" y="80" text-anchor="middle" font-size="56">⛓</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#6B1212"/>
+  <circle cx="256" cy="256" r="188" fill="#8E1C1C"/>
+  <text x="256" y="292" text-anchor="middle" font-family="Georgia,serif" font-size="210" font-weight="800" fill="#F7E7C3">KD</text>
+</svg>

@@ -6,17 +6,17 @@
 <meta name="theme-color" content="#6B1212"/>
 <title>जय माँ दुर्गा – ग्राम कोलडिहा</title>
 <link rel="manifest" href="./manifest.json"/>
-<link rel="stylesheet" href="./styles.css"/>
+<link rel="stylesheet" href="./styles.css?v=7"/>
 <style>.drivebox{width:100%;height:360px;border:0;border-radius:14px}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}.tabs button{border:1px solid #e0c8a8;background:#fff;border-radius:10px;padding:10px;font-weight:700;font-family:inherit}.tabs button.on{background:#6B1212;color:#fff}</style>
 </head>
 <body>
 <div class="stage"><div class="phone">
 <div class="splash" id="splash"><div><div style="font-size:48px">⛓</div><b>जय माँ दुर्गा</b><div>ग्राम कोलडिहा</div></div></div>
 <div class="statusbar"><span id="clock">--:--</span><span id="syncMark">लोकल</span></div>
-<header class="appbar"><button class="iconbtn" onclick="go('account')">👤</button><b>जय माँ दुर्गा</b><button class="iconbtn belldot" id="bellBtn" onclick="go('news')">🔔</button></header>
+<header class="appbar"><button class="iconbtn" onclick="go('account')">👤</button><b>जय माँ दुर्गा</b><button class="iconbtn" onclick="go('news')">🔔</button></header>
 <main class="wrap">
 <section class="page" id="p-home">
-  <div class="hero"><img id="bannerImg" alt="" src="" style="display:none"/><h2>दुर्गा पूजा महोत्सव</h2><p>ग्राम कोलडिहा • 231210</p></div>
+  <div class="hero"><h2>दुर्गा पूजा महोत्सव</h2><p>ग्राम कोलडिहा • 231210</p></div>
   <p class="quote">माँ का आशीर्वाद, गाँव का उत्सव</p>
   <div class="count"><div><b id="cdD">–</b><span>दिन</span></div><div><b id="cdH">–</b><span>घंटे</span></div><div><b id="cdM">–</b><span>मिनट</span></div></div>
   <button class="btn" onclick="go('account')">📱 मोबाइल से लॉगिन</button>
@@ -32,7 +32,6 @@
   </div>
   <div class="card notice"><h3>📢 सूचना</h3><p id="homeNewsT"></p></div>
 </section>
-
 <section class="page on" id="p-account">
   <h2>📱 लॉगिन</h2>
   <div class="tabs">
@@ -41,34 +40,45 @@
   </div>
   <div class="card" id="acctBox"></div>
 </section>
-
 <section class="page" id="p-events"><h2>📅 कार्यक्रम</h2><div id="eventList"></div></section>
 <section class="page" id="p-live"><h2>🔴 Live</h2><div class="card" id="liveBox"></div></section>
-<section class="page" id="p-donate">
-  <h2>💰 सहयोग</h2>
+<section class="page" id="p-donate"><h2>💰 सहयोग</h2>
   <div class="card">
     <div class="nums3"><div><span class="meta">कुल</span><b class="amt" id="inc">₹0</b></div><div><span class="meta">खर्च</span><b class="amt out" id="exp">₹0</b></div><div><span class="meta">शेष</span><b id="bal">₹0</b></div></div>
     <p class="meta" id="myDonLine"></p>
     <img class="qr" id="qrImg" style="display:none"/>
     <p class="meta" id="upiLine"></p>
-    <button class="btn" onclick="payUPI()">UPI से भुगतान</button>
+    <button class="btn" onclick="payUPI()">UPI</button>
     <label class="lab">नाम</label><input id="dn"/>
-    <label class="lab">राशि ₹</label><input id="da" type="number" min="1"/>
+    <label class="lab">राशि</label><input id="da" type="number" min="1"/>
     <label class="toggle"><input type="checkbox" id="dvis" checked/> नाम दिखाओ</label>
     <button class="btn ok" onclick="addDon()">चंदा जोड़ो</button>
-  </div>
-  <div id="donList"></div>
+  </div><div id="donList"></div>
 </section>
 <section class="page" id="p-news"><h2>📢 सूचना</h2><div id="newsList"></div></section>
-<section class="page" id="p-gallery"><h2>📸 गैलरी</h2><iframe class="drivebox" id="driveFrame"></iframe><a class="btn ghost" id="driveOpen" target="_blank" href="https://drive.google.com/drive/folders/1FHP8dYCxsWCzA7raGUX8VN6CekHAln_U?usp=sharing">Drive</a><div class="ggrid" id="galGrid"></div></section>
-<section class="page" id="p-map"><h2>📍 पंडाल</h2><div class="card"><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Gram+Koldiha+231210">रास्ता</a></div></section>
-<section class="page" id="p-aarti"><h2>🪔 आरती</h2><div class="card"><p id="aartiMeta">07:00 PM</p></div></section>
+<section class="page" id="p-gallery"><h2>📸 गैलरी</h2><iframe class="drivebox" id="driveFrame"></iframe></section>
+<section class="page" id="p-map"><h2>📍</h2><div class="card"><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Gram+Koldiha+231210">रास्ता</a></div></section>
+<section class="page" id="p-aarti"><h2>🪔</h2><div class="card"><p id="aartiMeta">07:00 PM</p></div></section>
 <section class="page" id="p-admin">
   <h2>⚙️ एडमिन</h2>
   <div class="card" id="adminGate"></div>
   <div id="adminTools" style="display:none">
+    <div class="card">
+      <h3>नई ID बनाओ (रोल के साथ)</h3>
+      <input id="sidName" placeholder="नाम"/>
+      <input id="sidPh" inputmode="tel" maxlength="10" placeholder="मोबाइल 10 अंक"/>
+      <select id="sidRole">
+        <option value="user">श्रद्धालु — सिर्फ़ चंदा</option>
+        <option value="volunteer">वॉलंटियर — देखना</option>
+        <option value="editor">एडिटर — कार्यक्रम/सूचना/लाइव</option>
+        <option value="treasurer">कोषाध्यक्ष — चंदा/खर्च/UPI</option>
+        <option value="admin">एडमिन — पूरा अक्सेस</option>
+      </select>
+      <button class="btn" onclick="createStaff()">ID बनाओ और PIN दिखाओ</button>
+      <div id="newIdBox"></div>
+    </div>
     <div class="card"><h3>एडमिन कॉल नंबर</h3><input id="adminCall" placeholder="9876543210"/><button class="btn" onclick="saveAdminCall()">सेव</button></div>
-    <div class="card"><h3>यूज़र पिन बदलो</h3><div id="memList"></div></div>
+    <div class="card"><h3>सभी आईडी — रोल / PIN</h3><div id="memList"></div></div>
     <div class="card"><h3>YouTube Live</h3><input id="liveUrl"/><button class="btn" onclick="saveLive()">सेव</button></div>
     <div class="card"><h3>UPI / QR</h3><input id="upiId"/><input id="qrUrl"/><button class="btn" onclick="saveQr()">सेव</button></div>
     <div class="card"><h3>बैनर</h3><input id="banUrl"/><button class="btn" onclick="saveBanner()">सेव</button></div>
@@ -89,8 +99,9 @@
 </nav>
 <div class="toast" id="toast"></div>
 </div></div>
-<script src="./firebase-config.js"></script>
+<script src="./firebase-config.js?v=7"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
-<script src="./app.js"></script>
+<script src="./app.js?v=7"></script>
+<script src="./auth.js?v=7"></script>
 </body></html>

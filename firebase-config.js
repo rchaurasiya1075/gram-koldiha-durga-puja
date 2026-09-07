@@ -1,12 +1,12 @@
 window.FIREBASE_CONFIG = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyCYxGLxDk5sTe0ZEYmxtiAl5c9touUturU",
+  authDomain: "koldihadurgapooja.firebaseapp.com",
+  projectId: "koldihadurgapooja",
+  storageBucket: "koldihadurgapooja.firebasestorage.app",
+  messagingSenderId: "76552733422",
+  appId: "1:76552733422:web:b1a1e6ab48dba4d4d6e9ff"
 };
 window.FIREBASE_READY = function () {
   const c = window.FIREBASE_CONFIG || {};
-  return c.apiKey && !String(c.apiKey).startsWith("YOUR_");
+  return !!(c.apiKey && c.projectId === "koldihadurgapooja");
 };

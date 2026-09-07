@@ -56,7 +56,7 @@ function showWorker(){
 const _rh2=window.renderHome;
 window.renderHome=function(){if(typeof _rh2==="function")try{_rh2();}catch(e){}showWorker();if(_wt)clearInterval(_wt);_wt=setInterval(showWorker,3800);};
 window.saveWorker=async function(){
-  if(!isAdminUser())return toast("सिर्फ़ एडमिन");
+  if(typeof isAdminUser==="function"&&!isAdminUser())return toast("सिर्फ़ एडमिन");
   var row={name:(document.getElementById("kName")||{}).value.trim(),phone:normPh((document.getElementById("kPh")||{}).value),pad:(document.getElementById("kPad")||{}).value.trim(),work:(document.getElementById("kWork")||{}).value.trim(),level:Number((document.getElementById("kLevel")||{}).value||99)};
   if(!row.name)return toast("नाम लिखें");
   db.workers=db.workers||[];db.workers.push(row);saveLocal();
@@ -65,7 +65,7 @@ window.saveWorker=async function(){
 };
 showWorker();
 (function(){
-  ["donate.js?v=17","access.js?v=18"].forEach(function(src){
+  ["donate.js?v=19","access.js?v=19","share.js?v=19"].forEach(function(src){
     var s=document.createElement("script");s.src="./"+src;document.body.appendChild(s);
   });
 })();

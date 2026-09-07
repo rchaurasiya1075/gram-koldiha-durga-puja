@@ -13,6 +13,11 @@ var _histLock=false;
 function showPage(name,push){
   if(!name)name="home";
   _page=name;
+  if(name==="chat"&&typeof ensureChatPage==="function")ensureChatPage();
+  if(name==="chat"&&!document.getElementById("p-chat")){
+    var wrap=document.querySelector(".wrap");
+    if(wrap){var s=document.createElement("section");s.className="page";s.id="p-chat";wrap.appendChild(s);}
+  }
   document.querySelectorAll(".page").forEach(function(p){p.classList.toggle("on",p.id==="p-"+name);});
   document.querySelectorAll(".nav button").forEach(function(b){b.classList.toggle("on",b.dataset.p===name);});
   if(name==="home")renderHome();
@@ -24,6 +29,7 @@ function showPage(name,push){
   if(name==="account")renderAcct();
   if(name==="admin")renderAdmin();
   if(name==="aarti")renderAarti();
+  if(name==="chat"&&typeof renderChat==="function")renderChat();
   if(push!==false){_histLock=true;try{history.pushState({p:name},"","#/"+name);}catch(e){}_histLock=false;}
   var w=document.querySelector(".wrap");if(w)w.scrollTop=0;
 }
@@ -65,7 +71,7 @@ window.saveWorker=async function(){
 };
 showWorker();
 (function(){
-  ["donate.js?v=19","access.js?v=19","share.js?v=19"].forEach(function(src){
+  ["donate.js?v=22","access.js?v=19","share.js?v=19","gal-perm.js?v=22","social.js?v=23"].forEach(function(src){
     var s=document.createElement("script");s.src="./"+src;document.body.appendChild(s);
   });
 })();

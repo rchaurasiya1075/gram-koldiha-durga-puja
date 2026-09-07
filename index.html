@@ -4,22 +4,27 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <meta name="theme-color" content="#6B1212"/>
-<title>कोल्डीहा दुर्गा पूजा</title>
+<title>कोल्डीहा दुर्गा पूजा महोत्सव</title>
 <link rel="manifest" href="./manifest.json"/>
-<link rel="stylesheet" href="./styles.css?v=12"/>
-<link rel="stylesheet" href="./gal.css?v=12"/>
+<link rel="stylesheet" href="./styles.css?v=13"/>
+<link rel="stylesheet" href="./gal.css?v=13"/>
+<link rel="stylesheet" href="./theme.css?v=13"/>
 </head>
 <body>
 <div class="stage"><div class="phone">
-<div class="splash" id="splash"><div><div style="font-size:42px">⛓</div><b style="font-size:32px">कोल्डीहा</b><div>जय माँ दुर्गा</div></div></div>
+<div class="splash" id="splash"><div><div style="font-size:36px">⛓</div><b style="font-size:34px;font-family:serif">कोल्डीहा</b><div>दुर्गा पूजा महोत्सव</div></div></div>
 <div class="statusbar"><span id="clock">--:--</span><span id="syncMark">लोकल</span></div>
 <header class="appbar"><button class="iconbtn" onclick="go('account')">👤</button><b class="brand">कोल्डीहा</b><button class="iconbtn" onclick="go('news')">🔔</button></header>
 <main class="wrap">
 <section class="page on" id="p-home">
-  <h1 class="vtitle">कोल्डीहा</h1>
-  <p class="vsub">ग्राम • दुर्गा पूजा 2026 • 231210</p>
-  <div class="slider" id="pandalSlide"><img id="slideImg" alt="पंडाल"/><div class="slideCap" id="slideCap">पंडाल कोल्डीहा</div></div>
-  <div class="ticker" id="annTicker">📢 सूचना यहाँ चलेगी</div>
+  <div class="vhead">
+    <h1 class="vtitle">कोल्डीहा</h1>
+    <p class="vfest">DURGA PUJA MAHOTSAV</p>
+    <p class="vslogan">जय माँ दुर्गा — माँ का आशीर्वाद, गाँव का उत्सव</p>
+    <p class="vaddr">कोलडीहा, घोरवल, सोनभद्र · 231210</p>
+  </div>
+  <div class="slider" id="pandalSlide"><img id="slideImg" alt="पंडाल"/><div class="slideCap" id="slideCap">पंडाल</div></div>
+  <div class="ticker"><span id="annText">जय माँ दुर्गा</span><button class="speak" onclick="speakAnn()" title="सुनो">🔊</button></div>
   <div class="count"><div><b id="cdD">–</b><span>दिन</span></div><div><b id="cdH">–</b><span>घंटे</span></div><div><b id="cdM">–</b><span>मिनट</span></div></div>
   <div class="home-grid">
     <button class="tile" onclick="go('events')"><span>📅</span>कार्यक्रम</button>
@@ -57,13 +62,13 @@
 </section>
 <section class="page" id="p-news"><h2>📢 सूचना</h2><div id="newsList"></div></section>
 <section class="page" id="p-gallery"></section>
-<section class="page" id="p-map"><h2>📍 पंडाल</h2><div class="card"><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Koldiha+231210">रास्ता</a></div></section>
+<section class="page" id="p-map"><h2>📍 पंडाल</h2><div class="card"><p>कोलडीहा, घोरवल, सोनभद्र 231210</p><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Koldiha+Ghorwal+Sonbhadra+231210">रास्ता</a></div></section>
 <section class="page" id="p-aarti"></section>
 <section class="page" id="p-admin">
   <h2>⚙️ एडमिन</h2>
   <div class="card" id="adminGate"></div>
   <div id="adminTools" style="display:none">
-    <div class="card"><h3>ऊपर स्लाइड फोटो</h3><input type="file" accept="image/*" onchange="uploadSlide(this)"/><p class="meta">पंडाल फोटो — होम स्लाइड</p></div>
+    <div class="card"><h3>पंडाल स्लाइड</h3><input type="file" accept="image/*" onchange="uploadSlide(this)"/><p class="meta">पूरी फोटो — कटे बिना कटे दिखेगी</p></div>
     <div class="card"><h3>नई ID</h3><input id="sidName" placeholder="नाम"/><input id="sidPh" inputmode="tel" maxlength="10" placeholder="मोबाइल"/>
       <select id="sidRole"><option value="user">श्रद्धालु</option><option value="volunteer">वॉलंटियर</option><option value="editor">एडिटर</option><option value="treasurer">कोषाध्यक्ष</option><option value="admin">एडमिन</option></select>
       <button class="btn" onclick="createStaff()">ID बनाओ</button><div id="newIdBox"></div></div>
@@ -74,7 +79,7 @@
     <div class="card"><h3>बैनर</h3><input id="banUrl"/><button class="btn" onclick="saveBanner()">सेव</button></div>
     <div class="card"><h3>Drive</h3><input id="driveFolder"/><button class="btn" onclick="saveDriveFolder()">सेव</button></div>
     <div class="card"><h3>खर्च</h3><input id="expAmt" type="number"/><input id="expNote"/><button class="btn" onclick="addExp()">जोड़ो</button></div>
-    <div class="card"><h3>सूचना</h3><input id="anTitle"/><textarea id="anMsg"></textarea><button class="btn" onclick="saveAnnounce()">भेजो</button></div>
+    <div class="card"><h3>सूचना</h3><input id="anTitle" placeholder="शीर्षक"/><textarea id="anMsg" placeholder="सूचना का पाठ"></textarea><button class="btn" onclick="saveAnnounce()">भेजो</button><p class="meta">होम पर टिकर + 🔊 सुनने का बटन</p></div>
     <div class="card"><h3>कार्यक्रम</h3><input id="evDay"/><input id="evTitle"/><input id="evWhen"/><button class="btn" onclick="saveEvent()">सेव</button></div>
   </div>
 </section>
@@ -88,11 +93,11 @@
 </nav>
 <div class="toast" id="toast"></div>
 </div></div>
-<script src="./firebase-config.js?v=12"></script>
+<script src="./firebase-config.js?v=13"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
-<script src="./app.js?v=12"></script>
-<script src="./auth.js?v=12"></script>
-<script src="./extra.js?v=12"></script>
-<script src="./home-ui.js?v=12"></script>
+<script src="./app.js?v=13"></script>
+<script src="./auth.js?v=13"></script>
+<script src="./extra.js?v=13"></script>
+<script src="./home-ui.js?v=13"></script>
 </body></html>

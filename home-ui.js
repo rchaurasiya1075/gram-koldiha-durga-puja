@@ -21,7 +21,7 @@ function showSlide(){
 function showTicker(){
   var el=document.getElementById("annText");if(!el)return;
   var list=db.announcements||[];
-  var t="जय माँ दुर्गा • ग्राम कोल्डीहा, घोरवल, सोनभद्र";
+  var t="जय माँ दुर्गा • ग्राम कोल्डीहा, पोस्ट लिलवाही, सोनभद्र";
   if(list.length){if(_ai>=list.length)_ai=0;var a=list[_ai++];t=(a.title||"")+(a.message?(" — "+a.message):"");}
   el.textContent=t;_lastAnn=t;
 }

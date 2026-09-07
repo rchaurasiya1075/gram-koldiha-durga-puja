@@ -19,14 +19,11 @@ function liveWatchList(){
 function paintLiveUsers(){
   var box=document.getElementById("liveBox");if(!box)return;
   var el=document.getElementById("liveWho");
-  if(!el){
-    el=document.createElement("div");el.id="liveWho";el.className="card";
-    box.appendChild(el);
-  }
+  if(!el){el=document.createElement("div");el.id="liveWho";el.className="card";box.appendChild(el);}
   var list=liveWatchList();
-  if(!list.length){el.innerHTML='<h3>🔴 अभी लाइव</h3><p class="meta">अभी कोई अकाउंट लाइव नहीं है</p>';return;}
+  if(!list.length){el.innerHTML='<h3>🔴 अभी लाइव</h3><p class="meta">लॉगिन करके लाइव देखो — नाम यहीं आएगा</p>';return;}
   el.innerHTML='<h3>🔴 अभी लाइव · '+list.length+'</h3>'+list.map(function(u){
-    return '<div class="row" style="padding:6px 0;border-bottom:1px dashed #ead3bc"><b>'+(u.name||"श्रद्धालु")+'</b><span class="badge">लाइव</span></div>';
+    return '<div class="row" style="padding:8px 0;border-bottom:1px dashed #ead3bc"><div><b>'+(u.name||"श्रद्धालु")+'</b><div class="meta">यह अकाउंट लाइव है</div></div><span class="badge">LIVE</span></div>';
   }).join("");
 }
 function bindLiveWho(){
@@ -39,9 +36,9 @@ function bindLiveWho(){
     });
   }catch(e){}
 }
-setInterval(function(){
-  if(document.querySelector("#p-live.on"))markLivePage(true);
-},20000);
+const _rlw=window.renderLive;
+window.renderLive=function(){if(typeof _rlw==="function")_rlw();setTimeout(paintLiveUsers,50);};
+setInterval(function(){if(document.querySelector("#p-live.on"))markLivePage(true);},20000);
 if(!window._liveWhoGo){
   window._liveWhoGo=true;
   var g=window.go;

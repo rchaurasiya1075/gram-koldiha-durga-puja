@@ -10,3 +10,6 @@ window.FIREBASE_READY = function () {
   const c = window.FIREBASE_CONFIG || {};
   return !!(c.apiKey && c.projectId === "koldihadurgapooja");
 };
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js").catch(function () {});
+}

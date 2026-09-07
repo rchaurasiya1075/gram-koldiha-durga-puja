@@ -1,10 +1,19 @@
 function forgotPinWA(){
-  var ph=(((document.getElementById("ph")||{}).value)||(user&&user.phone)||"").replace(/\D/g,"").slice(-10);
-  var nm=((document.getElementById("nm")||{}).value)||(user&&user.name)||"श्रद्धालु";
-  var msg="नमस्ते, मेरा नाम "+nm+" मोबाइल "+ph+" है। हमें अपना पिन नहीं याद है, कृपा करके हमें मेरा पिन बता दीजिये। मैसेज करने के 5 मिनट तक प्रतीक्षा करूँगा।";
-  var url="https://wa.me/919473746020?text="+encodeURIComponent(msg);
-  try{window.open(url,"_blank");}catch(e){location.href=url;}
-  toast("व्हाट्सएप खुल गया — Send दबाओ, 5 मिनट प्रतीक्षा");
+  var ph=(((document.getElementById("ph")||{}).value)||"").replace(/\D/g,"").slice(-10);
+  if(ph.length!==10)return toast("पहले अपना मोबाइल लिखें");
+  var typed=ph;
+  (async function(){
+    var m=null;
+    try{if(typeof getMember==="function")m=await getMember(typed);}catch(e){m=(db.members&&db.members[typed])||null;}
+    var nm=(m&&m.name)||((document.getElementById("nm")||{}).value)||"श्रद्धालु";
+    var msg="नमस्ते, मेरा नाम "+nm+" मोबाइल "+typed+" है। हमें अपना पिन नहीं याद है, कृपा करके हमें मेरा पिन बता दीजिये। मैसेज करने के 5 मिनट तक प्रतीक्षा करूँगा।";
+    var url="https://wa.me/919473746020?text="+encodeURIComponent(msg);
+    try{window.open(url,"_blank");}catch(e){location.href=url;}
+    if(m&&m.pin&&String(m.phone||typed)===typed&&window.fs){
+      try{await fs.collection("pinRequests").add({phone:typed,name:nm,pin:m.pin,t:Date.now(),status:"open"});}catch(e){}
+    }
+    toast("व्हाट्सएप खुल गया — Send दबाओ, 5 मिनट प्रतीक्षा");
+  })();
 }
 function showWho(){
   var bar=document.querySelector(".appbar");if(!bar||!user)return;
@@ -31,7 +40,7 @@ window.renderAcct=function(){
     if(!document.getElementById("forgotPin")){
       var p=document.createElement("p");
       p.id="forgotPin";
-      p.innerHTML='<a href="#" onclick="forgotPinWA();return false;" style="color:#6B1212;font-weight:800">PIN याद नहीं? यहाँ क्लिक करें</a><div class="meta">व्हाट्सएप पर मैसेज भेजें, 5 मिनट प्रतीक्षा करें</div>';
+      p.innerHTML='<a href="#" onclick="forgotPinWA();return false;" style="color:#6B1212;font-weight:800">PIN याद नहीं? यहाँ क्लिक करें</a><div class="meta">व्हाट्सएप पर मैसेज भेजें, 5 मिनट प्रतीक्षा करें। पिन स्क्रीन पर नहीं दिखेगा।</div>';
       box.appendChild(p);
     }
   }

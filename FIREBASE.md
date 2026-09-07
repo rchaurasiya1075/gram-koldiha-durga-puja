@@ -1,9 +1,14 @@
-# Firebase
+# Firebase — koldihadurgapooja
 
-1. console.firebase.google.com — नया प्रोजेक्ट
-2. Authentication → Email/Password
-3. Firestore + Storage
-4. firestore.rules पेस्ट
-5. firebase-config.js में keys
+Web config `firebase-config.js` में लग चुका है।
 
-एडमिन पिन: 2026
+Console में ये चालू करो:
+1. Authentication → Email/Password Enable
+2. Firestore Database → Create → rules फ़ाइल `firestore.rules` लगाओ
+3. Storage → Get started → authenticated write, public read
+4. Authentication → Settings → Authorized domains में जोड़ो:
+   - rchaurasiya1075.github.io
+   - localhost
+
+**सर्विस अकाउंट JSON / private_key कभी गिटहब या चैट में मत डालो।**
+अगर भेज चुकी है तो Firebase → Project settings → Service accounts → पुरानी की डिलीट करो।

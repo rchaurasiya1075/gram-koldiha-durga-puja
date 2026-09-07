@@ -10,7 +10,7 @@ window.deletePhoto=async function(id){
   if(!confirm("यह फोटो हटानी है?"))return;
   db.gallery=(db.gallery||[]).filter(function(x){return photoKey(x)!==String(id);});
   saveLocal();
-  if(fs&&u.fid){try{await fs.collection("gallery").doc(u.fid).delete();}catch(e){}}
+  if(window.fs&&u.fid){try{await fs.collection("gallery").doc(u.fid).delete();}catch(e){}}
   if(typeof closeLb==="function")closeLb();
   toast("फोटो हट गई");renderGal();
 };
@@ -26,7 +26,7 @@ window.savePhotoEdit=async function(id){
     try{if(typeof putCloudFile==="function")u.url=await putCloudFile("gallery/edit_"+Date.now()+".jpg",u.url);}catch(e){}
   }
   saveLocal();
-  if(fs&&u.fid){try{await fs.collection("gallery").doc(u.fid).set({name:u.name,desc:u.desc,url:u.url},{merge:true});}catch(e){}}
+  if(window.fs&&u.fid){try{await fs.collection("gallery").doc(u.fid).set({name:u.name,desc:u.desc,url:u.url},{merge:true});}catch(e){}}
   window._editPhoto=null;toast("सेव हो गया");if(typeof openLb==="function")openLb(window._lbI);
 };
 window.sharePhoto=function(i){
@@ -37,3 +37,4 @@ window.sharePhoto=function(i){
   if(navigator.share)navigator.share({title:title,text:title,url:link}).catch(function(){});
   else{try{navigator.clipboard.writeText(link);}catch(e){}toast("लिंक कॉपी");}
 };
+setTimeout(function(){if(typeof renderGal==="function"&&document.querySelector("#p-gallery.on"))renderGal();},400);

@@ -6,10 +6,10 @@
 <meta name="theme-color" content="#6B1212"/>
 <title>कोल्डीहा दुर्गा पूजा महोत्सव</title>
 <link rel="manifest" href="./manifest.json"/>
-<link rel="stylesheet" href="./styles.css?v=14"/>
-<link rel="stylesheet" href="./gal.css?v=14"/>
-<link rel="stylesheet" href="./theme.css?v=14"/>
-<link rel="stylesheet" href="./work.css?v=14"/>
+<link rel="stylesheet" href="./styles.css?v=15"/>
+<link rel="stylesheet" href="./gal.css?v=15"/>
+<link rel="stylesheet" href="./theme.css?v=15"/>
+<link rel="stylesheet" href="./work.css?v=15"/>
 </head>
 <body>
 <div class="stage"><div class="phone">
@@ -72,21 +72,20 @@
   <div id="adminTools" style="display:none">
     <div class="card"><h3>कार्यकर्ता / पद</h3>
       <input id="kName" placeholder="नाम"/>
-      <input id="kPh" inputmode="tel" maxlength="10" placeholder="मोबाइल (चंदा जोड़ने के लिए)"/>
-      <input id="kPad" placeholder="पद — अध्यक्ष / सचिव / भंडारा"/>
-      <input id="kWork" placeholder="काम — लाइट, सजावट, सुरक्षा"/>
-      <input id="kLevel" type="number" min="1" placeholder="लेवल नंबर 1,2,3..."/>
+      <input id="kPh" inputmode="tel" maxlength="10" placeholder="मोबाइल"/>
+      <input id="kPad" placeholder="पद"/>
+      <input id="kWork" placeholder="काम"/>
+      <input id="kLevel" type="number" min="1" placeholder="लेवल 1,2,3"/>
       <button class="btn" onclick="saveWorker()">कार्यकर्ता जोड़ो</button>
-      <p class="meta">होम पर नाम+पद+सेवा राशि स्लाइड चलेगी</p>
     </div>
     <div class="card"><h3>पंडाल स्लाइड</h3><input type="file" accept="image/*" onchange="uploadSlide(this)"/></div>
-    <div class="card"><h3>नई ID</h3><input id="sidName" placeholder="नाम"/><input id="sidPh" inputmode="tel" maxlength="10" placeholder="मोबाइल"/>
+    <div class="card"><h3>नई ID</h3><input id="sidName" placeholder="नाम"/><input id="sidPh" inputmode="tel" maxlength="10"/>
       <select id="sidRole"><option value="user">श्रद्धालु</option><option value="volunteer">वॉलंटियर</option><option value="editor">एडिटर</option><option value="treasurer">कोषाध्यक्ष</option><option value="admin">एडमिन</option></select>
       <button class="btn" onclick="createStaff()">ID बनाओ</button><div id="newIdBox"></div></div>
-    <div class="card"><h3>एडमिन कॉल</h3><input id="adminCall" placeholder="9473746020"/><button class="btn" onclick="saveAdminCall()">सेव</button></div>
-    <div class="card"><h3>ID लिस्ट</h3><div id="memList"></div></div>
-    <div class="card"><h3>YouTube Live</h3><input id="liveUrl"/><button class="btn" onclick="saveLive()">सेव</button></div>
-    <div class="card"><h3>UPI / QR</h3><input id="upiId"/><input id="qrUrl"/><button class="btn" onclick="saveQr()">सेव</button></div>
+    <div class="card"><h3>एडमिन कॉल</h3><input id="adminCall"/><button class="btn" onclick="saveAdminCall()">सेव</button></div>
+    <div class="card"><h3>ID</h3><div id="memList"></div></div>
+    <div class="card"><h3>Live</h3><input id="liveUrl"/><button class="btn" onclick="saveLive()">सेव</button></div>
+    <div class="card"><h3>UPI</h3><input id="upiId"/><input id="qrUrl"/><button class="btn" onclick="saveQr()">सेव</button></div>
     <div class="card"><h3>बैनर</h3><input id="banUrl"/><button class="btn" onclick="saveBanner()">सेव</button></div>
     <div class="card"><h3>Drive</h3><input id="driveFolder"/><button class="btn" onclick="saveDriveFolder()">सेव</button></div>
     <div class="card"><h3>खर्च</h3><input id="expAmt" type="number"/><input id="expNote"/><button class="btn" onclick="addExp()">जोड़ो</button></div>
@@ -104,12 +103,12 @@
 </nav>
 <div class="toast" id="toast"></div>
 </div></div>
-<script src="./firebase-config.js?v=14"></script>
+<script src="./firebase-config.js?v=15"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
-<script src="./app.js?v=14"></script>
-<script src="./auth.js?v=14"></script>
-<script src="./extra.js?v=14"></script>
-<script src="./home-ui.js?v=14"></script>
-<script src="./nav-fix.js?v=14"></script>
+<script src="./app.js?v=15"></script>
+<script src="./auth.js?v=15"></script>
+<script src="./extra.js?v=15"></script>
+<script src="./home-ui.js?v=15"></script>
+<script src="./nav-fix.js?v=15"></script>
 </body></html>

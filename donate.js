@@ -46,4 +46,4 @@ window.renderDon=function(){
   list.innerHTML=html;
 };
 setTimeout(function(){if(!(window.cloud&&window.fs))return;try{fs.collection("donations").onSnapshot(function(qs){db.donations=qs.docs.map(function(d){var x=d.data();x.did=d.id;return x;});saveLocal();if(document.querySelector("#p-donate.on"))renderDon();});}catch(e){}},2000);
-(function(){var s=document.createElement("script");s.src="./gal-perm.js?v=21";document.body.appendChild(s);})();
+(function(){var s=document.createElement("script");s.src="./gal-perm.js?v=22";document.body.appendChild(s);})();

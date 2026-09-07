@@ -11,8 +11,7 @@ window.addDon=async function(){
   var row={name:name,amt:amt,visible:visible,status:"pending",date:new Date().toISOString().slice(0,10),created:Date.now(),uid:uid(),phone:uid()};
   if(cloud&&fs){try{var ref=await fs.collection("donations").add(row);row.did=ref.id;}catch(e){}}
   db.donations=db.donations||[];db.donations.push(row);saveLocal();
-  var da=document.getElementById("da");if(da)da.value="";
-  renderDon();toast("सबमिट — अप्रूव के बाद दिखेगा");
+  var da=document.getElementById("da");if(da)da.value="";renderDon();toast("सबमिट");
 };
 window.approveDon=async function(id){
   if(!isAdminUser())return toast("सिर्फ़ एडमिन");
@@ -34,17 +33,10 @@ window.renderDon=function(){
   var exp=Number((db.settings&&db.settings.expense)||0);
   var i=document.getElementById("inc");if(!i)return;
   i.textContent=inr(inc);document.getElementById("exp").textContent=inr(exp);document.getElementById("bal").textContent=inr(inc-exp);
-  var my=all.filter(donMine).reduce(function(s,x){return s+Number(x.amt||0);},0);
-  var ml=document.getElementById("myDonLine");if(ml)ml.textContent=user?("आपका जमा: "+inr(my)):"लॉगिन करें";
-  var qr=document.getElementById("qrImg");if(qr){if(db.settings.qrUrl){qr.src=mediaUrl(db.settings.qrUrl);qr.style.display="block";}else qr.style.display="none";}
-  var u=document.getElementById("upiLine");if(u)u.textContent=db.settings.upi?("UPI: "+db.settings.upi):"";
-  var dn=document.getElementById("dn");if(dn&&!dn.value&&uname())dn.value=uname();
   var list=document.getElementById("donList");if(!list)return;var html="";
-  if(isAdminUser()){var pend=all.filter(function(d){return d.status==="pending";});if(pend.length)html+="<h3>अप्रूव बाकी</h3>";pend.forEach(function(d){html+='<div class="card"><b>'+(d.name||"")+'</b> • '+inr(d.amt)+'<button class="btn" onclick="approveDon(\''+donKey(d)+'\')">अप्रूव</button><button class="btn ghost" onclick="rejectDon(\''+donKey(d)+'\')">रद्द</button></div>';});}
-  all.filter(function(d){return donMine(d)&&d.status==="pending";}).forEach(function(d){html+='<div class="card"><b>'+d.name+'</b> • '+inr(d.amt)+' <span class="badge">बाकी</span></div>';});
-  html+="<h3>सेवा सूची</h3>";
-  pub.sort(function(a,b){return (b.created||0)-(a.created||0);}).forEach(function(d){html+=d.visible===false?'<div class="card"><b>सेवा मिल चुकी है</b></div>':'<div class="card row"><div><b>'+d.name+'</b></div><div class="amt">'+inr(d.amt)+'</div></div>';});
+  if(isAdminUser()){var pend=all.filter(function(d){return d.status==="pending";});pend.forEach(function(d){html+='<div class="card"><b>'+d.name+'</b> • '+inr(d.amt)+'<button class="btn" onclick="approveDon(\''+donKey(d)+'\')">अप्रूव</button></div>';});}
+  pub.sort(function(a,b){return (b.created||0)-(a.created||0);}).forEach(function(d){html+=d.visible===false?'<div class="card">सेवा मिल चुकी है</div>':'<div class="card row"><b>'+d.name+'</b><span class="amt">'+inr(d.amt)+'</span></div>';});
   list.innerHTML=html;
 };
 setTimeout(function(){if(!(window.cloud&&window.fs))return;try{fs.collection("donations").onSnapshot(function(qs){db.donations=qs.docs.map(function(d){var x=d.data();x.did=d.id;return x;});saveLocal();if(document.querySelector("#p-donate.on"))renderDon();});}catch(e){}},2000);
-(function(){["gal-perm.js?v=22","social.js?v=24","chat-ui.js?v=25"].forEach(function(src){var s=document.createElement("script");s.src="./"+src;document.body.appendChild(s);});})();
+(function(){["gal-perm.js?v=22","social.js?v=24","chat-ui.js?v=25","notify.js?v=26"].forEach(function(src){var s=document.createElement("script");s.src="./"+src;document.body.appendChild(s);});})();

@@ -6,10 +6,10 @@
 <meta name="theme-color" content="#6B1212"/>
 <title>कोल्डीहा दुर्गा पूजा महोत्सव</title>
 <link rel="manifest" href="./manifest.json"/>
-<link rel="stylesheet" href="./styles.css?v=16"/>
-<link rel="stylesheet" href="./gal.css?v=16"/>
-<link rel="stylesheet" href="./theme.css?v=16"/>
-<link rel="stylesheet" href="./work.css?v=16"/>
+<link rel="stylesheet" href="./styles.css?v=20"/>
+<link rel="stylesheet" href="./gal.css?v=20"/>
+<link rel="stylesheet" href="./theme.css?v=20"/>
+<link rel="stylesheet" href="./work.css?v=20"/>
 </head>
 <body>
 <div class="stage"><div class="phone">
@@ -71,7 +71,7 @@
   <div class="card" id="adminGate"></div>
   <div id="adminTools" style="display:none">
     <div class="card"><h3>कार्यकर्ता</h3><input id="kName" placeholder="नाम"/><input id="kPh" inputmode="tel" maxlength="10"/><input id="kPad" placeholder="पद"/><input id="kWork" placeholder="काम"/><input id="kLevel" type="number" min="1"/><button class="btn" onclick="saveWorker()">जोड़ो</button></div>
-    <div class="card"><h3>पंडाल स्लाइड</h3><input type="file" accept="image/*" onchange="uploadSlide(this)"/></div>
+    <div class="card"><h3>पंडाल स्लाइड</h3><input type="file" accept="image/*" onchange="uploadSlide(this)"/><p class="meta">यह फोटो सभको होम स्लाइड पर दिखेगी</p></div>
     <div class="card"><h3>नई ID</h3><input id="sidName"/><input id="sidPh" inputmode="tel" maxlength="10"/>
       <select id="sidRole"><option value="user">श्रद्धालु</option><option value="volunteer">वॉलंटियर</option><option value="editor">एडिटर</option><option value="treasurer">कोषाध्यक्ष</option><option value="admin">एडमिन</option></select>
       <button class="btn" onclick="createStaff()">ID बनाओ</button><div id="newIdBox"></div></div>
@@ -96,12 +96,16 @@
 </nav>
 <div class="toast" id="toast"></div>
 </div></div>
-<script src="./firebase-config.js?v=16"></script>
+<script src="./firebase-config.js?v=20"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
-<script src="./app.js?v=16"></script>
-<script src="./auth.js?v=16"></script>
-<script src="./extra.js?v=16"></script>
-<script src="./home-ui.js?v=16"></script>
-<script src="./nav-fix.js?v=16"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage-compat.js"></script>
+<script src="./app.js?v=20"></script>
+<script src="./auth.js?v=20"></script>
+<script src="./extra.js?v=20"></script>
+<script src="./home-ui.js?v=20"></script>
+<script src="./nav-fix.js?v=20"></script>
+<script src="./donate.js?v=20"></script>
+<script src="./access.js?v=20"></script>
+<script src="./share.js?v=20"></script>
 </body></html>

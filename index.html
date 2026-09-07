@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="stage"><div class="phone">
-<div class="splash" id="splash"><div><div style="font-size:48px">⛓</div><b>जय माँ दुर्गा</b><div>ग्राम कोलडिहा • 231210</div></div></div>
+<div class="splash" id="splash"><div><div style="font-size:48px">⛓</div><b>जय माँ दुर्गा</b><div>ग्राम कोलडिहा</div></div></div>
 <div class="statusbar"><span id="clock">--:--</span><span id="syncMark">लोकल</span></div>
 <header class="appbar">
   <button class="iconbtn" onclick="go('account')">👤</button>
@@ -20,10 +20,12 @@
   <button class="iconbtn belldot" id="bellBtn" onclick="go('news')">🔔</button>
 </header>
 <main class="wrap">
-<section class="page on" id="p-home">
+
+<section class="page" id="p-home">
   <div class="hero"><img id="bannerImg" alt="" src="" style="display:none"/><h2>दुर्गा पूजा महोत्सव</h2><p>ग्राम कोलडिहा • 231210</p></div>
   <p class="quote">माँ का आशीर्वाद, गाँव का उत्सव</p>
   <div class="count"><div><b id="cdD">–</b><span>दिन</span></div><div><b id="cdH">–</b><span>घंटे</span></div><div><b id="cdM">–</b><span>मिनट</span></div></div>
+  <button class="btn" onclick="go('account')">🔑 लॉगिन / खाता बनाओ</button>
   <div class="grid">
     <button class="tile" onclick="go('events')"><span>📅</span>कार्यक्रम</button>
     <button class="tile" onclick="go('live')"><span>🔴</span>Live</button>
@@ -36,55 +38,67 @@
   </div>
   <div class="card notice"><h3>📢 सूचना</h3><p id="homeNewsT">अभी कोई नई सूचना नहीं।</p></div>
 </section>
+
+<section class="page on" id="p-account">
+  <h2>🔑 लॉगिन</h2>
+  <div class="card" id="acctBox">
+    <p><b>श्रद्धालु खाता</b></p>
+    <label class="lab">नाम</label>
+    <input id="nm" placeholder="आपका नाम"/>
+    <label class="lab">ईमेल</label>
+    <input id="em" type="email" placeholder="naam@gmail.com"/>
+    <label class="lab">पासवर्ड</label>
+    <input id="pw" type="password" placeholder="कम से 6 अक्षर"/>
+    <button class="btn" onclick="doReg()">नया खाता बनाओ</button>
+    <button class="btn ghost" onclick="doLogin()">पहले से लॉगिन</button>
+    <p class="meta">एडमिन के लिए लॉगिन के बाद नीचे ⚙️ एडमिन पर जाओ — पिन 2026</p>
+  </div>
+</section>
+
 <section class="page" id="p-events"><h2>📅 कार्यक्रम</h2><div id="eventList"></div></section>
 <section class="page" id="p-live"><h2>🔴 Live</h2><div class="card" id="liveBox"></div></section>
 <section class="page" id="p-donate">
   <h2>💰 सहयोग</h2>
   <div class="card">
-    <div class="nums3"><div><span class="meta">कुल चंदा</span><b class="amt" id="inc">₹0</b></div><div><span class="meta">खर्च</span><b class="amt out" id="exp">₹0</b></div><div><span class="meta">शेष</span><b id="bal">₹0</b></div></div>
+    <div class="nums3"><div><span class="meta">कुल</span><b class="amt" id="inc">₹0</b></div><div><span class="meta">खर्च</span><b class="amt out" id="exp">₹0</b></div><div><span class="meta">शेष</span><b id="bal">₹0</b></div></div>
     <p class="meta" id="myDonLine"></p>
     <img class="qr" id="qrImg" alt="QR" style="display:none"/>
     <p class="meta" id="upiLine"></p>
     <button class="btn" onclick="payUPI()">UPI से भुगतान</button>
     <label class="lab">नाम</label><input id="dn"/>
-    <label class="lab">इस बार की राशि ₹</label><input id="da" type="number" min="1" placeholder="जोड़ी जाएगी पिछले कुल में"/>
-    <label class="lab">फोटो लिंक (ज़रूरी नहीं)</label><input id="dpUrl" placeholder="Drive file link"/>
-    <label class="toggle"><input type="checkbox" id="dvis" checked/> नाम और कुल राशि सबको दिखे</label>
-    <p class="meta">बार-बार चंदा दो — राशि जुड़ती रहेगी। टिक हटाओ तो सिर्फ़ «सेवा मिल चुकी है»</p>
-    <button class="btn ok" onclick="addDon()">चंदा जोड़ो / अपडेट</button>
+    <label class="lab">राशि ₹</label><input id="da" type="number" min="1"/>
+    <label class="lab">फोटो लिंक</label><input id="dpUrl"/>
+    <label class="toggle"><input type="checkbox" id="dvis" checked/> नाम दिखाओ</label>
+    <button class="btn ok" onclick="addDon()">चंदा जोड़ो</button>
   </div>
-  <h3>सहयोग सूची</h3>
   <div id="donList"></div>
 </section>
-<section class="page" id="p-news"><h2>📢 सूचना</h2><button class="btn ghost" onclick="askNotify()">🔔 नोटिफ़िकेशन</button><div id="newsList"></div></section>
+<section class="page" id="p-news"><h2>📢 सूचना</h2><button class="btn ghost" onclick="askNotify()">🔔</button><div id="newsList"></div></section>
 <section class="page" id="p-gallery">
   <h2>📸 गैलरी</h2>
-  <p class="meta">समिति Drive फ़ोल्डर — WhatsApp से यहीं फोटो डालो</p>
-  <iframe class="drivebox" id="driveFrame" title="Drive gallery" allow="autoplay"></iframe>
-  <a class="btn ghost" id="driveOpen" target="_blank" href="https://drive.google.com/drive/folders/1FHP8dYCxsWCzA7raGUX8VN6CekHAln_U?usp=sharing">Drive में खोलो</a>
+  <iframe class="drivebox" id="driveFrame" title="Drive"></iframe>
+  <a class="btn ghost" id="driveOpen" target="_blank" href="https://drive.google.com/drive/folders/1FHP8dYCxsWCzA7raGUX8VN6CekHAln_U?usp=sharing">Drive खोलो</a>
   <div class="ggrid" id="galGrid"></div>
 </section>
 <section class="page" id="p-map"><h2>📍 पंडाल</h2><div class="card"><p><b>ग्राम कोलडिहा</b> 231210</p><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Gram+Koldiha+231210+Sonbhadra">रास्ता</a></div></section>
-<section class="page" id="p-aarti"><h2>🪔 आरती</h2><div class="card"><h3>संध्या आरती</h3><p id="aartiMeta">07:00 PM</p></div></section>
-<section class="page" id="p-account"><h2>👤 खाता</h2><div class="card" id="acctBox"></div></section>
-<section class="page" id="p-admin"><h2>⚙️ समिति एडमिन</h2><div class="card" id="adminGate"></div>
-<div id="adminTools" style="display:none">
+<section class="page" id="p-aarti"><h2>🪔 आरती</h2><div class="card"><p id="aartiMeta">07:00 PM</p></div></section>
+<section class="page" id="p-admin"><h2>⚙️ एडमिन</h2><div class="card" id="adminGate"></div><div id="adminTools" style="display:none">
 <div class="card"><h3>YouTube Live</h3><input id="liveUrl"/><button class="btn" onclick="saveLive()">सेव</button></div>
-<div class="card"><h3>UPI + QR Drive लिंक</h3><input id="upiId" placeholder="samiti@upi"/><input id="qrUrl" placeholder="QR file Drive link"/><button class="btn" onclick="saveQr()">सेव</button></div>
-<div class="card"><h3>बैनर Drive लिंक</h3><input id="banUrl"/><button class="btn" onclick="saveBanner()">सेव</button></div>
-<div class="card"><h3>Drive फ़ोल्डर</h3><input id="driveFolder"/><button class="btn" onclick="saveDriveFolder()">फ़ोल्डर सेव</button></div>
-<div class="card"><h3>खर्च दर्ज</h3><input id="expAmt" type="number" placeholder="राशि"/><input id="expNote" placeholder="किस पर"/><button class="btn" onclick="addExp()">खर्च जोड़ो</button></div>
+<div class="card"><h3>UPI + QR</h3><input id="upiId"/><input id="qrUrl"/><button class="btn" onclick="saveQr()">सेव</button></div>
+<div class="card"><h3>बैनर</h3><input id="banUrl"/><button class="btn" onclick="saveBanner()">सेव</button></div>
+<div class="card"><h3>Drive फ़ोल्डर</h3><input id="driveFolder"/><button class="btn" onclick="saveDriveFolder()">सेव</button></div>
+<div class="card"><h3>खर्च</h3><input id="expAmt" type="number"/><input id="expNote"/><button class="btn" onclick="addExp()">जोड़ो</button></div>
 <div class="card"><h3>सूचना</h3><input id="anTitle"/><textarea id="anMsg"></textarea><button class="btn" onclick="saveAnnounce()">भेजो</button></div>
 <div class="card"><h3>कार्यक्रम</h3><input id="evDay"/><input id="evTitle"/><input id="evWhen"/><button class="btn" onclick="saveEvent()">सेव</button></div>
 <div class="card"><h3>आरती</h3><input id="aartiIn"/><button class="btn" onclick="saveAarti()">सेव</button></div>
 </div></section>
 </main>
 <nav class="nav">
-<button class="on" data-p="home" onclick="go('home')"><span class="i">🏠</span>होम</button>
+<button data-p="home" onclick="go('home')"><span class="i">🏠</span>होम</button>
 <button data-p="events" onclick="go('events')"><span class="i">📅</span>कार्यक्रम</button>
 <button data-p="donate" onclick="go('donate')"><span class="i">💰</span>सहयोग</button>
 <button data-p="live" onclick="go('live')"><span class="i">🔴</span>LIVE</button>
-<button data-p="account" onclick="go('account')"><span class="i">👤</span>खाता</button>
+<button class="on" data-p="account" onclick="go('account')"><span class="i">👤</span>लॉगिन</button>
 </nav>
 <div class="toast" id="toast"></div>
 </div></div>

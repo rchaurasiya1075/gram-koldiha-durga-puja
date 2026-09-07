@@ -1,14 +1,21 @@
-# Firebase — koldihadurgapooja
+# अगला काम (इन 5 चीज़ें करो)
 
-Web config `firebase-config.js` में लग चुका है।
+Web keys एप में लग चुकी हैं — project: koldihadurgapooja
 
-Console में ये चालू करो:
-1. Authentication → Email/Password Enable
-2. Firestore Database → Create → rules फ़ाइल `firestore.rules` लगाओ
-3. Storage → Get started → authenticated write, public read
-4. Authentication → Settings → Authorized domains में जोड़ो:
-   - rchaurasiya1075.github.io
-   - localhost
+1. https://console.firebase.google.com/project/koldihadurgapooja/authentication/providers
+   Email/Password → Enable
 
-**सर्विस अकाउंट JSON / private_key कभी गिटहब या चैट में मत डालो।**
-अगर भेज चुकी है तो Firebase → Project settings → Service accounts → पुरानी की डिलीट करो।
+2. https://console.firebase.google.com/project/koldihadurgapooja/authentication/settings
+   Authorized domains → Add: `rchaurasiya1075.github.io`
+   (abhi sirf localhost + firebaseapp.com hai — iske bina GitHub Pages login fail)
+
+3. https://console.firebase.google.com/project/koldihadurgapooja/firestore
+   Create database → start in test mode
+   Rules tab me `firestore.rules` paste → Publish
+
+4. https://console.firebase.google.com/project/koldihadurgapooja/storage
+   Get started → `storage.rules` paste → Publish
+
+5. Site kholo, Account banao, Admin pin 2026, Live/QR/photo update karo.
+
+Private service-account key kabhi GitHub/chat me mat dalo. Console se delete karo.

@@ -4,51 +4,39 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <meta name="theme-color" content="#6B1212"/>
-<title>जय माँ दुर्गा – ग्राम कोलडिहा</title>
+<title>कोल्डीहा दुर्गा पूजा</title>
 <link rel="manifest" href="./manifest.json"/>
-<link rel="stylesheet" href="./styles.css?v=10"/>
-<style>
-.drivebox{width:100%;height:280px;border:0;border-radius:14px}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px}
-.tabs button{border:1px solid #e0c8a8;background:#fff;border-radius:10px;padding:10px;font-weight:700;font-family:inherit}
-.tabs button.on{background:#6B1212;color:#fff}
-.ggrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-.ggrid figure{margin:0;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #f0e0c8}
-.ggrid img{width:100%;height:140px;object-fit:cover;display:block}
-.ggrid figcaption{padding:6px 8px;font-size:12px;font-weight:700;color:#6B1212}
-.phacts{display:flex;gap:6px;margin-top:6px}
-.phacts button{flex:1;border:0;border-radius:8px;padding:6px;font-size:11px;font-weight:700;background:#6B1212;color:#fff}
-.phacts button:last-child{background:#8b1e1e}
-</style>
+<link rel="stylesheet" href="./styles.css?v=11"/>
 </head>
 <body>
 <div class="stage"><div class="phone">
-<div class="splash" id="splash"><div><div style="font-size:48px">⛓</div><b>जय माँ दुर्गा</b><div>ग्राम कोलडिहा</div></div></div>
+<div class="splash" id="splash"><div><div style="font-size:42px">⛓</div><b style="font-size:32px">कोल्डीहा</b><div>जय माँ दुर्गा</div></div></div>
 <div class="statusbar"><span id="clock">--:--</span><span id="syncMark">लोकल</span></div>
-<header class="appbar"><button class="iconbtn" onclick="go('account')">👤</button><b>जय माँ दुर्गा</b><button class="iconbtn" onclick="go('news')">🔔</button></header>
+<header class="appbar"><button class="iconbtn" onclick="go('account')">👤</button><b class="brand">कोल्डीहा</b><button class="iconbtn" onclick="go('news')">🔔</button></header>
 <main class="wrap">
-<section class="page" id="p-home">
-  <div class="hero"><h2>दुर्गा पूजा महोत्सव</h2><p>ग्राम कोलडिहा • 231210</p></div>
-  <p class="quote">माँ का आशीर्वाद, गाँव का उत्सव</p>
+<section class="page on" id="p-home">
+  <h1 class="vtitle">कोल्डीहा</h1>
+  <p class="vsub">ग्राम • दुर्गा पूजा 2026 • 231210</p>
+  <div class="slider" id="pandalSlide"><img id="slideImg" alt="पंडाल"/><div class="slideCap" id="slideCap">पंडाल कोल्डीहा</div></div>
+  <div class="ticker" id="annTicker">📢 सूचना यहाँ चलेगी</div>
   <div class="count"><div><b id="cdD">–</b><span>दिन</span></div><div><b id="cdH">–</b><span>घंटे</span></div><div><b id="cdM">–</b><span>मिनट</span></div></div>
-  <button class="btn" onclick="go('account')">📱 मोबाइल से लॉगिन</button>
-  <div class="grid">
+  <div class="home-grid">
     <button class="tile" onclick="go('events')"><span>📅</span>कार्यक्रम</button>
     <button class="tile" onclick="go('live')"><span>🔴</span>Live</button>
     <button class="tile" onclick="go('donate')"><span>💰</span>सहयोग</button>
     <button class="tile" onclick="go('gallery')"><span>📸</span>गैलरी</button>
     <button class="tile" onclick="go('news')"><span>📢</span>सूचना</button>
-    <button class="tile" onclick="go('admin')"><span>⚙️</span>एडमिन</button>
     <button class="tile" onclick="go('aarti')"><span>🪔</span>आरती</button>
     <button class="tile" onclick="go('map')"><span>📍</span>पंडाल</button>
+    <button class="tile" onclick="go('admin')"><span>⚙️</span>एडमिन</button>
   </div>
-  <div class="card notice"><h3>📢 सूचना</h3><p id="homeNewsT"></p></div>
+  <div id="slideUploadWrap" style="display:none"><input type="file" accept="image/*" onchange="uploadSlide(this)"/></div>
 </section>
-<section class="page on" id="p-account">
+<section class="page" id="p-account">
   <h2>📱 लॉगिन</h2>
-  <div class="tabs">
-    <button class="on" id="tabU" onclick="showTab('user')">श्रद्धालु</button>
-    <button id="tabA" onclick="showTab('admin')">समिति एडमिन</button>
+  <div class="tabs" style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+    <button class="btn" id="tabU" onclick="showTab('user')">श्रद्धालु</button>
+    <button class="btn ghost" id="tabA" onclick="showTab('admin')">एडमिन</button>
   </div>
   <div class="card" id="acctBox"></div>
 </section>
@@ -69,28 +57,18 @@
 </section>
 <section class="page" id="p-news"><h2>📢 सूचना</h2><div id="newsList"></div></section>
 <section class="page" id="p-gallery"></section>
-<section class="page" id="p-map"><h2>📍 पंडाल</h2><div class="card"><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Gram+Koldiha+231210">रास्ता</a></div></section>
+<section class="page" id="p-map"><h2>📍 पंडाल</h2><div class="card"><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Koldiha+231210">रास्ता</a></div></section>
 <section class="page" id="p-aarti"></section>
 <section class="page" id="p-admin">
   <h2>⚙️ एडमिन</h2>
   <div class="card" id="adminGate"></div>
   <div id="adminTools" style="display:none">
-    <div class="card">
-      <h3>नई ID बनाओ</h3>
-      <input id="sidName" placeholder="नाम"/>
-      <input id="sidPh" inputmode="tel" maxlength="10" placeholder="मोबाइल"/>
-      <select id="sidRole">
-        <option value="user">श्रद्धालु</option>
-        <option value="volunteer">वॉलंटियर</option>
-        <option value="editor">एडिटर</option>
-        <option value="treasurer">कोषाध्यक्ष</option>
-        <option value="admin">एडमिन</option>
-      </select>
-      <button class="btn" onclick="createStaff()">ID बनाओ</button>
-      <div id="newIdBox"></div>
-    </div>
+    <div class="card"><h3>ऊपर स्लाइड फोटो</h3><input type="file" accept="image/*" onchange="uploadSlide(this)"/><p class="meta">पंडाल की फोटो डालो — होम पर चलती रहेगी</p></div>
+    <div class="card"><h3>नई ID</h3><input id="sidName" placeholder="नाम"/><input id="sidPh" inputmode="tel" maxlength="10" placeholder="मोबाइल"/>
+      <select id="sidRole"><option value="user">श्रद्धालु</option><option value="volunteer">वॉलंटियर</option><option value="editor">एडिटर</option><option value="treasurer">कोषाध्यक्ष</option><option value="admin">एडमिन</option></select>
+      <button class="btn" onclick="createStaff()">ID बनाओ</button><div id="newIdBox"></div></div>
     <div class="card"><h3>एडमिन कॉल</h3><input id="adminCall" placeholder="9473746020"/><button class="btn" onclick="saveAdminCall()">सेव</button></div>
-    <div class="card"><h3>सभी ID</h3><div id="memList"></div></div>
+    <div class="card"><h3>ID लिस्ट</h3><div id="memList"></div></div>
     <div class="card"><h3>YouTube Live</h3><input id="liveUrl"/><button class="btn" onclick="saveLive()">सेव</button></div>
     <div class="card"><h3>UPI / QR</h3><input id="upiId"/><input id="qrUrl"/><button class="btn" onclick="saveQr()">सेव</button></div>
     <div class="card"><h3>बैनर</h3><input id="banUrl"/><button class="btn" onclick="saveBanner()">सेव</button></div>
@@ -106,14 +84,15 @@
 <button data-p="events" onclick="go('events')"><span class="i">📅</span>कार्यक्रम</button>
 <button data-p="donate" onclick="go('donate')"><span class="i">💰</span>सहयोग</button>
 <button data-p="gallery" onclick="go('gallery')"><span class="i">📸</span>गैलरी</button>
-<button class="on" data-p="account" onclick="go('account')"><span class="i">📱</span>लॉगिन</button>
+<button data-p="account" onclick="go('account')"><span class="i">📱</span>लॉगिन</button>
 </nav>
 <div class="toast" id="toast"></div>
 </div></div>
-<script src="./firebase-config.js?v=10"></script>
+<script src="./firebase-config.js?v=11"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
-<script src="./app.js?v=10"></script>
-<script src="./auth.js?v=10"></script>
-<script src="./extra.js?v=10"></script>
+<script src="./app.js?v=11"></script>
+<script src="./auth.js?v=11"></script>
+<script src="./extra.js?v=11"></script>
+<script src="./home-ui.js?v=11"></script>
 </body></html>

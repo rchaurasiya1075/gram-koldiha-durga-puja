@@ -64,4 +64,8 @@ window.saveWorker=async function(){
   toast("कार्यकर्ता जुड़ गया");showWorker();
 };
 showWorker();
-(function(){var s=document.createElement("script");s.src="./donate.js?v=17";document.body.appendChild(s);})();
+(function(){
+  ["donate.js?v=17","access.js?v=18"].forEach(function(src){
+    var s=document.createElement("script");s.src="./"+src;document.body.appendChild(s);
+  });
+})();

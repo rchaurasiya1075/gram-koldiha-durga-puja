@@ -4,79 +4,79 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="theme-color" content="#6B1212"/>
 <title>जय माँ दुर्गा – ग्राम कोलडिहा</title>
 <link rel="manifest" href="./manifest.json"/>
 <link rel="stylesheet" href="./styles.css"/>
 </head>
 <body>
-<div class="stage">
-<div class="phone">
-<div class="splash" id="splash"><div><div style="font-size:52px">⛓</div><b>जय माँ दुर्गा</b><div>ग्राम कोलडिहा • 231210</div><div style="opacity:.8;margin-top:6px">दुर्गा पूजा समिति 2026</div></div></div>
-<div class="statusbar"><span id="clock">4:52</span><span>●●○ 充</span></div>
-<header class="appbar"><span>☰</span><b>जय माँ दुर्गा</b><span>🔔</span></header>
+<div class="stage"><div class="phone">
+<div class="splash" id="splash"><div><div style="font-size:48px">⛓</div><b>जय माँ दुर्गा</b><div>ग्राम कोलडिहा • 231210</div></div></div>
+<div class="statusbar"><span id="clock">--:--</span><span id="syncMark">लोकल</span></div>
+<header class="appbar">
+  <button class="iconbtn" onclick="go('account')">👤</button>
+  <b>जय माँ दुर्गा</b>
+  <button class="iconbtn belldot" id="bellBtn" onclick="go('news')">🔔</button>
+</header>
 <main class="wrap">
 <section class="page on" id="p-home">
-<div class="hero"><div style="font-size:42px">👑</div><h2>दुर्गा पूजा महोत्सव</h2><p>ग्राम कोलडिहा • पिन 231210 • सोनभद्र, उ.प्र.</p></div>
-<p class="quote">माँ का आशीर्वाद, गाँव का उत्सव</p>
-<div class="count"><div><b id="cdD">–</b><span>दिन</span></div><div><b id="cdH">–</b><span>घंटे</span></div><div><b id="cdM">–</b><span>मिनट</span></div></div>
-<div class="grid">
-<button class="tile" onclick="go('events')"><span>📅</span>कार्यक्रम</button>
-<button class="tile" onclick="go('live')"><span>🔴</span>Live दर्शन</button>
-<button class="tile" onclick="go('aarti')"><span>🪔</span>आरती</button>
-<button class="tile" onclick="go('donate')"><span>💰</span>सहयोग करें</button>
-<button class="tile" onclick="go('gallery')"><span>📸</span>गैलरी</button>
-<button class="tile" onclick="go('map')"><span>📍</span>पंडाल</button>
-<button class="tile" onclick="go('vol')"><span>🙏</span>Volunteer</button>
-<button class="tile" onclick="go('more')"><span>☰</span>और</button>
-</div>
-<div class="card notice"><h3>📢 आज की सूचना</h3><p>शाम 7:00 बजे महाआरती और प्रसाद — पंडाल, ग्राम कोलडिहा।</p><div class="meta">16–20 अक्तूबर 2026</div></div>
+  <div class="hero"><img id="bannerImg" alt="" src="" style="display:none"/><h2>दुर्गा पूजा महोत्सव</h2><p>ग्राम कोलडिहा • 231210 • सोनभद्र, उ.प्र.</p></div>
+  <p class="quote">माँ का आशीर्वाद, गाँव का उत्सव</p>
+  <div class="count"><div><b id="cdD">–</b><span>दिन</span></div><div><b id="cdH">–</b><span>घंटे</span></div><div><b id="cdM">–</b><span>मिनट</span></div></div>
+  <div class="grid">
+    <button class="tile" onclick="go('events')"><span>📅</span>कार्यक्रम</button>
+    <button class="tile" onclick="go('live')"><span>🔴</span>Live दर्शन</button>
+    <button class="tile" onclick="go('aarti')"><span>🪔</span>आरती</button>
+    <button class="tile" onclick="go('donate')"><span>💰</span>सहयोग</button>
+    <button class="tile" onclick="go('gallery')"><span>📸</span>गैलरी</button>
+    <button class="tile" onclick="go('map')"><span>📍</span>पंडाल</button>
+    <button class="tile" onclick="go('news')"><span>📢</span>सूचना</button>
+    <button class="tile" onclick="go('admin')"><span>⚙️</span>एडमिन</button>
+  </div>
+  <div class="card notice"><h3>📢 सूचना</h3><p id="homeNewsT">अभी कोई नई सूचना नहीं।</p></div>
 </section>
-<section class="page" id="p-events"><h2>📅 कार्यक्रम 2026</h2>
-<div class="tl">
-<div class="dot">षष्ठी • 16 अक्तू</div><div class="card"><b>कलश स्थापना</b><div class="meta">08:00 AM</div></div>
-<div class="dot">सप्तमी • 17 अक्तू</div><div class="card"><b>प्रातः पूजा</b><div class="meta">09:00 AM</div></div>
-<div class="dot">अष्टमी • 18–19 अक्तू</div><div class="card"><b>महाअष्टमी / संधि पूजा</b><div class="meta">10:00 AM • आरती 07:00 PM</div></div>
-<div class="dot">नवमी • 19 अक्तू</div><div class="card"><b>हवन</b></div>
-<div class="dot">दशमी • 20 अक्तू</div><div class="card"><b>विसर्जन</b><div class="meta">04:00 PM</div></div>
-</div></section>
-<section class="page" id="p-live"><h2>🔴 Live दर्शन</h2><div class="card"><p>लाइव लिंक आने पर यहाँ खुलेगा।</p><a class="btn" href="https://www.youtube.com/results?search_query=Durga+Puja+live" target="_blank">YouTube</a></div></section>
+<section class="page" id="p-events"><h2>📅 कार्यक्रम</h2><div id="eventList"></div></section>
+<section class="page" id="p-live"><h2>🔴 Live दर्शन</h2><div class="card" id="liveBox"><p class="meta">अभी लाइव लिंक नहीं है।</p></div></section>
 <section class="page" id="p-donate"><h2>💰 सहयोग</h2>
-<div class="card"><div class="nums3"><div><span class="meta">कुल</span><b class="amt" id="inc">₹0</b></div><div><span class="meta">खर्च</span><b class="amt out" id="exp">₹0</b></div><div><span class="meta">शेष</span><b id="bal">₹0</b></div></div>
-<input id="dn" placeholder="दानदाता"/><input id="da" type="number" min="1" placeholder="राशि ₹"/>
-<button class="btn" onclick="addDon()">रसीद दर्ज</button></div><div id="donList"></div></section>
-<section class="page" id="p-more"><h2>और</h2><div class="grid">
-<button class="tile" onclick="go('aarti')"><span>🪔</span>आरती</button>
-<button class="tile" onclick="go('news')"><span>📢</span>सूचना</button>
-<button class="tile" onclick="go('committee')"><span>👥</span>समिति</button>
-<button class="tile" onclick="go('gallery')"><span>📸</span>गैलरी</button>
-<button class="tile" onclick="go('map')"><span>📍</span>स्थान</button>
-<button class="tile" onclick="go('vol')"><span>🙏</span>सेवा</button>
-<button class="tile" onclick="go('culture')"><span>🎤</span>कार्यक्रम</button>
-<button class="tile" onclick="go('admin')"><span>⚙️</span>एडमिन</button>
+<div class="card">
+<div class="nums3"><div><span class="meta">कुल</span><b class="amt" id="inc">₹0</b></div><div><span class="meta">खर्च</span><b class="amt out" id="exp">₹0</b></div><div><span class="meta">शेष</span><b id="bal">₹0</b></div></div>
+<img class="qr" id="qrImg" alt="QR" style="display:none"/><p class="meta" id="upiLine"></p>
+<label class="lab">आपका नाम</label><input id="dn"/>
+<label class="lab">राशि ₹</label><input id="da" type="number" min="1"/>
+<label class="lab">फोटो</label><input id="dp" type="file" accept="image/*"/>
+<label class="toggle"><input type="checkbox" id="dvis" checked/> नाम और राशि सबको दिखे</label>
+<p class="meta">टिक हटाओ तो सिर्फ़ «सेवा मिल चुकी है» दिखेगा।</p>
+<button class="btn" onclick="addDon()">सहयोग दर्ज करें</button>
+</div><div id="donList"></div></section>
+<section class="page" id="p-news"><h2>📢 सूचना</h2><button class="btn ghost" onclick="askNotify()">🔔 नोटिफ़िकेशन चालू करें</button><div id="newsList"></div></section>
+<section class="page" id="p-gallery"><h2>📸 गैलरी</h2><div class="ggrid" id="galGrid"></div></section>
+<section class="page" id="p-map"><h2>📍 पंडाल</h2><div class="card"><p><b>ग्राम कोलडिहा</b><br/>231210</p><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Gram+Koldiha+231210+Sonbhadra">रास्ता</a></div></section>
+<section class="page" id="p-aarti"><h2>🪔 आरती</h2><div class="card"><h3>संध्या आरती</h3><p id="aartiMeta">07:00 PM • पंडाल</p></div></section>
+<section class="page" id="p-account"><h2>👤 खाता</h2><div class="card" id="acctBox"></div></section>
+<section class="page" id="p-admin"><h2>⚙️ एडमिन</h2><div class="card" id="adminGate"></div>
+<div id="adminTools" style="display:none">
+<div class="card"><h3>YouTube Live</h3><input id="liveUrl" placeholder="https://youtu.be/..."/><button class="btn" onclick="saveLive()">लाइव सेव</button></div>
+<div class="card"><h3>UPI / QR</h3><input id="upiId" placeholder="samiti@upi"/><input id="qrFile" type="file" accept="image/*"/><button class="btn" onclick="saveQr()">QR सेव</button></div>
+<div class="card"><h3>बैनर फोटो</h3><input id="banFile" type="file" accept="image/*"/><button class="btn" onclick="saveBanner()">बैनर अपडेट</button></div>
+<div class="card"><h3>गैलरी</h3><input id="galFile" type="file" accept="image/*"/><button class="btn" onclick="saveGallery()">जोड़ो</button></div>
+<div class="card"><h3>सूचना</h3><input id="anTitle" placeholder="शीर्षक"/><textarea id="anMsg"></textarea><button class="btn" onclick="saveAnnounce()">भेजो</button></div>
+<div class="card"><h3>कार्यक्रम</h3><input id="evDay" placeholder="षष्ठी"/><input id="evTitle" placeholder="कलश"/><input id="evWhen" placeholder="16 अक्तू 08:00 AM"/><button class="btn" onclick="saveEvent()">सेव</button></div>
+<div class="card"><h3>आरती</h3><input id="aartiIn" placeholder="07:00 PM"/><button class="btn" onclick="saveAarti()">सेव</button></div>
 </div></section>
-<section class="page" id="p-aarti"><h2>🪔 आरती</h2><div class="card"><h3>संध्या आरती</h3><p>07:00 PM • पंडाल, ग्राम कोलडिहा</p><button class="btn" onclick="toast('रिमाइंडर लगाओ')">🔔 रिमाइंडर</button></div></section>
-<section class="page" id="p-news"><h2>📢 सूचना</h2><div class="card notice"><h3>महाआरती</h3><p>आज शाम 7 बजे महाआरती।</p></div></section>
-<section class="page" id="p-committee"><h2>👥 समिति</h2><div class="card"><b>अध्यक्ष • सचिव • कोषाध्यक्ष</b><p class="meta">नाम-फ़ोन भेजो तो यहाँ लगेंगे।</p></div></section>
-<section class="page" id="p-gallery"><h2>📸 गैलरी</h2><div class="ggrid"><div>🌺</div><div>🪔</div><div>🥁</div><div>🚩</div><div>🍛</div><div>📷</div></div></section>
-<section class="page" id="p-map"><h2>📍 पंडाल</h2><div class="card"><p><b>ग्राम कोलडिहा</b><br/>231210, सोनभद्र / मिर्ज़ापुर</p><a class="btn" target="_blank" href="https://www.google.com/maps/search/?api=1&query=Gram+Koldiha+231210+Sonbhadra">🚗 रास्ता</a></div></section>
-<section class="page" id="p-vol"><h2>🙏 सेवा</h2><div class="card"><select id="vsvc"><option>प्रसाद</option><option>सफाई</option><option>पार्किंग</option><option>सुरक्षा</option><option>विसर्जन</option></select>
-<input id="vn" placeholder="नाम"/><input id="vp" placeholder="मोबाइल" inputmode="tel"/>
-<button class="btn" onclick="addVol()">Volunteer बनें</button></div><div id="volList"></div></section>
-<section class="page" id="p-culture"><h2>🎤 सांस्कृतिक</h2><div class="card"><b>06:00 PM</b> बच्चों का डांस</div><div class="card"><b>07:00 PM</b> भजन</div></section>
-<section class="page" id="p-admin"><h2>⚙️ एडमिन</h2><div class="admin">चंदा-सेवा इसी फ़ोन में सेव।</div></section>
 </main>
 <nav class="nav">
 <button class="on" data-p="home" onclick="go('home')"><span class="i">🏠</span>होम</button>
 <button data-p="events" onclick="go('events')"><span class="i">📅</span>कार्यक्रम</button>
 <button data-p="donate" onclick="go('donate')"><span class="i">💰</span>सहयोग</button>
 <button data-p="live" onclick="go('live')"><span class="i">🔴</span>LIVE</button>
-<button data-p="more" onclick="go('more')"><span class="i">☰</span>और</button>
+<button data-p="account" onclick="go('account')"><span class="i">👤</span>खाता</button>
 </nav>
-<div class="homebar"></div>
 <div class="toast" id="toast"></div>
-</div>
-</div>
+</div></div>
+<script src="./firebase-config.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage-compat.js"></script>
 <script src="./app.js"></script>
 </body></html>

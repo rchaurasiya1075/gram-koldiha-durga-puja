@@ -6,7 +6,8 @@
 <meta name="theme-color" content="#6B1212"/>
 <title>कोल्डीहा दुर्गा पूजा</title>
 <link rel="manifest" href="./manifest.json"/>
-<link rel="stylesheet" href="./styles.css?v=11"/>
+<link rel="stylesheet" href="./styles.css?v=12"/>
+<link rel="stylesheet" href="./gal.css?v=12"/>
 </head>
 <body>
 <div class="stage"><div class="phone">
@@ -30,7 +31,6 @@
     <button class="tile" onclick="go('map')"><span>📍</span>पंडाल</button>
     <button class="tile" onclick="go('admin')"><span>⚙️</span>एडमिन</button>
   </div>
-  <div id="slideUploadWrap" style="display:none"><input type="file" accept="image/*" onchange="uploadSlide(this)"/></div>
 </section>
 <section class="page" id="p-account">
   <h2>📱 लॉगिन</h2>
@@ -63,7 +63,7 @@
   <h2>⚙️ एडमिन</h2>
   <div class="card" id="adminGate"></div>
   <div id="adminTools" style="display:none">
-    <div class="card"><h3>ऊपर स्लाइड फोटो</h3><input type="file" accept="image/*" onchange="uploadSlide(this)"/><p class="meta">पंडाल की फोटो डालो — होम पर चलती रहेगी</p></div>
+    <div class="card"><h3>ऊपर स्लाइड फोटो</h3><input type="file" accept="image/*" onchange="uploadSlide(this)"/><p class="meta">पंडाल फोटो — होम स्लाइड</p></div>
     <div class="card"><h3>नई ID</h3><input id="sidName" placeholder="नाम"/><input id="sidPh" inputmode="tel" maxlength="10" placeholder="मोबाइल"/>
       <select id="sidRole"><option value="user">श्रद्धालु</option><option value="volunteer">वॉलंटियर</option><option value="editor">एडिटर</option><option value="treasurer">कोषाध्यक्ष</option><option value="admin">एडमिन</option></select>
       <button class="btn" onclick="createStaff()">ID बनाओ</button><div id="newIdBox"></div></div>
@@ -88,11 +88,11 @@
 </nav>
 <div class="toast" id="toast"></div>
 </div></div>
-<script src="./firebase-config.js?v=11"></script>
+<script src="./firebase-config.js?v=12"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
-<script src="./app.js?v=11"></script>
-<script src="./auth.js?v=11"></script>
-<script src="./extra.js?v=11"></script>
-<script src="./home-ui.js?v=11"></script>
+<script src="./app.js?v=12"></script>
+<script src="./auth.js?v=12"></script>
+<script src="./extra.js?v=12"></script>
+<script src="./home-ui.js?v=12"></script>
 </body></html>

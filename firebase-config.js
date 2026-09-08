@@ -13,6 +13,6 @@ window.FIREBASE_READY = function () {
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./sw.js").catch(function () {});
 }
-["addr-ui.js?v=40","live-sync.js?v=38","live-embed.js?v=44","live-users.js?v=45"].forEach(function(src){
+["addr-ui.js?v=40","live-sync.js?v=38","voice.js?v=41"].forEach(function(src){
   var s=document.createElement("script");s.src="./"+src;document.head.appendChild(s);
 });

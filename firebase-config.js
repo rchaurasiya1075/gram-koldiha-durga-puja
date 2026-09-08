@@ -11,8 +11,8 @@ window.FIREBASE_READY = function () {
   return !!(c.apiKey && c.projectId === "koldihadurgapooja");
 };
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./sw.js?v=11").catch(function () {});
+  navigator.serviceWorker.register("./sw.js?v=12").catch(function () {});
 }
-["kill-jitsi.js?v=44","addr-ui.js?v=40","live-sync.js?v=38","voice.js?v=44","voice-ui.js?v=45","voice-pin.js?v=46","install-pwa.js?v=46"].forEach(function(src){
+["kill-jitsi.js?v=44","addr-ui.js?v=40","live-sync.js?v=38","voice.js?v=44","voice-ui.js?v=45","voice-pin.js?v=46","install-pwa.js?v=47"].forEach(function(src){
   var s=document.createElement("script");s.src="./"+src;document.head.appendChild(s);
 });

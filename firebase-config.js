@@ -4,7 +4,8 @@ window.FIREBASE_CONFIG = {
   projectId: "koldihadurgapooja",
   storageBucket: "koldihadurgapooja.firebasestorage.app",
   messagingSenderId: "76552733422",
-  appId: "1:76552733422:web:b1a1e6ab48dba4d4d6e9ff"
+  appId: "1:76552733422:web:b1a1e6ab48dba4d4d6e9ff",
+  databaseURL: "https://koldihadurgapooja-default-rtdb.firebaseio.com"
 };
 window.FIREBASE_READY = function () {
   const c = window.FIREBASE_CONFIG || {};
@@ -13,6 +14,6 @@ window.FIREBASE_READY = function () {
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./sw.js?v=12").catch(function () {});
 }
-["kill-jitsi.js?v=44","addr-ui.js?v=40","live-sync.js?v=38","voice.js?v=44","turn.js?v=49","voice-opt.js?v=50","voice-ui.js?v=45","voice-pin.js?v=46","install-pwa.js?v=63","call-bar.js?v=48","team-note.js?v=51","voice-core.js?v=52","voice-fix.js?v=53","voice-room.js?v=54","voice-simple.js?v=55","pull-refresh.js?v=63","voice-status.js?v=57","voice-admin.js?v=63","voice-fast.js?v=59","gaon-plus.js?v=63"].forEach(function(src){
+["kill-jitsi.js?v=44","addr-ui.js?v=40","live-sync.js?v=38","voice.js?v=44","turn.js?v=49","voice-opt.js?v=50","voice-ui.js?v=45","voice-pin.js?v=46","install-pwa.js?v=63","call-bar.js?v=48","team-note.js?v=51","voice-core.js?v=52","voice-fix.js?v=53","voice-room.js?v=54","voice-simple.js?v=55","pull-refresh.js?v=63","voice-status.js?v=57","voice-admin.js?v=63","voice-fast.js?v=59","gaon-plus.js?v=63","rtdb-init.js?v=64"].forEach(function(src){
   var s=document.createElement("script");s.src="./"+src;document.head.appendChild(s);
 });

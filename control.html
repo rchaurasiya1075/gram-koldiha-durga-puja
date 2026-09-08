@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#6B1212"/>
+<meta http-equiv="Permissions-Policy" content="microphone=*, camera=*, display-capture=*, autoplay=*"/>
+<title>कोलडिहा कंट्रोल रूम • दुर्गा पूजा</title>
+<style>
+:root{--bg:#1a0a0a;--card:#2a1212;--red:#8B1E1E;--gold:#E8C56B;--cream:#F7E7C3;--ok:#3d9a5a;--line:#5a2a2a}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--cream);font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif}
+body{display:flex;flex-direction:column;max-width:520px;margin:0 auto}
+.top{padding:12px 14px 8px;background:linear-gradient(#6B1212,#3a0c0c);border-bottom:1px solid var(--gold)}
+.top h1{font-size:16px;color:var(--gold)}
+.top p{font-size:12px;opacity:.85}
+.badge{display:inline-block;background:#1e7a38;color:#fff;border-radius:99px;padding:2px 8px;font-size:12px;margin-left:6px}
+.gate,.errbox{padding:18px}
+label{display:block;font-size:13px;margin:10px 0 4px}
+input,textarea{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:#140808;color:var(--cream);font-size:16px}
+.btn{width:100%;margin-top:12px;padding:13px;border:0;border-radius:12px;background:var(--gold);color:#3a1608;font-weight:800;font-size:16px}
+.btn.ghost{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.hint{font-size:12px;opacity:.8;margin-top:10px;line-height:1.45}
+.warn{background:#3a2208;border:1px solid #c48a2a;padding:10px;border-radius:10px;margin-top:12px;font-size:13px}
+.layout{flex:1;display:flex;flex-direction:column;min-height:0}
+.users{padding:8px 12px;border-bottom:1px solid var(--line);max-height:120px;overflow:auto}
+.users b{color:var(--gold)}
+.pill{display:inline-block;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:3px 8px;margin:3px 4px 0 0;font-size:12px}
+.pill.me{border-color:var(--gold);color:var(--gold)}
+#meet{height:210px;background:#000;position:relative}
+#meet iframe{width:100%;height:100%;border:0}
+.status{position:absolute;left:8px;top:8px;z-index:2;background:#000a;padding:4px 8px;border-radius:8px;font-size:11px}
+.quick{display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px}
+.quick button{flex:1;min-width:30%;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--cream);font-size:12px}
+.chat{flex:1;overflow:auto;padding:8px 12px;min-height:120px}
+.msg{margin:6px 0;font-size:14px;line-height:1.35}
+.msg .who{color:var(--gold);font-size:12px}
+.msg.sys{opacity:.7;font-size:12px;text-align:center}
+.send{display:flex;gap:8px;padding:8px 10px 14px;border-top:1px solid var(--line)}
+.send input{flex:1}
+.send button{width:auto;margin:0;padding:12px 16px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1>🔱 कोलडिहा कंट्रोल रूम <span class="badge" id="countBadge">0 ऑनलाइन</span></h1>
+  <p>दिल्ली • मुंबई • सोनभद्र — एक रूम, नाम + चैट + आवाज़</p>
+</div>
+<div id="gate" class="gate">
+  <label>आपका नाम</label>
+  <input id="nameIn" placeholder="जैसे: राम (दिल्ली)" maxlength="24" autocomplete="name"/>
+  <label>आप कहाँ हो</label>
+  <input id="placeIn" placeholder="दिल्ली / मुंबई / सोनभद्र / पंडाल" maxlength="20"/>
+  <button class="btn" onclick="startJoin()">रूम में जॉइन करो</button>
+  <button class="btn ghost" onclick="startJoin(true)">पहले बिना माइक जॉइन</button>
+  <div class="hint">Chrome/Safari से खोलो. WhatsApp के अंदर से नहीं. पॉपअप आए तो <b>Allow</b> दबाओ.</div>
+  <div class="warn" id="inAppWarn" style="display:none">WhatsApp के अंदर खुल रहा है. Open in Chrome करो.</div>
+</div>
+<div id="room" class="layout hidden">
+  <div class="users"><div><b id="countLine">ऑनलाइन: 0</b></div><div id="userPills"></div></div>
+  <div id="meet"><div class="status" id="st">कनेक्ट हो रहा है…</div></div>
+  <div class="quick">
+    <button onclick="quick('साउंड चालू करो')">🔊 साउंड चालू</button>
+    <button onclick="quick('साउंड बंद')">🔇 साउंड बंद</button>
+    <button onclick="quick('गेट क्लियर')">🚪 गेट</button>
+    <button onclick="quick('प्रसाद रेडी')">🙏 प्रसाद</button>
+    <button onclick="quick('इमरजेंसी')">🚨 इमरजेंसी</button>
+    <button onclick="toggleMic()">🎤 माइक</button>
+  </div>
+  <div class="chat" id="chat"></div>
+  <div class="send"><input id="chatIn" placeholder="मैसेज लिखो…" onkeydown="if(event.key==='Enter')sendChat()"/><button class="btn" onclick="sendChat()">भेजो</button></div>
+</div>
+<div id="fail" class="errbox hidden">
+  <h3>जॉइन अटक गया</h3><p class="hint" id="failWhy"></p>
+  <button class="btn" onclick="location.reload()">दोबारा कोशिश</button>
+</div>
+<script src="https://meet.jit.si/external_api.js"></script>
+<script>
+const ROOM="GramKoldihaDurgaControl2026";
+let api=null,me="",muted=false,joined=false,people={},localMic=null;
+const inApp=/FBAN|FBAV|Instagram|Line\/|WhatsApp|wv\)/i.test(navigator.userAgent);
+if(inApp)document.getElementById("inAppWarn").style.display="block";
+function setSt(t){var s=document.getElementById("st");if(s)s.textContent=t;}
+function esc(s){return String(s||"").replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
+function sys(t){var el=document.getElementById("chat");if(!el)return;el.innerHTML+='<div class="msg sys">'+esc(t)+"</div>";el.scrollTop=el.scrollHeight;}
+function renderPeople(){var list=Object.values(people);document.getElementById("countBadge").textContent=list.length+" ऑनलाइन";document.getElementById("countLine").textContent="ऑनलाइन: "+list.length+" • "+list.map(function(p){return p.name;}).join(", ");document.getElementById("userPills").innerHTML=list.map(function(p){return '<span class="pill'+(p.self?" me":"")+'">'+(p.self?"आप · ":"")+esc(p.name)+"</span>";}).join("");}
+async function askMic(){if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw new Error("no-api");if(localMic){localMic.getTracks().forEach(function(t){t.stop();});localMic=null;}localMic=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true},video:false});return localMic;}
+async function startJoin(audioMuted){
+  var name=(document.getElementById("nameIn").value||"").trim();
+  var place=(document.getElementById("placeIn").value||"").trim();
+  if(!name){alert("पहले नाम लिखो");return;}
+  if(inApp){alert("WhatsApp के अंदर से Chrome में खोलो");return;}
+  if(!audioMuted){
+    try{await askMic();}
+    catch(err){
+      var n=(err&&err.name)||"";
+      if(n==="NotAllowedError"||n==="PermissionDeniedError"){alert("माइक ब्लॉक है. पता बार ⌨ → Microphone = Allow");return;}
+      if(n==="NotReadableError"){alert("दूसरा कॉल काटो, फिर Allow करो");return;}
+      if(!confirm("बिना माइक जॉइन?"))return;audioMuted=true;
+    }
+  }
+  if(typeof JitsiMeetExternalAPI==="undefined"){document.getElementById("gate").classList.add("hidden");document.getElementById("fail").classList.remove("hidden");document.getElementById("failWhy").textContent="सर्वर नहीं खुला";return;}
+  me=place?(name+" ("+place+")"):name;
+  document.getElementById("gate").classList.add("hidden");document.getElementById("room").classList.remove("hidden");
+  setSt(audioMuted?"बिना माइक जॉइन…":"माइक मिल गया, रूम खुल रहा है…");
+  var parent=document.getElementById("meet");parent.querySelectorAll("iframe").forEach(function(n){n.remove();});
+  api=new JitsiMeetExternalAPI("meet.jit.si",{roomName:ROOM,parentNode:parent,width:"100%",height:210,lang:"hi",userInfo:{displayName:me},configOverwrite:{prejoinPageEnabled:false,startWithAudioMuted:!!audioMuted,startWithVideoMuted:true,disableDeepLinking:true,enableWelcomePage:false,p2p:{enabled:false}},interfaceConfigOverwrite:{TOOLBAR_BUTTONS:["microphone","chat","hangup","settings"],MOBILE_APP_PROMO:false}});
+  function unlock(){try{var f=api.getIFrame&&api.getIFrame();if(f){f.setAttribute("allow","microphone *; camera *; autoplay *; clipboard-write *; fullscreen *");f.setAttribute("allowfullscreen","true");}}catch(e){}}
+  unlock();setTimeout(unlock,400);setTimeout(unlock,1500);
+  var timer=setTimeout(function(){if(!joined){setSt("अटक गया");document.getElementById("fail").classList.remove("hidden");document.getElementById("failWhy").textContent="Chrome में खोलो, दूसरा कॉल बंद करो";}},22000);
+  api.addListener("videoConferenceJoined",function(){joined=true;clearTimeout(timer);setSt("जुड़ गए");people.local={name:me,self:true};renderPeople();sys(me+" आ गए");try{api.executeCommand("displayName",me);}catch(e){}});
+  api.addListener("participantJoined",function(p){people[p.id]={name:p.displayName||"सदस्य",self:false};renderPeople();sys((p.displayName||"सदस्य")+" जुड़े");});
+  api.addListener("participantLeft",function(p){var n=(people[p.id]&&people[p.id].name)||"सदस्य";delete people[p.id];renderPeople();sys(n+" निकले");});
+  api.addListener("incomingMessage",function(m){addMsg(m.nick||"सदस्य",m.message,false);});
+  api.addListener("audioMuteStatusChanged",function(s){muted=!!s.muted;setSt(muted?"माइक बंद":"माइक चालू");});
+}
+function addMsg(who,text,mine){var el=document.getElementById("chat");el.innerHTML+='<div class="msg"><div class="who">'+esc(who)+(mine?" (आप)":"")+"</div>"+esc(text)+"</div>";el.scrollTop=el.scrollHeight;}
+function sendChat(){var inp=document.getElementById("chatIn");var t=(inp.value||"").trim();if(!t)return;if(api&&joined)api.executeCommand("sendChatMessage",t);addMsg(me||"आप",t,true);inp.value="";}
+function quick(t){document.getElementById("chatIn").value=t;sendChat();}
+function toggleMic(){if(api)api.executeCommand("toggleAudio");}
+</script>
+</body>
+</html>

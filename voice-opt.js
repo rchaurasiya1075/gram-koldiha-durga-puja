@@ -1,17 +1,11 @@
-window.ensureMic=async function(){
+async function ensureMic(){
   if(window._localStream)return window._localStream;
   window._localStream=await navigator.mediaDevices.getUserMedia({
-    audio:{
-      echoCancellation:true,
-      noiseSuppression:true,
-      autoGainControl:true,
-      channelCount:1,
-      sampleRate:16000
-    },
+    audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true,channelCount:1,sampleRate:16000},
     video:false
   });
   return window._localStream;
-};
+}
 function limitBitrate(pc){
   if(!pc)return;
   pc.getSenders().forEach(function(s){
@@ -24,10 +18,9 @@ function limitBitrate(pc){
     }catch(e){}
   });
 }
-const _callPeer=window.callPeer||(typeof callPeer==="function"?callPeer:null);
-if(_callPeer){
-  window.callPeer=async function(other){
-    await _callPeer(other);
-    limitBitrate(window._pcs&&window._pcs[other]);
-  };
-}
+setTimeout(function(){
+  if(typeof callPeer!=="function"||callPeer._opt)return;
+  var orig=callPeer;
+  callPeer=async function(other){await orig(other);limitBitrate(window._pcs&&window._pcs[other]);};
+  callPeer._opt=1;
+},0);

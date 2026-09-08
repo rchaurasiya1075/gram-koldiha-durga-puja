@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>कोल्डीहा · पंडाल टीवी</title>
+<style>
+html,body{margin:0;height:100%;background:#1a0a0a;color:#F7E7C3;font-family:system-ui,"Noto Sans Devanagari",sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+h1{color:#E8C56B;font-size:clamp(22px,5vw,42px);margin:0 0 8px}
+.nums{display:flex;gap:28px;font-size:clamp(18px,4vw,32px);margin:18px 0}
+.meta{opacity:.8}a{color:#E8C56B}
+</style>
+</head>
+<body>
+<h1>जय माँ दुर्गा</h1>
+<p>ग्राम कोल्डीहा · घोरावल · सोनभद्र</p>
+<div class="nums">
+  <div>कुल<br><b id="inc">₹0</b></div>
+  <div>खर्च<br><b id="exp">₹0</b></div>
+  <div>शेष<br><b id="bal">₹0</b></div>
+</div>
+<p class="meta">पहले उसी फोन पर ऐप खोलो, फिर यह पेज टीवी / LED पर फुलस्क्रीन करो।</p>
+<p class="meta"><a href="./index.html">ऐप पर वापस</a></p>
+<script>
+(function(){
+  var inc=0,exp=0;
+  try{
+    var raw="{}";
+    for(var i=0;i<localStorage.length;i++){
+      var k=localStorage.key(i);
+      if(/koldiha|kd/i.test(k||"")){raw=localStorage.getItem(k)||"{}";break;}
+    }
+    var db=JSON.parse(raw||"{}");
+    (db.donations||[]).forEach(function(x){if(x.status!=="pending"&&x.status!=="rejected")inc+=Number(x.amount||x.amt||0);});
+    (db.expenses||[]).forEach(function(x){exp+=Number(x.amount||x.amt||0);});
+  }catch(e){}
+  document.getElementById("inc").textContent="\u20b9"+inc.toLocaleString("en-IN");
+  document.getElementById("exp").textContent="\u20b9"+exp.toLocaleString("en-IN");
+  document.getElementById("bal").textContent="\u20b9"+(inc-exp).toLocaleString("en-IN");
+})();
+</script>
+</body>
+</html>

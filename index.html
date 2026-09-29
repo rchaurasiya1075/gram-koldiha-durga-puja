@@ -6,14 +6,15 @@
 <meta name="theme-color" content="#6B1212"/>
 <title>कोल्डीहा दुर्गा पूजा महोत्सव</title>
 <link rel="manifest" href="./manifest.json"/>
-<link rel="stylesheet" href="./styles.css?v=20"/>
-<link rel="stylesheet" href="./gal.css?v=20"/>
-<link rel="stylesheet" href="./theme.css?v=20"/>
-<link rel="stylesheet" href="./work.css?v=20"/>
+<link rel="stylesheet" href="./styles.css?v=81"/>
+<link rel="stylesheet" href="./gal.css?v=81"/>
+<link rel="stylesheet" href="./theme.css?v=81"/>
+<link rel="stylesheet" href="./work.css?v=81"/>
+<link rel="stylesheet" href="./fix.css?v=81"/>
 </head>
 <body>
 <div class="stage"><div class="phone">
-<div class="splash" id="splash"><div><div style="font-size:36px">⛓</div><b style="font-size:34px;font-family:serif">कोल्डीहा</b><div>दुर्गा पूजा महोत्सव</div></div></div>
+<div class="splash" id="splash"><div><div style="font-size:36px">🙏</div><b style="font-size:34px;font-family:serif">कोल्डीहा</b><div>दुर्गा पूजा महोत्सव</div></div></div>
 <div class="statusbar"><span id="clock">--:--</span><span id="syncMark">लोकल</span></div>
 <header class="appbar"><button class="iconbtn" onclick="go('account')">👤</button><b class="brand">कोल्डीहा</b><button class="iconbtn" onclick="go('news')">🔔</button></header>
 <main class="wrap">
@@ -30,7 +31,8 @@
   <div class="count"><div><b id="cdD">–</b><span>दिन</span></div><div><b id="cdH">–</b><span>घंटे</span></div><div><b id="cdM">–</b><span>मिनट</span></div></div>
   <div class="home-grid">
     <button class="tile" onclick="go('events')"><span>📅</span>कार्यक्रम</button>
-    <button class="tile" onclick="go('live')"><span>🔴</span>Live</button>
+    <button class="tile" onclick="go('live')"><span>📺</span>Live</button>
+    <button class="tile" onclick="go('chat')"><span>💬</span>चैट</button>
     <button class="tile" onclick="go('donate')"><span>💰</span>सहयोग</button>
     <button class="tile" onclick="go('gallery')"><span>📸</span>गैलरी</button>
     <button class="tile" onclick="go('news')"><span>📢</span>सूचना</button>
@@ -49,18 +51,46 @@
 </section>
 <section class="page" id="p-events"><h2>📅 कार्यक्रम</h2><div id="eventList"></div></section>
 <section class="page" id="p-live"><h2>🔴 Live</h2><div class="card" id="liveBox"></div></section>
-<section class="page" id="p-donate"><h2>💰 सहयोग</h2>
-  <div class="card">
-    <div class="nums3"><div><span class="meta">कुल</span><b class="amt" id="inc">₹0</b></div><div><span class="meta">खर्च</span><b class="amt out" id="exp">₹0</b></div><div><span class="meta">शेष</span><b id="bal">₹0</b></div></div>
+<section class="page" id="p-donate">
+  <h2>🙏 चंदा सेवा</h2>
+  <div class="card seva-hero">
+    <p class="seva-lead">पहले UPI से भुगतान करें, फिर नीचे सेवा दर्ज करें। एडमिन जाँच के बाद नाम सार्वजनिक सूची में आएगा।</p>
+    <div class="nums3"><div><span class="meta">स्वीकृत</span><b class="amt" id="inc">₹0</b></div><div><span class="meta">खर्च</span><b class="amt out" id="exp">₹0</b></div><div><span class="meta">शेष</span><b id="bal">₹0</b></div></div>
     <p class="meta" id="myDonLine"></p>
-    <img class="qr" id="qrImg" style="display:none"/>
-    <p class="meta" id="upiLine"></p>
-    <button class="btn" onclick="payUPI()">UPI</button>
-    <label class="lab">नाम</label><input id="dn"/>
-    <label class="lab">राशि</label><input id="da" type="number" min="1"/>
-    <label class="toggle"><input type="checkbox" id="dvis" checked/> नाम दिखाओ</label>
-    <button class="btn ok" onclick="addDon()">चंदा जोड़ो</button>
-  </div><div id="donList"></div>
+  </div>
+  <div class="card">
+    <h3>1. भुगतान</h3>
+    <img class="qr" id="qrImg" alt="UPI QR" style="display:none"/>
+    <p class="upi-id" id="upiLine">UPI अभी सेट नहीं</p>
+    <div class="amt-picks">
+      <button type="button" data-a="101" onclick="pickAmt(101)">₹101</button>
+      <button type="button" data-a="251" onclick="pickAmt(251)">₹251</button>
+      <button type="button" data-a="501" onclick="pickAmt(501)">₹501</button>
+      <button type="button" data-a="1100" onclick="pickAmt(1100)">₹1100</button>
+      <button type="button" data-a="2100" onclick="pickAmt(2100)">₹2100</button>
+    </div>
+    <button class="btn" type="button" onclick="payUPI()">UPI ऐप में खोलें</button>
+    <button class="btn ghost" type="button" onclick="copyUpi()">UPI ID कॉपी</button>
+  </div>
+  <div class="card">
+    <h3>2. सेवा दर्ज करें</h3>
+    <label class="lab">सेवा का प्रकार</label>
+    <select id="dSeva">
+      <option value="चंदा">चंदा</option>
+      <option value="भोग">भोग</option>
+      <option value="सजावट">मंडप सजावट</option>
+      <option value="अन्नदान">अन्नदान</option>
+      <option value="आरती">आरती सामग्री</option>
+      <option value="अन्य">अन्य</option>
+    </select>
+    <label class="lab">नाम</label><input id="dn" placeholder="आपका नाम"/>
+    <label class="lab">राशि (₹)</label><input id="da" type="number" min="1" inputmode="numeric" placeholder="राशि"/>
+    <label class="toggle"><input type="checkbox" id="dvis" checked/> सूची में मेरा नाम दिखाएँ</label>
+    <button class="btn ok" type="button" onclick="addDon()">सेवा जमा करें</button>
+    <button class="btn ghost" type="button" onclick="sendPayShotToAdmin()">रसीद की जानकारी WhatsApp पर भेजें</button>
+    <p class="meta">भुगतान और दर्ज राशि एडमिन मिलाएँगे। बिना अप्रूव नाम सूची में नहीं आता।</p>
+  </div>
+  <div id="donList"></div>
 </section>
 <section class="page" id="p-news"><h2>📢 सूचना</h2><div id="newsList"></div></section>
 <section class="page" id="p-gallery"></section>
@@ -102,21 +132,22 @@
 <button data-p="events" onclick="go('events')"><span class="i">📅</span>कार्यक्रम</button>
 <button data-p="donate" onclick="go('donate')"><span class="i">💰</span>सहयोग</button>
 <button data-p="gallery" onclick="go('gallery')"><span class="i">📸</span>गैलरी</button>
-<button data-p="account" onclick="go('account')"><span class="i">📱</span>लॉगिन</button>
+<button data-p="chat" onclick="go('chat')"><span class="i">💬</span>चैट</button>
 </nav>
 <div class="toast" id="toast"></div>
 </div></div>
-<script src="./firebase-config.js?v=64"></script>
+<script src="./firebase-config.js?v=81"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-storage-compat.js"></script>
-<script src="./app.js?v=20"></script>
-<script src="./auth.js?v=20"></script>
-<script src="./extra.js?v=20"></script>
-<script src="./home-ui.js?v=20"></script>
-<script src="./nav-fix.js?v=20"></script>
-<script src="./donate.js?v=35"></script>
-<script src="./access.js?v=20"></script>
-<script src="./share.js?v=20"></script>
+<script src="./app.js?v=81"></script>
+<script src="./auth.js?v=81"></script>
+<script src="./extra.js?v=81"></script>
+<script src="./home-ui.js?v=81"></script>
+<script src="./nav-fix.js?v=81"></script>
+<script src="./donate.js?v=81"></script>
+<script src="./access.js?v=81"></script>
+<script src="./share.js?v=81"></script>
+<script src="./site-fix.js?v=81"></script>
 </body></html>

@@ -1,0 +1,11 @@
+#tileVoice,#p-voice,#vbanner,.vui,#adminVoiceReq{display:none!important}
+.seva-lead{margin:0 0 8px;font-size:13px;line-height:1.45}
+.seva-h{margin:14px 4px 4px;font-size:15px;color:#6B1212}
+.upi-id{text-align:center;font-weight:800;letter-spacing:.3px;color:#6B1212;word-break:break-all}
+.amt-picks{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.amt-picks button{border:1px solid #e0c8a8;background:#fff7ea;color:#6B1212;border-radius:999px;padding:8px 12px;font-weight:800;font-family:inherit}
+.amt-picks button.on{background:#6B1212;color:#F7E7C3;border-color:#6B1212}
+.seva-row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.seva-acts{display:flex;gap:6px}
+.seva-acts .btn{width:auto;margin:0;padding:8px 12px}
+.ggrid img{background:#f3e6d4}

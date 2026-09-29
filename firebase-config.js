@@ -12,8 +12,8 @@ window.FIREBASE_READY = function () {
   return !!(c.apiKey && c.projectId === "koldihadurgapooja");
 };
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./sw.js?v=12").catch(function () {});
+  navigator.serviceWorker.register("./sw.js?v=81").catch(function () {});
 }
-["kill-jitsi.js?v=44","addr-ui.js?v=40","live-sync.js?v=38","voice.js?v=44","turn.js?v=49","voice-opt.js?v=50","voice-ui.js?v=45","voice-pin.js?v=46","install-pwa.js?v=63","call-bar.js?v=48","team-note.js?v=51","voice-core.js?v=52","voice-fix.js?v=53","voice-room.js?v=54","voice-simple.js?v=55","pull-refresh.js?v=63","voice-status.js?v=57","voice-admin.js?v=63","voice-fast.js?v=59","gaon-plus.js?v=63","rtdb-init.js?v=64","koldiha-ui-fix.js?v=65","live-stream.js?v=66","voice-kick-fix.js?v=70","donate-receipt.js?v=70","seva-voice-fix.js?v=71"].forEach(function(src){
+["kill-jitsi.js?v=81","addr-ui.js?v=81","live-sync.js?v=81","install-pwa.js?v=81","team-note.js?v=81","pull-refresh.js?v=81","gaon-plus.js?v=81","rtdb-init.js?v=81","koldiha-ui-fix.js?v=81","live-stream.js?v=81","donate-receipt.js?v=81"].forEach(function(src){
   var s=document.createElement("script");s.src="./"+src;document.head.appendChild(s);
 });

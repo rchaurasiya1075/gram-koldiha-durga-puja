@@ -20,20 +20,11 @@ function speakPin(pin,m){
   u.onend=function(){speakWelcome(m||user);};
   speechSynthesis.speak(u);
 }
-function showPinBanner(m){
-  if(!m||!m.pin)return;
-  var home=document.getElementById("p-home");if(!home)return;
-  var bar=document.getElementById("pinBanner");
-  if(!bar){bar=document.createElement("div");bar.id="pinBanner";home.insertBefore(bar,home.firstChild);}
-  bar.style.display="block";
-  bar.innerHTML="<div>आपका लॉगिन कोड है — सेव कर लें</div><b>"+m.pin+"</b><div class='meta' style='color:#f7e7c3'>अगली बार मोबाइल "+(m.phone||"")+" + यही कोड</div>";
-  speakPin(m.pin,m);
-  setTimeout(function(){if(bar)bar.style.display="none";},18000);
-}
+function showPinBanner(){}
 function afterAuth(m){
   if(!m)return;
   if(typeof go==="function")go("home");
-  setTimeout(function(){showPinBanner(m);},200);
+  setTimeout(function(){speakWelcome(m);},300);
 }
 function wrapAuth(name){
   var old=window[name];

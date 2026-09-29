@@ -5,13 +5,35 @@ function callAdminHtml(){
   var n=(db.settings&&db.settings.adminCall)||ADMIN_PHONE;
   return '<a class="btn ghost" href="tel:'+n+'">पिन भूला? एडमिन कॉल</a>';
 }
+window.getMember=async function(ph){
+  ph=normPh(ph);
+  var cloudFs=window.fs||fs;
+  if(cloudFs){
+    try{
+      var s=await cloudFs.collection("members").doc(ph).get();
+      if(s.exists){
+        var m=s.data()||{};
+        m.phone=m.phone||ph;
+        db.members=db.members||{};
+        db.members[ph]=m;
+        saveLocal();
+        return m;
+      }
+    }catch(e){}
+  }
+  return (db.members&&db.members[ph])||null;
+};
 window.renderAcct=function(){
   var box=document.getElementById("acctBox");if(!box)return;
   var tu=document.getElementById("tabU"),ta=document.getElementById("tabA");
   if(tu)tu.className=loginTab==="user"?"btn":"btn ghost";
   if(ta)ta.className=loginTab==="admin"?"btn":"btn ghost";
   if(user){
-    box.innerHTML='<p>नमस्कार <b>'+(user.name||"")+'</b></p><p class="meta">📱 '+(user.phone||"")+'</p><p>आपका लॉगिन कोड</p><p style="font-size:32px;letter-spacing:6px;margin:8px 0;color:#6B1212"><b>'+(user.pin||"")+'</b></p><p class="meta">इसी कोड से अगली बार लॉगिन</p><span class="badge">'+(user.role==="admin"?"ADMIN":"श्रद्धालु")+'</span>'+callAdminHtml()+'<button class="btn ghost" onclick="logout()">लॉग आउट</button>';
+    box.innerHTML='<p>नमस्कार <b>'+(user.name||"")+'</b></p><p class="meta">📱 '+(user.phone||"")+'</p><span class="badge">'+(user.role==="admin"?"ADMIN":"श्रद्धालु")+'</span><p class="meta">लॉगिन आपके नंबर और आपके चुने PIN से होता है। PIN स्क्रीन पर नहीं रखा जाता।</p>'+
+      '<label class="lab">पुराना PIN</label><input id="oldPin" type="password" inputmode="numeric" maxlength="7" autocomplete="off"/>'+
+      '<label class="lab">नया 4 अंक PIN</label><input id="newPin" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password"/>'+
+      '<button class="btn" type="button" onclick="changeMyPin()">PIN बदलो</button>'+
+      callAdminHtml()+'<button class="btn ghost" onclick="logout()">लॉग आउट</button>';
     return;
   }
   if(loginTab==="admin"){
@@ -20,35 +42,49 @@ window.renderAcct=function(){
   }
   var tabs='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px"><button class="btn '+(acctMode==="signup"?"":"ghost")+'" type="button" onclick="acctMode=\'signup\';renderAcct()">नया खाता</button><button class="btn '+(acctMode==="login"?"":"ghost")+'" type="button" onclick="acctMode=\'login\';renderAcct()">लॉगिन</button></div>';
   if(acctMode==="login"){
-    box.innerHTML=tabs+'<p><b>पुराना खाता</b></p><label class="lab">मोबाइल</label><input id="ph" inputmode="tel" maxlength="10" autocomplete="username" placeholder="10 अंक"/><label class="lab">4 अंक कोड</label><input id="pn" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="PIN"/><button class="btn" onclick="doUserLogin()">लॉगिन</button>'+callAdminHtml();
+    box.innerHTML=tabs+'<p><b>नंबर + PIN</b></p><label class="lab">मोबाइल</label><input id="ph" inputmode="tel" maxlength="10" autocomplete="username" placeholder="10 अंक"/><label class="lab">आपका PIN</label><input id="pn" type="password" inputmode="numeric" maxlength="7" autocomplete="current-password" placeholder="जो PIN आपने सेट किया"/><button class="btn" onclick="doUserLogin()">लॉगिन</button><p class="meta">कोई ऑटो PIN नहीं। वही PIN डालें जो खाता बनाते समय आपने चुना था।</p>'+callAdminHtml();
     return;
   }
-  box.innerHTML=tabs+'<p><b>नया खाता</b></p><label class="lab">नाम</label><input id="nm" autocomplete="name" placeholder="अपना नाम"/><label class="lab">मोबाइल</label><input id="ph" inputmode="tel" maxlength="10" autocomplete="tel" placeholder="10 अंक"/><button class="btn" onclick="doSignup()">खाता बनाओ — कोड मिले</button><p class="meta">नाम + मोबाइल — 4 अंक कोड तुरंत मिलेगा</p>';
+  box.innerHTML=tabs+'<p><b>अपना खाता बनाएँ</b></p><label class="lab">नाम</label><input id="nm" autocomplete="name" placeholder="अपना नाम"/><label class="lab">मोबाइल</label><input id="ph" inputmode="tel" maxlength="10" autocomplete="tel" placeholder="10 अंक"/><label class="lab">4 अंक PIN खुद चुनें</label><input id="pin1" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="जैसे 2580"/><label class="lab">PIN फिर लिखें</label><input id="pin2" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="वही PIN"/><button class="btn" onclick="doSignup()">खाता बनाओ</button><p class="meta">PIN आप तय करते हैं। अगली बार मोबाइल और यही PIN डालकर लॉगिन होगा।</p>';
 };
 window.userEnter=function(){return acctMode==="login"?doUserLogin():doSignup();};
 window.doReg=window.userEnter;
 window.doLogin=function(){return doUserLogin();};
+window.changeMyPin=async function(){
+  if(!user)return toast("पहले लॉगिन");
+  var old=((document.getElementById("oldPin")||{}).value||"").trim();
+  var neu=((document.getElementById("newPin")||{}).value||"").trim();
+  if(String(user.pin)!==old)return toast("पुराना PIN गलत");
+  if(!/^\d{4}$/.test(neu))return toast("नया PIN 4 अंक का रखें");
+  user.pin=neu;
+  try{await putMember(user);}catch(e){db.members[user.phone]=user;saveLocal();}
+  saveSession();toast("PIN बदल गया — अगली बार यही डालें");
+};
 window.doSignup=async function(){
   var name=((document.getElementById("nm")||{}).value||"").trim();
   var ph=normPh((document.getElementById("ph")||{}).value);
+  var pin=((document.getElementById("pin1")||{}).value||"").trim();
+  var pin2=((document.getElementById("pin2")||{}).value||"").trim();
   if(!name)return toast("नाम लिखें");
   if(!phoneOk(ph))return toast("सही मोबाइल लिखें");
   if(ph===ADMIN_PHONE)return toast("यह एडमिन नंबर है");
+  if(!/^\d{4}$/.test(pin))return toast("4 अंक का PIN खुद चुनें");
+  if(pin!==pin2)return toast("दोनों PIN एक जैसे लिखें");
   var m=null;try{m=await getMember(ph);}catch(e){m=(db.members&&db.members[ph])||null;}
-  if(m&&m.pin){acctMode="login";renderAcct();var p=document.getElementById("ph");if(p)p.value=ph;return toast("नंबर पहले से है — पुराना PIN डालो");}
-  m={phone:ph,name:name,pin:makePin(),role:"user",created:Date.now()};
+  if(m&&m.pin){acctMode="login";renderAcct();var p=document.getElementById("ph");if(p)p.value=ph;return toast("नंबर पहले से है — अपना PIN डालकर लॉगिन करें");}
+  m={phone:ph,name:name,pin:pin,role:"user",created:Date.now(),pinSetBy:"user"};
   try{await putMember(m);}catch(e){db.members=db.members||{};db.members[ph]=m;saveLocal();}
-  user=m;admin=false;saveSession();renderAcct();toast("आपका PIN "+m.pin);
+  user=m;admin=false;saveSession();renderAcct();toast("खाता बन गया। लॉगिन हो गया");
 };
 window.doUserLogin=async function(){
   var ph=normPh((document.getElementById("ph")||{}).value);
   var pn=((document.getElementById("pn")||{}).value||"").trim();
   if(!phoneOk(ph))return toast("मोबाइल लिखें");
-  if(!/^\d{4}$/.test(pn))return toast("4 अंक PIN");
+  if(!/^\d{3,7}$/.test(pn))return toast("अपना PIN डालें");
   var m=null;try{m=await getMember(ph);}catch(e){m=(db.members&&db.members[ph])||null;}
-  if(!m){acctMode="signup";renderAcct();var p=document.getElementById("ph");if(p)p.value=ph;return toast("पहले खाता बनाओ");}
-  if(String(m.pin)!==pn)return toast("PIN गलत");
-  user=m;admin=m.role==="admin"&&m.phone===ADMIN_PHONE;saveSession();renderAcct();toast("लॉगिन हो गया");
+  if(!m){acctMode="signup";renderAcct();var p=document.getElementById("ph");if(p)p.value=ph;return toast("पहले खाता बनाकर PIN सेट करें");}
+  if(String(m.pin)!==pn)return toast("PIN गलत है");
+  user=m;admin=(m.role==="admin"&&m.phone===ADMIN_PHONE)||(typeof hasPanel==="function"&&hasPanel());saveSession();renderAcct();toast("लॉगिन हो गया");
 };
 window.adminLogin=async function(){
   var ph=normPh((document.getElementById("aph")||{}).value);

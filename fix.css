@@ -1,6 +1,6 @@
 #tileVoice,#p-voice,#vbanner,.vui,#adminVoiceReq{display:none!important}
-.seva-lead{margin:0 0 8px;font-size:13px;line-height:1.45}
-.seva-h{margin:14px 4px 4px;font-size:15px;color:#6B1212}
+.seva-lead{margin:0 0 8px;font-size:14px;line-height:1.5}
+.seva-h{margin:14px 4px 4px;font-size:16px;color:#6B1212}
 .upi-id{text-align:center;font-weight:800;letter-spacing:.3px;color:#6B1212;word-break:break-all}
 .amt-picks{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
 .amt-picks button{border:1px solid #e0c8a8;background:#fff7ea;color:#6B1212;border-radius:999px;padding:8px 12px;font-weight:800;font-family:inherit}
@@ -9,3 +9,20 @@
 .seva-acts{display:flex;gap:6px}
 .seva-acts .btn{width:auto;margin:0;padding:8px 12px}
 .ggrid img{background:#f3e6d4}
+.phone{background:linear-gradient(180deg,#fff8ee 0%,#f6efe4 100%)!important}
+.appbar{box-shadow:0 8px 16px rgba(80,16,10,.12)}
+.wrap{padding:10px 10px 6px!important}
+.card{border:0!important;border-radius:18px!important;box-shadow:0 8px 20px rgba(90,30,16,.06);background:#fff!important}
+.tile{border:0!important;border-radius:18px!important;background:#fff!important;box-shadow:0 6px 16px rgba(90,30,16,.07);min-height:78px;font-size:14px!important}
+.tile span{font-size:22px!important}
+.count b{font-size:22px!important}
+.count div{border:0!important;box-shadow:0 4px 12px rgba(90,30,16,.06);border-radius:14px!important}
+.nav{background:#fffdf8!important;box-shadow:0 -8px 18px rgba(80,20,10,.08);padding:6px 2px calc(8px + env(safe-area-inset-bottom))!important}
+.nav button{font-size:11px!important;padding:4px 0 2px;border-radius:12px}
+.nav button .i{font-size:20px!important}
+.nav button.on{background:#f8e7cf;color:#6B1212!important}
+.btn{border-radius:14px!important;min-height:46px}
+.ticker{border:0!important;box-shadow:0 4px 12px rgba(90,30,16,.05);border-radius:14px!important}
+.slider{border-radius:18px!important;box-shadow:0 10px 22px rgba(60,10,8,.18)}
+h2{font-size:22px;letter-spacing:.2px}
+.page{padding-bottom:12px}

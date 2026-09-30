@@ -37,7 +37,9 @@ function screenNote(title,body,url){
   clearTimeout(el._t);
   el._t=setTimeout(function(){el.classList.remove("on");},6000);
 }
-function escNote(s){return String(s||"").replace(/[&<>]/g,function(c){return {"&":"&","<":"<",">":">"}[c];});}
+function escNote(s){
+  return String(s||"").replace(/&/g,"&").replace(/</g,"<").replace(/>/g,">");
+}
 function phoneNotify(title,body,url){
   if(!notifOn())return;
   var page=String(url||"#/chat").replace("#/","");
@@ -115,14 +117,53 @@ setTimeout(function(){
 if(!document.getElementById("noteCss")){
   var st=document.createElement("style");
   st.id="noteCss";
-  st.textContent="#screenNote{position:absolute;top:64px;left:10px;right:10px;z-index:70;display:none;text-align:left;border:1px solid #FFD700;background:#4A0404;color:#FFF8E7;border-radius:14px;padding:10px 12px;box-shadow:0 10px 24px rgba(0,0,0,.35);font-family:inherit}#screenNote.on{display:block}#screenNote b{display:block;color:#FFD700;margin-bottom:2px}#screenNote span{display:block;color:#FFF8E7;font-size:14px}";
+  st.textContent="#screenNote{position:absolute;top:64px;left:10px;right:10px;z-index:70;display:none;text-align:left;border:1px solid #FFD700;background:#4A0404;color:#FFF8E7;border-radius:14px;padding:10px 12px;box-shadow:0 10px 24px rgba(0,0,0,.35);font-family:inherit}#screenNote.on{display:block}#screenNote b{display:block;color:#FFD700;margin-bottom:2px}#screenNote span{display:block;color:#FFF8E7;font-size:14px}#mustPop{position:absolute;inset:0;z-index:130;background:rgba(20,0,0,.78);display:flex;align-items:center;justify-content:center;padding:18px}#mustPop .mustcard{width:100%;max-width:340px;background:#4A0404;color:#FFF8E7;border:2px solid #FFD700;border-radius:18px;padding:16px}#mustPop h3{margin:0 0 8px;color:#FFD700;font-size:22px}#mustPop p{color:#FFF8E7;font-size:14px;line-height:1.45}#mustPop .btn{color:#fff!important;-webkit-text-fill-color:#fff}";
   document.head.appendChild(st);
 }
-document.addEventListener("click",function askOnce(){
-  if(!window.user||!window.Notification||Notification.permission!=="default")return;
-  document.removeEventListener("click",askOnce);
-  enableNotif();
-});
+function siteInstalled(){
+  return window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true||localStorage.getItem("koldiha_added")==="1";
+}
+window.showMust=function(){
+  var phone=document.querySelector(".phone")||document.body;
+  var needAllow=!window.Notification||Notification.permission!=="granted";
+  var needInstall=!siteInstalled();
+  var box=document.getElementById("mustPop");
+  if(!needAllow&&!needInstall){if(box)box.remove();return;}
+  if(!box){box=document.createElement("div");box.id="mustPop";phone.appendChild(box);}
+  var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  var html='<div class="mustcard"><h3>ज़रूरी</h3>';
+  if(needInstall){
+    html+="<p>होम स्क्रीन पर जोड़ो। इसके बिना फ़ोन की घंटी नहीं आएगी।</p>";
+    if(window._pwaEvt)html+='<button type="button" class="btn" id="mustInstall">होम स्क्रीन पर जोड़ो</button>';
+    else if(ios)html+="<p>Safari में नीचे Share दबाओ, फिर <b>Add to Home Screen</b>।</p>"+'<button type="button" class="btn" id="mustDone">जोड़ दिया</button>';
+    else html+="<p>Chrome में ऊपर ⋮ दबाओ, फिर होम स्क्रीन पर जोड़ें।</p>"+'<button type="button" class="btn" id="mustInstall">इंस्टॉल करो</button>';
+  }
+  if(needAllow){
+    if(!window.Notification)html+="<p>Allow होम स्क्रीन वाला ऐप खोलने के बाद आएगा।</p>";
+    else if(Notification.permission==="denied")html+="<p>नोटिफिकेशन बंद है। साइट की सेटिंग में Allow करो।</p>"+'<button type="button" class="btn" id="mustCheck">मैंने Allow कर दिया</button>';
+    else html+="<p>हर चैट की घंटी के लिए Allow दबाओ। सभी लॉगिन फ़ोन पर नोटिफिकेशन जाएगी।</p>"+'<button type="button" class="btn" id="mustAllow">Allow करो</button>';
+  }
+  html+="</div>";
+  box.innerHTML=html;
+  var allow=document.getElementById("mustAllow");
+  if(allow)allow.onclick=function(){
+    Notification.requestPermission().then(function(p){
+      if(p==="granted"){localStorage.setItem("koldiha_notif","1");if(typeof toast==="function")toast("नोटिफिकेशन चालू");bindRealtimeNotif();}
+      showMust();
+    });
+  };
+  var inst=document.getElementById("mustInstall");
+  if(inst)inst.onclick=function(){
+    if(typeof doInstall==="function")Promise.resolve(doInstall()).then(function(){setTimeout(showMust,400);});
+    else showMust();
+  };
+  var done=document.getElementById("mustDone");
+  if(done)done.onclick=function(){localStorage.setItem("koldiha_added","1");showMust();};
+  var check=document.getElementById("mustCheck");
+  if(check)check.onclick=function(){showMust();};
+};
+setTimeout(showMust,400);
+setTimeout(showMust,1600);
 if(navigator.serviceWorker){
   navigator.serviceWorker.addEventListener("message",function(e){
     if(e.data&&e.data.page&&typeof go==="function")go(e.data.page);

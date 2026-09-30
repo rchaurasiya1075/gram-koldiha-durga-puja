@@ -166,6 +166,7 @@ window.renderHome=function(){if(typeof _rhS==="function")try{_rhS();}catch(e){}s
 const _rgS=window.renderGal;
 window.renderGal=function(){
   if(typeof _rgS==="function")_rgS();
+  if(document.querySelector(".gpost"))return;
   var grid=document.getElementById("galGrid");if(!grid)return;
   var items=typeof galItems==="function"?galItems():(db.gallery||[]);
   grid.querySelectorAll("figure").forEach(function(fig,i){

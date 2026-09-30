@@ -26,3 +26,29 @@
 .slider{border-radius:18px!important;box-shadow:0 10px 22px rgba(60,10,8,.18)}
 h2{font-size:22px;letter-spacing:.2px}
 .page{padding-bottom:12px}
+.ghead h2{margin:0}
+.ghead p{margin:2px 0 8px;color:#7A5A4A;font-size:13px}
+.gfeed{display:flex;flex-direction:column;gap:12px}
+.gpost{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 10px 24px rgba(80,24,12,.08)}
+.gpost-h{display:flex;gap:10px;align-items:center;padding:10px 12px}
+.gav{width:38px;height:38px;border-radius:50%;background:linear-gradient(160deg,#8E1C1C,#C45C26);color:#F7E7C3;display:flex;align-items:center;justify-content:center;font-weight:800}
+.gshot{display:block;width:100%;border:0;padding:0;background:#2a0c0c}
+.gshot img,.gpic{width:100%;max-height:460px;object-fit:cover;display:block;background:#2a0c0c}
+.gcap{margin:0;padding:8px 12px 0;font-size:14px}
+.gactions{display:flex;gap:12px;align-items:center;padding:8px 12px;font-size:13px;font-weight:800;color:#6B1212}
+.gactions .likebtn{border:0;background:#fff4e8;color:#6B1212;border-radius:999px;padding:6px 12px;font-weight:800;font-family:inherit}
+.gactions .likebtn.on{background:#6B1212;color:#F7E7C3}
+.gcomments{padding:0 12px 12px}
+.gc{font-size:13px;margin:4px 0;line-height:1.35}
+.gc b{color:#6B1212}
+.gdel{border:0;background:transparent;color:#8B1E1E;font-size:11px;font-weight:800}
+.gbar{display:flex;gap:6px;margin-top:6px}
+.gbar input{margin:0}
+.gbar button{border:0;background:#6B1212;color:#fff;border-radius:10px;padding:0 12px;font-weight:800;font-family:inherit}
+.gupload .gpick{display:block;border:1.5px dashed #e0c8a8;border-radius:16px;min-height:120px;background:#fffaf3;position:relative;overflow:hidden}
+.gupload .gpick input{position:absolute;inset:0;opacity:0}
+.gupload #galPreview{min-height:120px;display:flex;align-items:center;justify-content:center;color:#6B1212;font-weight:800}
+.gupload #galPreview img{width:100%;max-height:220px;object-fit:cover;display:block}
+.lb .gbar input,.lb .gactions{color:#3a1608}
+.lbmeta .gactions{padding-left:0}
+

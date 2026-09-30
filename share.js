@@ -8,105 +8,113 @@ function showAdminDock(){
 const _rh4=window.renderHome;
 window.renderHome=function(){if(typeof _rh4==="function")try{_rh4();}catch(e){}showAdminDock();};
 showAdminDock();
-
-function jpegBlob(file){
+/*PHOTO_UPLOAD*/
+function makePhotoBlob(file){
   return new Promise(function(res,rej){
     if(!file)return rej(new Error("no"));
-    var reader=new FileReader();
-    reader.onerror=function(){rej(new Error("read"));};
-    reader.onload=function(){
-      var img=new Image();
-      img.onload=function(){
-        var maxSide=1280,w=img.width||1,h=img.height||1;
-        if(w>maxSide||h>maxSide){var sc=maxSide/Math.max(w,h);w=Math.round(w*sc);h=Math.round(h*sc);}
-        function shot(ww,q){
-          var c=document.createElement("canvas");
-          var hh=Math.max(1,Math.round(h*(ww/Math.max(w,1))));
-          c.width=Math.max(1,ww);c.height=hh;
-          var g=c.getContext("2d");
-          g.fillStyle="#fff";g.fillRect(0,0,c.width,c.height);
-          g.drawImage(img,0,0,c.width,c.height);
-          return new Promise(function(ok){c.toBlob(function(b){ok(b);},"image/jpeg",q);});
+    var src=URL.createObjectURL(file);
+    var img=new Image();
+    var done=false;
+    function finish(err,blob){
+      if(done)return;done=true;
+      try{URL.revokeObjectURL(src);}catch(e){}
+      if(err)rej(err);else res(blob);
+    }
+    var timer=setTimeout(function(){finish(new Error("slow"));},20000);
+    img.onload=function(){
+      clearTimeout(timer);
+      var w=img.width||1,h=img.height||1,max=960;
+      if(w>max||h>max){var sc=max/Math.max(w,h);w=Math.round(w*sc);h=Math.round(h*sc);}
+      function shot(ww,q){
+        var c=document.createElement("canvas");
+        var hh=Math.max(1,Math.round(h*(ww/Math.max(w,1))));
+        c.width=Math.max(1,Math.round(ww));c.height=hh;
+        var g=c.getContext("2d");
+        g.fillStyle="#fff";g.fillRect(0,0,c.width,c.height);
+        g.drawImage(img,0,0,c.width,c.height);
+        return new Promise(function(ok){
+          if(!c.toBlob)return ok(null);
+          c.toBlob(function(b){ok(b);},"image/jpeg",q);
+        });
+      }
+      (async function(){
+        var steps=[[Math.min(w,720),0.62],[540,0.5],[420,0.42],[320,0.36],[240,0.32]];
+        var b=null,i=0;
+        while(i<steps.length){
+          b=await shot(Math.min(steps[i][0],w),steps[i][1]);
+          if(b&&b.size>0&&b.size<=52000)break;
+          i++;
         }
-        (async function(){
-          var steps=[[w,0.72],[960,0.62],[720,0.55],[540,0.48],[420,0.4],[320,0.34]];
-          var b=null,i=0;
-          while(i<steps.length){
-            var ww=Math.min(steps[i][0],w);
-            b=await shot(ww,steps[i][1]);
-            if(b&&b.size<=90000)break;
-            i++;
-          }
-          if(!b)return rej(new Error("blob"));
-          res(b);
-        })().catch(rej);
-      };
-      img.onerror=function(){rej(new Error("img"));};
-      img.src=reader.result;
+        if(!b)return finish(new Error("blob"));
+        finish(null,b);
+      })().catch(function(e){finish(e||new Error("blob"));});
     };
-    reader.readAsDataURL(file);
+    img.onerror=function(){clearTimeout(timer);finish(new Error("img"));};
+    img.src=src;
   });
 }
 function blobToDataUrl(blob){
   return new Promise(function(ok,rej){
     var r=new FileReader();
-    r.onload=function(){ok(r.result);};
-    r.onerror=rej;
+    r.onload=function(){ok(String(r.result||""));};
+    r.onerror=function(){rej(new Error("read"));};
     r.readAsDataURL(blob);
   });
 }
-async function hostGalleryBlob(blob,phone){
-  if(!(window.firebase&&firebase.apps&&firebase.apps.length&&firebase.storage))return "";
-  try{
-    var path="gallery/"+String(phone||"x")+"/"+Date.now()+".jpg";
-    var ref=firebase.storage().ref(path);
-    await ref.put(blob,{contentType:"image/jpeg",cacheControl:"public,max-age=604800"});
-    return await ref.getDownloadURL();
-  }catch(e){return "";}
-}
+window.previewGal=function(inp){
+  var f=inp&&inp.files&&inp.files[0];
+  window._galFile=f||null;
+  var box=document.getElementById("galPreview");
+  if(!box)return;
+  if(!f){box.innerHTML="<span>फोटो चुनें</span>";return;}
+  var u=URL.createObjectURL(f);
+  box.innerHTML='<img alt="" src="'+u+'">';
+};
 window.uploadNamedPhoto=async function(){
-  if(!user){toast("फोटो डालने के लिए लॉगिन करें");return go("account");}
+  if(!user){if(typeof toast==="function")toast("फोटो के लिए लॉगिन करें");return go("account");}
   if(typeof isBlockedUser==="function"&&isBlockedUser())return toast("ब्लॉक हैं — अपलोड बंद");
   var inp=document.getElementById("galFile");
-  var f=inp&&inp.files&&inp.files[0];if(!f)return toast("फोटो चुनो");
+  var f=window._galFile||(inp&&inp.files&&inp.files[0]);
+  if(!f)return toast("पहले फोटो चुनें");
   var desc=((document.getElementById("galDesc")||{}).value||"").replace(/[<>]/g,"").trim().slice(0,180);
   toast("फोटो चढ़ रही है...");
   try{
-    var blob=await jpegBlob(f);
-    var url=await hostGalleryBlob(blob,uid());
-    if(!url){
-      url=await blobToDataUrl(blob);
-      if(!url||String(url).length>140000)return toast("फोटो बहुत बड़ी है, दूसरी छोटी फोटो चुनें");
-    }
-    if(!(window.fs||fs))return toast("नेट लगाएँ — क्लाउड बंद है, इसलिए दूसरों को नहीं दिखेगी");
-    var row={name:uname()||user.phone,phone:uid(),url:url,desc:desc,created:Date.now(),kind:"image"};
-    var ref=await (window.fs||fs).collection("gallery").add(row);
+    var blob=await makePhotoBlob(f);
+    var url=await blobToDataUrl(blob);
+    if(!url||url.length>90000)return toast("फोटो बड़ी है, दूसरी चुनें");
+    var cloudFs=window.fs||fs;
+    if(!cloudFs)return toast("नेट लगाएँ, फिर पोस्ट करें");
+    var row={name:uname()||user.phone,phone:String(uid()||""),url:url,desc:desc,created:Date.now(),kind:"image",seen:0};
+    var ref=await cloudFs.collection("gallery").add(row);
     row.fid=ref.id;
     db.gallery=db.gallery||[];
     db.gallery=db.gallery.filter(function(x){return x.fid!==row.fid;});
     db.gallery.unshift(row);
     try{saveLocal();}catch(e){}
+    window._galFile=null;
     if(inp)inp.value="";
     var cap=document.getElementById("galDesc");if(cap)cap.value="";
-    toast("फोटो सबको दिख रही है");
+    toast("पोस्ट हो गई — अब सबको दिखेगी");
     if(typeof renderGal==="function")renderGal();
-  }catch(e){toast("अपलोड नहीं हुआ — JPG फोटो फिर चुनें");}
+  }catch(e){
+    toast("यह फोटो नहीं चढ़ी। गैलरी से JPG चुनकर फिर कोशिश करें");
+  }
 };
 function bindGalleryLive(){
   var cloudFs=window.fs||fs;
-  if(!cloudFs)return;
-  if(window._galLive)return;window._galLive=true;
+  if(!cloudFs||window._galLive)return;
+  window._galLive=true;
   function take(qs){
-    var list=qs.docs.map(function(d){var x=d.data()||{};x.fid=d.id;return x;}).filter(function(x){return x.url;});
-    db.gallery=list;
+    db.gallery=qs.docs.map(function(d){var x=d.data()||{};x.fid=d.id;return x;}).filter(function(x){return x&&x.url;});
     try{saveLocal();}catch(e){}
     if(document.querySelector("#p-gallery.on")&&typeof renderGal==="function")renderGal();
   }
   try{
-    cloudFs.collection("gallery").orderBy("created","desc").limit(60).onSnapshot(take,function(){
-      cloudFs.collection("gallery").limit(60).onSnapshot(take);
+    cloudFs.collection("gallery").orderBy("created","desc").limit(40).onSnapshot(take,function(){
+      cloudFs.collection("gallery").limit(40).onSnapshot(take);
     });
   }catch(e){}
 }
-setTimeout(bindGalleryLive,800);
-setTimeout(bindGalleryLive,3000);
+setTimeout(bindGalleryLive,600);
+setTimeout(bindGalleryLive,2500);
+

@@ -12,35 +12,39 @@
 .phone{background:linear-gradient(180deg,#fff6ea 0%,#f3e4d0 100%)!important}
 .appbar{background:linear-gradient(100deg,#3d0909 0%,#7a1414 48%,#a34a16 100%)!important;box-shadow:0 10px 22px rgba(60,8,8,.22)}
 .wrap{padding:10px 10px 6px!important}
-.card{border:1px solid rgba(212,160,23,.35)!important;border-radius:18px!important;box-shadow:0 10px 24px rgba(90,30,16,.08);background:linear-gradient(180deg,#fff,#fffaf4)!important}
-.tile{border:1px solid rgba(212,160,23,.32)!important;border-radius:18px!important;background:linear-gradient(180deg,#fff,#fff6ea)!important;box-shadow:0 8px 18px rgba(90,30,16,.08);min-height:78px;font-size:14px!important}
+.card{border:1px solid rgba(255,255,255,.55)!important;border-radius:20px!important;box-shadow:0 10px 28px rgba(80,24,12,.1);background:rgba(255,252,247,.72)!important;backdrop-filter:blur(16px)}
+.tile{border:1px solid rgba(255,255,255,.6)!important;border-radius:20px!important;background:rgba(255,255,255,.55)!important;backdrop-filter:blur(12px);box-shadow:0 10px 24px rgba(90,30,16,.1);min-height:78px;font-size:14px!important}
 .tile span{font-size:22px!important}
 .count b{font-size:22px!important}
-.count div{border:1px solid rgba(196,92,38,.22)!important;box-shadow:0 6px 14px rgba(90,30,16,.07);border-radius:16px!important;background:linear-gradient(180deg,#fff,#fff3df)}
-.nav{background:rgba(255,251,245,.96)!important;backdrop-filter:blur(12px);box-shadow:0 -10px 24px rgba(80,20,10,.1);padding:6px 2px calc(8px + env(safe-area-inset-bottom))!important}
+.count div{border:1px solid rgba(255,255,255,.65)!important;box-shadow:0 8px 18px rgba(90,30,16,.08);border-radius:18px!important;background:rgba(255,255,255,.55);backdrop-filter:blur(12px)}
+.nav{background:rgba(255,251,245,.72)!important;backdrop-filter:blur(18px);box-shadow:0 -12px 30px rgba(80,20,10,.12);padding:6px 2px calc(8px + env(safe-area-inset-bottom))!important;border-top:1px solid rgba(255,255,255,.5)}
 .nav button{font-size:11px!important;padding:4px 0 2px;border-radius:12px}
 .nav button .i{font-size:20px!important}
-.nav button.on{background:linear-gradient(180deg,#8b1a1a,#6b1212);color:#F7E7C3!important}
-.btn{border-radius:14px!important;min-height:46px;box-shadow:0 6px 14px rgba(107,18,18,.18)}
+.nav button.on{background:linear-gradient(180deg,#8b1a1a,#6b1212);color:#F7E7C3!important;box-shadow:0 6px 14px rgba(107,18,18,.28)}
+.btn{border-radius:14px!important;min-height:46px;box-shadow:0 8px 16px rgba(107,18,18,.2)}
 .btn:not(.ghost){background:linear-gradient(180deg,#8d1b1b,#6b1212)!important}
-.ticker{border:1px solid rgba(212,160,23,.3)!important;box-shadow:0 6px 14px rgba(90,30,16,.06);border-radius:14px!important;background:#fff}
-.slider{border-radius:18px!important;box-shadow:0 14px 28px rgba(60,10,8,.22);border:1px solid rgba(232,197,107,.4)}
+.ticker{border:1px solid rgba(255,255,255,.55)!important;box-shadow:0 8px 18px rgba(90,30,16,.08);border-radius:16px!important;background:rgba(255,255,255,.6);backdrop-filter:blur(10px)}
+.slider{border-radius:20px!important;box-shadow:0 16px 34px rgba(60,10,8,.24);border:1px solid rgba(255,255,255,.25)}
 h2{font-size:22px;letter-spacing:.2px}
 .page{padding-bottom:12px}
 .ghead h2{margin:0}
 .ghead p{margin:2px 0 8px;color:#7A5A4A;font-size:13px}
-.gfeed{display:grid!important;grid-template-columns:1fr 1fr;gap:8px}
-.gtile{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 18px rgba(80,24,12,.1);border:1px solid rgba(212,160,23,.28)}
-.gshot{position:relative;display:block;width:100%;border:0;padding:0;background:#2a0c0c;height:148px}
-.gshot img,.gpic{width:100%;height:148px!important;max-height:148px!important;object-fit:cover;display:block;background:#2a0c0c}
-.gshade{position:absolute;left:0;right:0;bottom:0;padding:16px 6px 5px;background:linear-gradient(transparent,rgba(40,8,8,.82));color:#fff;text-align:left;display:flex;flex-direction:column;font-size:10px}
-.gshade b{font-size:12px}
-.gtile .gactions{display:flex;gap:4px;align-items:center;padding:5px;font-size:11px}
-.gtile .gactions .likebtn,.gtile .gactions .cmtbtn{border:0;background:#fff4e8;color:#6B1212;border-radius:999px;padding:4px 7px;font-weight:800;font-family:inherit;font-size:11px}
-.gtile .gactions .likebtn.on{background:#6B1212;color:#F7E7C3}
-.gtools{display:flex;gap:4px;padding:0 5px 6px}
+.gchips button{background:rgba(255,255,255,.55)!important;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.7)!important;box-shadow:0 4px 12px rgba(80,20,10,.06)}
+.gfeed{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.gtile{position:relative;background:transparent;border-radius:16px;overflow:hidden;box-shadow:0 10px 22px rgba(40,10,8,.18);border:1px solid rgba(255,255,255,.35)}
+.gshot{position:relative;display:block;width:100%;border:0;padding:0;background:#2a0c0c;height:auto;aspect-ratio:1}
+.gshot:active{transform:scale(.98)}
+.gshot img,.gpic{width:100%;height:100%!important;max-height:none!important;aspect-ratio:1;object-fit:cover;display:block;background:#2a0c0c}
+.gshade{position:absolute;left:6px;right:6px;bottom:34px;padding:0;background:transparent;color:#fff;text-align:left;display:flex;flex-direction:column;gap:2px;font-size:10px;pointer-events:none}
+.gshade b,.gshade span{align-self:flex-start;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:rgba(20,8,8,.38);border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(8px);border-radius:999px;padding:2px 6px}
+.gshade b{font-size:11px}
+.gtile .gactions{position:absolute;left:4px;right:4px;bottom:4px;z-index:2;display:flex;gap:3px;align-items:center;padding:3px;font-size:10px;background:rgba(255,255,255,.28);border:1px solid rgba(255,255,255,.45);backdrop-filter:blur(12px);border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.16)}
+.gtile .gactions .likebtn,.gtile .gactions .cmtbtn{border:0;background:transparent;color:#fff;border-radius:999px;padding:2px 4px;font-weight:800;font-family:inherit;font-size:10px;text-shadow:0 1px 2px rgba(0,0,0,.45)}
+.gtile .gactions .likebtn.on{background:rgba(107,18,18,.85);color:#F7E7C3}
+.gtools{position:absolute;top:4px;right:4px;z-index:2;display:flex;gap:3px}
+.gtools .editbtn,.gtools .delbtn{padding:3px 6px;font-size:10px;border-radius:999px;box-shadow:0 4px 10px rgba(0,0,0,.2)}
 .gactions{display:flex;gap:12px;align-items:center;padding:8px 12px;font-size:13px;font-weight:800;color:#6B1212}
-.gactions .likebtn{border:0;background:#fff4e8;color:#6B1212;border-radius:999px;padding:6px 12px;font-weight:800;font-family:inherit}
+.gactions .likebtn{border:0;background:rgba(255,244,232,.7);color:#6B1212;border-radius:999px;padding:6px 12px;font-weight:800;font-family:inherit;backdrop-filter:blur(8px)}
 .gactions .likebtn.on{background:#6B1212;color:#F7E7C3}
 .gcomments{padding:0 12px 12px}
 .gc{font-size:13px;margin:4px 0;line-height:1.35}
@@ -49,10 +53,13 @@ h2{font-size:22px;letter-spacing:.2px}
 .gbar{display:flex;gap:6px;margin-top:6px}
 .gbar input{margin:0}
 .gbar button{border:0;background:#6B1212;color:#fff;border-radius:10px;padding:0 12px;font-weight:800;font-family:inherit}
-.gupload .gpick{display:block;border:1.5px dashed #e0c8a8;border-radius:16px;min-height:92px;background:#fffaf3;position:relative;overflow:hidden}
+.gupload{background:rgba(255,252,247,.62)!important;backdrop-filter:blur(16px);box-shadow:0 12px 28px rgba(80,24,12,.1)}
+.gupload .gpick{display:block;border:1.5px dashed rgba(212,160,23,.7);border-radius:16px;min-height:92px;background:rgba(255,250,243,.45);position:relative;overflow:hidden}
 .gupload .gpick input{position:absolute;inset:0;opacity:0}
 .gupload #galPreview{min-height:92px;display:flex;align-items:center;justify-content:center;color:#6B1212;font-weight:800}
 .gupload #galPreview img{width:100%;max-height:140px;object-fit:cover;display:block}
+.lb{background:rgba(16,6,6,.45)!important;backdrop-filter:blur(18px)}
+.lbx{background:rgba(255,248,240,.14);border:1px solid rgba(255,255,255,.28);border-radius:22px;box-shadow:0 24px 50px rgba(0,0,0,.35);padding:8px}
 .lb .gbar input,.lb .gactions{color:#3a1608}
-.lbmeta .gactions{padding-left:0}
+.lbmeta .gactions{padding-left:0;background:rgba(255,255,255,.2);border-radius:14px;backdrop-filter:blur(10px)}
 

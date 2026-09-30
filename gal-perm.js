@@ -115,23 +115,16 @@ window.renderGal=function(){
   if(user){
     html+='<div class="card gupload"><label class="gpick"><input type="file" accept="image/*" id="galFile" onchange="previewGal(this)"><span id="galPreview"><span>फोटो चुनें</span></span></label><input id="galDesc" maxlength="180" placeholder="इस फोटो के बारे में लिखें"><button class="btn" type="button" onclick="uploadNamedPhoto()">सबके लिए पोस्ट करें</button><p class="meta">पोस्ट होते ही गाँव के हर लॉगिन पर दिखेगी</p></div>';
   }else html+='<button class="btn" type="button" onclick="go(\'account\')">फोटो डालने के लिए लॉगिन</button>';
-  html+='<div class="gfeed" id="galGrid"></div><div id="lb" class="lb" style="display:none"></div>';
+  html+='<div class="gfeed ggrid" id="galGrid"></div><div id="lb" class="lb" style="display:none"></div>';
   page.innerHTML=html;
   var g=document.getElementById("galGrid");
   if(!items.length){g.innerHTML='<div class="card"><p class="meta">अभी कोई फोटो नहीं। पहली फोटो आप डालें।</p></div>';return;}
   g.innerHTML=items.map(function(u,i){
     var id=pidOf(u).replace(/[^A-Za-z0-9_-]/g,"");
     var cm=commentsOf(id);
-    var ini=escG(String(u.name||"ग").charAt(0));
     var acts="";
     if(canManagePhoto(u))acts='<button class="editbtn" type="button" onclick="event.stopPropagation();startEditPhoto(\''+id+'\')">एडिट</button><button class="delbtn" type="button" onclick="event.stopPropagation();deletePhoto(\''+id+'\')">हटाओ</button>';
-    return '<article class="gpost"><div class="gpost-h"><div class="gav">'+ini+'</div><div><b>'+escG(u.name||"श्रद्धालु")+'</b><div class="meta">'+escG(typeof fmtWhen==="function"?fmtWhen(u.created):"")+"</div></div></div>"+
-      '<button type="button" class="gshot" onclick="openLb('+i+')"><img class="gpic" data-i="'+i+'" alt=""></button>'+
-      (u.desc?'<p class="gcap">'+escG(u.desc)+"</p>":"")+
-      '<div class="gactions"><button type="button" class="likebtn '+(liked(id)?"on":"")+'" onclick="likePhoto(\''+id+'\',event)">♥ '+likeN(id)+'</button><span>देखा '+viewN(u)+'</span><span>कमेंट '+cm.length+"</span></div>"+
-      '<div class="gcomments">'+commentHtml(id,2)+
-      (user?'<div class="gbar"><input id="cmt_'+id+'" maxlength="160" placeholder="कमेंट लिखें" onkeydown="if(event.key===\'Enter\')postComment(\''+id+'\')"><button type="button" onclick="postComment(\''+id+'\')">भेजो</button></div>':"")+
-      acts+"</div></article>";
+    return '<article class="gpost gtile"><button type="button" class="gshot" onclick="openLb('+i+')"><img class="gpic" data-i="'+i+'" alt=""><span class="gshade"><b>'+escG(u.name||"श्रद्धालु")+'</b><span>♥ '+likeN(id)+' · देखा '+viewN(u)+'</span></span></button><div class="gactions"><button type="button" class="likebtn '+(liked(id)?"on":"")+'" onclick="likePhoto(\''+id+'\',event)">♥ '+likeN(id)+'</button><button type="button" class="cmtbtn" onclick="openLb('+i+')">कमेंट '+cm.length+'</button></div>'+(acts?'<div class="gtools">'+acts+'</div>':'')+'</article>';
   }).join("");
   g.querySelectorAll("img.gpic").forEach(function(img){
     var u=items[Number(img.getAttribute("data-i"))];

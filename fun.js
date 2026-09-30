@@ -2,7 +2,7 @@
   if(window._funReady)return;window._funReady=1;
   var speaking=false,queued=false,unlock=0;
   var actx=null,master=null,tuneTimer=0,tuneId="";
-  function muted(){return localStorage.getItem("koldiha_mute")==="1";}
+  function muted(){var v=localStorage.getItem("koldiha_mute");return v!=="0";}
   function paintMute(){
     var b=document.getElementById("muteBtn");
     if(b)b.textContent=muted()?"🔇":"🔊";

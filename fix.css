@@ -56,13 +56,14 @@ input,select,textarea{background:#3a0808!important;color:#FFF8E7!important;borde
 .gchips button{background:rgba(42,4,4,.65)!important;color:#FFD700!important;border:1px solid rgba(255,215,0,.35)!important}
 .gchips button.on{background:linear-gradient(90deg,#FF9933,#DC2626)!important;color:#fff!important}
 .gfeed{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
-.gtile{position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(255,215,0,.35);box-shadow:0 8px 18px rgba(0,0,0,.35)}
-.gshot{position:relative;display:block;width:100%;border:0;padding:0;background:#2a0c0c;height:auto;aspect-ratio:1}
-.gshot img,.gpic{width:100%;height:100%!important;max-height:none!important;aspect-ratio:1;object-fit:cover;display:block}
-.gshade{position:absolute;left:4px;right:4px;bottom:28px;display:flex;flex-direction:column;gap:2px;font-size:10px;pointer-events:none;color:#fff}
-.gshade b,.gshade span{align-self:flex-start;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:rgba(42,4,4,.55);border-radius:999px;padding:2px 6px}
-.gtile .gactions{position:absolute;left:4px;right:4px;bottom:4px;z-index:2;display:flex;gap:3px;padding:2px;background:rgba(42,4,4,.55);border-radius:999px}
-.gtile .gactions .likebtn,.gtile .gactions .cmtbtn{border:0;background:transparent;color:#FFD700;border-radius:999px;padding:2px 4px;font-weight:800;font-family:inherit;font-size:10px}
+.gtile{position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(255,215,0,.35);box-shadow:0 8px 18px rgba(0,0,0,.35);background:rgba(42,4,4,.45)}
+.gshot{position:relative;display:flex;flex-direction:column;width:100%;border:0;padding:0;background:transparent;height:auto;aspect-ratio:auto}
+.gshot img,.gpic{width:100%;height:auto!important;max-height:none!important;aspect-ratio:1;object-fit:cover;display:block}
+.gshade{position:static;display:flex;flex-direction:column;gap:1px;font-size:11px;line-height:1.25;pointer-events:none;color:#FFF8E7;padding:4px 6px 0;text-align:left}
+.gshade b,.gshade span{align-self:flex-start;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;background:none;border-radius:0;padding:0;color:#FFF8E7;-webkit-text-fill-color:#FFF8E7}
+.gshade b{color:#FFD700;-webkit-text-fill-color:#FFD700;font-size:12px}
+.gtile .gactions{position:static;left:auto;right:auto;bottom:auto;z-index:1;display:flex;gap:4px;flex-wrap:wrap;padding:2px 4px 6px;background:transparent;border-radius:0}
+.gtile .gactions .likebtn,.gtile .gactions .cmtbtn{border:0;background:transparent;color:#FFD700;border-radius:999px;padding:2px 4px;font-weight:800;font-family:inherit;font-size:11px;-webkit-text-fill-color:#FFD700}
 .gtile .gactions .likebtn.on{background:#DC2626;color:#fff}
 .gtools{position:absolute;top:4px;right:4px;z-index:2;display:flex;gap:3px}
 .gtools .editbtn,.gtools .delbtn{padding:3px 6px;font-size:10px;border-radius:999px}

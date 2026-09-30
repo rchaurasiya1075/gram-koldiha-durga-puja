@@ -1,16 +1,12 @@
-const CACHE="koldiha-net-v81";
+const CACHE="koldiha-net-v86";
 self.addEventListener("install",function(e){
   self.skipWaiting();
   e.waitUntil(Promise.resolve());
 });
 self.addEventListener("activate",function(e){
   e.waitUntil(caches.keys().then(function(keys){
-    return Promise.all(keys.map(function(k){return caches.delete(k);}));
-  }).then(function(){return self.clients.claim();}).then(function(){
-    return self.clients.matchAll({type:"window"});
-  }).then(function(list){
-    list.forEach(function(c){if(c.navigate)c.navigate(c.url);});
-  }));
+    return Promise.all(keys.map(function(k){if(k===CACHE)return;return caches.delete(k);}));
+  }).then(function(){return self.clients.claim();}));
 });
 function isAPI(url){return /googleapis|gstatic|firebaseio|firebasestorage|identitytoolkit/i.test(url);}
 self.addEventListener("fetch",function(e){

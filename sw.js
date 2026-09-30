@@ -8,7 +8,18 @@ self.addEventListener("activate",function(e){
     return Promise.all(keys.map(function(k){if(k===CACHE)return;return caches.delete(k);}));
   }).then(function(){return self.clients.claim();}));
 });
-function isAPI(url){return /googleapis|gstatic|firebaseio|firebasestorage|identitytoolkit/i.test(url);}
+self.addEventListener("notificationclick",function(e){
+  e.notification.close();
+  var page=(e.notification.data&&e.notification.data.page)||"chat";
+  e.waitUntil(self.clients.matchAll({type:"window",includeUncontrolled:true}).then(function(list){
+    var client=list[0];
+    if(client){
+      client.postMessage({type:"open",page:page});
+      return client.focus();
+    }
+    return self.clients.openWindow("./index.html#/"+page);
+  }));
+});
 self.addEventListener("fetch",function(e){
   var req=e.request;
   if(req.method!=="GET"||isAPI(req.url))return;

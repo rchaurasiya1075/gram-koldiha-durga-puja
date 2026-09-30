@@ -53,8 +53,8 @@
   font-size:13px;
 }
 #p-chat .kill{
-  margin-top:6px;border:0;background:#8B1E1E;color:#fff;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:800;font-family:inherit
+  margin-top:6px;border:0;background:#8B1E1E;color:#fff;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:800;font-family:inherit;-webkit-text-fill-color:#fff
 }
 #p-chat .ed{
-  margin-top:6px;margin-right:6px;border:0;background:#fff;color:#6B1212;border:1px solid #e0c8a8;border-radius:8px;padding:6px 10px;font-size:12px;font-weight:800;font-family:inherit
+  margin-top:6px;margin-right:6px;border:1px solid #8a5a10;background:#FFD700;color:#3A1608;border-radius:8px;padding:6px 10px;font-size:13px;font-weight:800;font-family:inherit;-webkit-text-fill-color:#3A1608
 }

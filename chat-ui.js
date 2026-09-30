@@ -1,4 +1,4 @@
-(function(){var l=document.createElement("link");l.rel="stylesheet";l.href="./chat.css?v=25";document.head.appendChild(l);})();
+(function(){var l=document.createElement("link");l.rel="stylesheet";l.href="./chat.css?v=91";document.head.appendChild(l);})();
 window.renderChat=function(){
   if(typeof ensureChatPage==="function")ensureChatPage();
   var page=document.getElementById("p-chat");if(!page)return;

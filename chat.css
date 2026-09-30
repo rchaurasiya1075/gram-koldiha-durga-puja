@@ -1,10 +1,12 @@
 #p-chat.page.on{display:flex;flex-direction:column;overflow:hidden}
 #p-chat .chatpage{display:flex;flex-direction:column;flex:1;min-height:0}
 #p-chat .chatlist{flex:1;min-height:0;overflow:auto;padding:4px 2px 8px}
-#p-chat .bubble{max-width:86%;margin:8px 0;padding:10px 12px;border-radius:14px;background:#fff;border:1px solid #ead7b8}
-#p-chat .bubble.me{margin-left:auto;background:#6B1212;color:#f7e7c3;border-color:#6B1212}
-#p-chat .who{font-size:12px;font-weight:800;margin-bottom:4px;text-decoration:underline}
-#p-chat .seen{font-size:10px;opacity:.8;margin-top:4px}
+#p-chat .bubble{max-width:86%;margin:8px 0;padding:10px 12px;border-radius:16px;background:#FFF6E4;border:1px solid rgba(255,215,0,.45);color:#3A1608;font-size:15px;line-height:1.45;font-weight:600;-webkit-text-fill-color:#3A1608}
+#p-chat .bubble.me{margin-left:auto;background:linear-gradient(180deg,#9a3412,#6B1212);color:#FFF8E7;border-color:#FFD700;-webkit-text-fill-color:#FFF8E7}
+#p-chat .bubble .who{font-size:12px;font-weight:800;margin-bottom:4px;text-decoration:none;letter-spacing:.2px;color:#C45C26;-webkit-text-fill-color:#C45C26}
+#p-chat .bubble.me .who{color:#FFD700;-webkit-text-fill-color:#FFD700}
+#p-chat .bubble .seen{font-size:11px;opacity:1;margin-top:4px;color:#7A5A4A;-webkit-text-fill-color:#7A5A4A}
+#p-chat .bubble.me .seen{color:#F6D7A2;-webkit-text-fill-color:#F6D7A2}
 #p-chat .chatbar{
   display:flex !important;
   flex-direction:row !important;

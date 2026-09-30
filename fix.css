@@ -79,3 +79,17 @@ input,select,textarea{background:#3a0808!important;color:#FFF8E7!important;borde
 .gupload #galPreview{min-height:92px;display:flex;align-items:center;justify-content:center;color:#FFD700;font-weight:800}
 .gupload #galPreview img{width:100%;max-height:140px;object-fit:cover;display:block}
 .lbmeta,.lb .gactions{color:#FFF8E7!important}
+.soundbtn{width:34px;height:34px;padding:0!important;font-size:16px!important;flex:0 0 auto}
+.playgrid{display:grid;grid-template-columns:1fr;gap:8px}
+.playcard{width:100%;text-align:center;font-weight:800;color:#FFD700!important;font-family:inherit}
+.songlist{display:flex;flex-direction:column;gap:8px}
+.songbtn{border:1px solid rgba(255,215,0,.4);background:rgba(42,4,4,.55);color:#FFF8E7;border-radius:14px;padding:12px;font-weight:800;font-family:inherit}
+.songbtn.on{background:linear-gradient(90deg,#FF9933,#DC2626);color:#fff}
+.mem{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.mcard{height:72px;border-radius:14px;border:1px solid rgba(255,215,0,.4);background:rgba(42,4,4,.7);color:#FFD700;font-size:26px;font-family:inherit}
+.mcard.on{background:rgba(255,153,51,.2)}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}
+.tcell{height:72px;border-radius:14px;border:1px solid rgba(255,215,0,.4);background:rgba(42,4,4,.7);color:#FFD700;font-size:28px;font-family:inherit}
+.field{position:relative;height:280px;overflow:hidden;border-radius:16px;border:1px solid rgba(255,215,0,.28);background:rgba(0,0,0,.25)}
+.flower{position:absolute;top:0;border:0;background:transparent;font-size:30px;animation:petalFall 2.1s linear forwards;padding:0}
+@keyframes petalFall{to{transform:translateY(250px)}}

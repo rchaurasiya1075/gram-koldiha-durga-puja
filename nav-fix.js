@@ -35,6 +35,7 @@ var _page="home";
 var _histLock=false;
 function showPage(name,push){
   if(!name)name="home";
+  var from=_page;
   _page=name;
   if(name==="chat"&&typeof ensureChatPage==="function")ensureChatPage();
   if(name==="chat"&&!document.getElementById("p-chat")){
@@ -57,6 +58,9 @@ function showPage(name,push){
   if(name==="admin")renderAdmin();
   if(name==="aarti")renderAarti();
   if(name==="chat"&&typeof renderChat==="function")renderChat();
+  if(name==="play"&&from!=="play"&&typeof renderPlay==="function")renderPlay();
+  if(from==="play"&&name!=="play"&&typeof stopFunAudio==="function")stopFunAudio();
+  if(from!==name&&typeof sayJai==="function")sayJai();
   if(push!==false){_histLock=true;try{history.pushState({p:name},"","#/"+name);}catch(e){}_histLock=false;}
   var w=document.querySelector(".wrap");if(w)w.scrollTop=0;
 }

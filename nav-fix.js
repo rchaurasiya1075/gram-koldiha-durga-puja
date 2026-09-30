@@ -41,7 +41,11 @@ function showPage(name,push){
     var wrap=document.querySelector(".wrap");
     if(wrap){var s=document.createElement("section");s.className="page";s.id="p-chat";wrap.appendChild(s);}
   }
-  document.querySelectorAll(".page").forEach(function(p){p.classList.toggle("on",p.id==="p-"+name);});
+  document.querySelectorAll(".page").forEach(function(p){
+    var on=p.id==="p-"+name;
+    p.classList.toggle("on",on);
+    if(on){p.style.animation="none";void p.offsetWidth;p.style.animation="";}
+  });
   document.querySelectorAll(".nav button").forEach(function(b){b.classList.toggle("on",b.dataset.p===name);});
   if(name==="home")renderHome();
   if(name==="events")renderEvents();

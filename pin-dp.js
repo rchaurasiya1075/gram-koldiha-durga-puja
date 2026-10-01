@@ -1,20 +1,4 @@
-function forgotPinWA(){
-  var ph=(((document.getElementById("ph")||{}).value)||"").replace(/\D/g,"").slice(-10);
-  if(ph.length!==10)return toast("पहले अपना मोबाइल लिखें");
-  var typed=ph;
-  (async function(){
-    var m=null;
-    try{if(typeof getMember==="function")m=await getMember(typed);}catch(e){m=(db.members&&db.members[typed])||null;}
-    var nm=(m&&m.name)||((document.getElementById("nm")||{}).value)||"श्रद्धालु";
-    var msg="नमस्ते, मेरा नाम "+nm+" मोबाइल "+typed+" है। हमें अपना पिन नहीं याद है, कृपा करके हमें मेरा पिन बता दीजिये। मैसेज करने के 5 मिनट तक प्रतीक्षा करूँगा।";
-    var url="https://wa.me/919473746020?text="+encodeURIComponent(msg);
-    try{window.open(url,"_blank");}catch(e){location.href=url;}
-    if(m&&m.pin&&String(m.phone||typed)===typed&&window.fs){
-      try{await fs.collection("pinRequests").add({phone:typed,name:nm,pin:m.pin,t:Date.now(),status:"open"});}catch(e){}
-    }
-    toast("व्हाट्सएप खुल गया — Send दबाओ, 5 मिनट प्रतीक्षा");
-  })();
-}
+function forgotPinWA(){toast("PIN सिर्फ़ एडमिन रीसेट कर सकता है");}
 function showWho(){
   var bar=document.querySelector(".appbar");if(!bar||!user)return;
   var who=document.getElementById("whoChip");

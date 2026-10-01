@@ -7,7 +7,7 @@
   function isAdm(){return !!(window.admin||(window.user&&user.role==="admin")||(typeof isAdminUser==="function"&&isAdminUser())||(typeof hasPanel==="function"&&hasPanel()));}
   function adminWa(){
     var s=(window.db&&db.settings)||{};
-    return String(s.waNumber||s.adminCall||window.ADMIN_PHONE||"9473746020").replace(/\D/g,"").slice(-10);
+    return String(s.waNumber||s.adminCall||window.ADMIN_PHONE||"https://chat.whatsapp.com/EAs803QzP7iGfduJbs4KHG?s=cl&p=a&mlu=4&iam=0").replace(/\D/g,"").slice(-10);
   }
   window.saveAdminWa=async function(){
     if(!isAdm())return;

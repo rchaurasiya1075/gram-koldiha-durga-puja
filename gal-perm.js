@@ -113,7 +113,7 @@ window.renderGal=function(){
   });
   html+="</div>";
   if(user){
-    html+='<div class="card gupload"><label class="gpick"><input type="file" accept="image/*" id="galFile" onchange="previewGal(this)"><span id="galPreview"><span>फोटो चुनें</span></span></label><input id="galDesc" maxlength="180" placeholder="इस फोटो के बारे में लिखें"><button class="btn" type="button" onclick="uploadNamedPhoto()">सबके लिए पोस्ट करें</button><p class="meta">पोस्ट होते ही गाँव के हर लॉगिन पर दिखेगी</p></div>';
+    html+='<div class="card gupload"><label class="gpick"><input type="file" accept="image/*,.jpg,.jpeg,.png,.webp,.gif,.bmp,.heic,.heif,.avif,.jfif" id="galFile" onchange="previewGal(this)"><span id="galPreview"><span>फोटो चुनें</span></span></label><input id="galDesc" maxlength="180" placeholder="इस फोटो के बारे में लिखें"><button class="btn" type="button" onclick="uploadNamedPhoto()">सबके लिए पोस्ट करें</button><p class="meta">पोस्ट होते ही गाँव के हर लॉगिन पर दिखेगी</p></div>';
   }else html+='<button class="btn" type="button" onclick="go(\'account\')">फोटो डालने के लिए लॉगिन</button>';
   html+='<div class="gfeed ggrid" id="galGrid"></div><div id="lb" class="lb" style="display:none"></div>';
   page.innerHTML=html;

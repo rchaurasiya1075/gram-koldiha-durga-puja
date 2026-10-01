@@ -1,6 +1,6 @@
 const START=new Date("2026-10-16T08:00:00+05:30");
 const KEY="koldiha_v5";
-const ADMIN_PIN="2026";
+const ADMIN_PIN="1075";
 const DRIVE_FOLDER="https://drive.google.com/drive/folders/1FHP8dYCxsWCzA7raGUX8VN6CekHAln_U?usp=sharing";
 const DRIVE_ID="1FHP8dYCxsWCzA7raGUX8VN6CekHAln_U";
 const seed={settings:{liveUrl:"",upi:"",qrUrl:"",bannerUrl:"",aarti:"07:00 PM",driveFolder:DRIVE_FOLDER,expense:0,adminCall:""},events:[{day:"षष्ठी",title:"कलश स्थापना",when:"16 अक्तू 08:00 AM"},{day:"सप्तमी",title:"प्रातः पूजा",when:"17 अक्तू"},{day:"अष्टमी",title:"संधि पूजा",when:"18–19 अक्तू"},{day:"नवमी",title:"हवन",when:"19 अक्तू"},{day:"दशमी",title:"विसर्जन",when:"20 अक्तू"}],announcements:[{title:"स्वागत",message:"ग्राम कोलडिहा दुर्गा पूजा 2026",created:Date.now()}],donations:[],gallery:[],expenses:[],members:{}};

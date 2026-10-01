@@ -49,7 +49,7 @@
   window.unlockVoiceAdmin=function(){
     var inp=document.getElementById("vAdmPin");
     var pin=((inp&&inp.value)||"").trim();
-    if(pin===String(window.ADMIN_PIN||"9211420")||pin==="9211420"){
+    if(pin===String(window.ADMIN_PIN||"1075")||pin==="1075"){
       window._voiceModOk=true;window.admin=true;
       if(!window.user)window.user={phone:window.ADMIN_PHONE||"9473746020",name:"\u090f\u0921\u092e\u093f\u0928",role:"admin"};
       if(typeof toast==="function")toast("\u090f\u0921\u092e\u093f\u0928 \u0915\u0902\u091f\u094d\u0930\u094b\u0932 \u0916\u0941\u0932\u093e");

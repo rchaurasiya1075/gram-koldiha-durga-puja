@@ -36,14 +36,6 @@ const _raP=window.renderAcct;
 window.renderAcct=function(){
   if(typeof _raP==="function")_raP();
   var box=document.getElementById("acctBox");if(!box)return;
-  if(!user && window.acctMode==="login"){
-    if(!document.getElementById("forgotPin")){
-      var p=document.createElement("p");
-      p.id="forgotPin";
-      p.innerHTML='<a href="#" onclick="forgotPinWA();return false;" style="color:#6B1212;font-weight:800">PIN याद नहीं? यहाँ क्लिक करें</a><div class="meta">व्हाट्सएप पर मैसेज भेजें, 5 मिनट प्रतीक्षा करें। पिन स्क्रीन पर नहीं दिखेगा।</div>';
-      box.appendChild(p);
-    }
-  }
   if(user){
     if(!document.getElementById("dpBox")){
       var d=document.createElement("div");

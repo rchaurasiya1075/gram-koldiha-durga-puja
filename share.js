@@ -9,48 +9,77 @@ const _rh4=window.renderHome;
 window.renderHome=function(){if(typeof _rh4==="function")try{_rh4();}catch(e){}showAdminDock();};
 showAdminDock();
 /*PHOTO_UPLOAD*/
+function isHeicFile(file){
+  var t=(file.type||"").toLowerCase();
+  var n=(file.name||"").toLowerCase();
+  return t.indexOf("heic")>=0||t.indexOf("heif")>=0||/\.hei[cf]$/.test(n);
+}
+function loadHeicLib(){
+  if(window.heic2any)return Promise.resolve();
+  return new Promise(function(ok,rej){
+    var s=document.createElement("script");
+    s.src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js";
+    s.onload=function(){ok();};
+    s.onerror=function(){rej(new Error("heic"));};
+    document.head.appendChild(s);
+  });
+}
+function bitmapFromUrl(file){
+  return new Promise(function(ok,rej){
+    var url=URL.createObjectURL(file);
+    var img=new Image();
+    img.onload=function(){try{URL.revokeObjectURL(url);}catch(e){}ok(img);};
+    img.onerror=function(){try{URL.revokeObjectURL(url);}catch(e){}rej(new Error("img"));};
+    img.src=url;
+  });
+}
+async function photoSource(file){
+  var f=file;
+  if(isHeicFile(file)){
+    try{
+      await loadHeicLib();
+      var out=await window.heic2any({blob:file,toType:"image/jpeg",quality:0.9});
+      f=Array.isArray(out)?out[0]:out;
+    }catch(e){}
+  }
+  if(window.createImageBitmap){
+    try{return await createImageBitmap(f,{imageOrientation:"from-image"});}catch(e){}
+    try{return await createImageBitmap(f);}catch(e2){}
+  }
+  return bitmapFromUrl(f);
+}
+function jpegBlob(src,maxSide,q){
+  var w=src.width||src.naturalWidth||1,h=src.height||src.naturalHeight||1;
+  var sc=Math.min(1,maxSide/Math.max(w,h,1));
+  var c=document.createElement("canvas");
+  c.width=Math.max(1,Math.round(w*sc));
+  c.height=Math.max(1,Math.round(h*sc));
+  var g=c.getContext("2d");
+  g.fillStyle="#ffffff";
+  g.fillRect(0,0,c.width,c.height);
+  g.drawImage(src,0,0,c.width,c.height);
+  return new Promise(function(ok){
+    if(!c.toBlob)return ok(null);
+    c.toBlob(function(b){ok(b);},"image/jpeg",q);
+  });
+}
 function makePhotoBlob(file){
   return new Promise(function(res,rej){
     if(!file)return rej(new Error("no"));
-    var src=URL.createObjectURL(file);
-    var img=new Image();
-    var done=false;
-    function finish(err,blob){
-      if(done)return;done=true;
-      try{URL.revokeObjectURL(src);}catch(e){}
-      if(err)rej(err);else res(blob);
-    }
-    var timer=setTimeout(function(){finish(new Error("slow"));},20000);
-    img.onload=function(){
-      clearTimeout(timer);
-      var w=img.width||1,h=img.height||1,max=960;
-      if(w>max||h>max){var sc=max/Math.max(w,h);w=Math.round(w*sc);h=Math.round(h*sc);}
-      function shot(ww,q){
-        var c=document.createElement("canvas");
-        var hh=Math.max(1,Math.round(h*(ww/Math.max(w,1))));
-        c.width=Math.max(1,Math.round(ww));c.height=hh;
-        var g=c.getContext("2d");
-        g.fillStyle="#fff";g.fillRect(0,0,c.width,c.height);
-        g.drawImage(img,0,0,c.width,c.height);
-        return new Promise(function(ok){
-          if(!c.toBlob)return ok(null);
-          c.toBlob(function(b){ok(b);},"image/jpeg",q);
-        });
+    var timer=setTimeout(function(){rej(new Error("slow"));},25000);
+    photoSource(file).then(async function(src){
+      var steps=[[1600,0.86],[1280,0.8],[1024,0.74],[800,0.66],[640,0.58]];
+      var b=null,i=0;
+      while(i<steps.length){
+        b=await jpegBlob(src,steps[i][0],steps[i][1]);
+        if(b&&b.size>0&&b.size<=480000)break;
+        i++;
       }
-      (async function(){
-        var steps=[[Math.min(w,720),0.62],[540,0.5],[420,0.42],[320,0.36],[240,0.32]];
-        var b=null,i=0;
-        while(i<steps.length){
-          b=await shot(Math.min(steps[i][0],w),steps[i][1]);
-          if(b&&b.size>0&&b.size<=52000)break;
-          i++;
-        }
-        if(!b)return finish(new Error("blob"));
-        finish(null,b);
-      })().catch(function(e){finish(e||new Error("blob"));});
-    };
-    img.onerror=function(){clearTimeout(timer);finish(new Error("img"));};
-    img.src=src;
+      try{if(src.close)src.close();}catch(e){}
+      clearTimeout(timer);
+      if(!b||!b.size)return rej(new Error("blob"));
+      res(b);
+    }).catch(function(e){clearTimeout(timer);rej(e||new Error("img"));});
   });
 }
 function blobToDataUrl(blob){
@@ -81,7 +110,7 @@ window.uploadNamedPhoto=async function(){
   try{
     var blob=await makePhotoBlob(f);
     var url=await blobToDataUrl(blob);
-    if(!url||url.length>90000)return toast("फोटो बड़ी है, दूसरी चुनें");
+    if(!url||url.length>820000)return toast("फोटो बड़ी रह गई, थोड़ी छोटी फोटो चुनें");
     var cloudFs=window.fs||fs;
     if(!cloudFs)return toast("नेट लगाएँ, फिर पोस्ट करें");
     var row={name:uname()||user.phone,phone:String(uid()||""),url:url,desc:desc,created:Date.now(),kind:"image",seen:0};
@@ -97,7 +126,7 @@ window.uploadNamedPhoto=async function(){
     toast("पोस्ट हो गई — अब सबको दिखेगी");
     if(typeof renderGal==="function")renderGal();
   }catch(e){
-    toast("यह फोटो नहीं चढ़ी। गैलरी से JPG चुनकर फिर कोशिश करें");
+    toast("यह फोटो नहीं चढ़ी। JPG, PNG या गैलरी की कोई भी फोटो फिर चुनें");
   }
 };
 function bindGalleryLive(){

@@ -10,12 +10,27 @@ function showSlide(){
   var img=document.getElementById("slideImg");
   var cap=document.getElementById("slideCap");
   if(!img)return;
-  if(!pool.length){img.style.display="none";if(cap)cap.textContent="एडमिन: पंडाल की पूरी फोटो डालें";return;}
+  if(!pool.length){
+    img.style.display="none";
+    if(cap)cap.textContent="पंडाल";
+    return;
+  }
   if(_si>=pool.length)_si=0;
+  var item=pool[_si];
+  var url=mediaUrl(item.url);
   img.style.display="block";
-  img.style.objectFit="contain";
-  img.src=mediaUrl(pool[_si].url);
-  if(cap)cap.textContent=pool[_si].name||"कोल्डीहा पंडाल";
+  img.style.objectFit="cover";
+  img.style.transition="opacity .55s ease";
+  if(img.dataset.cur===url){_si++;return;}
+  img.dataset.cur=url;
+  if(img.getAttribute("src"))img.style.opacity="0";
+  window.setTimeout(function(){
+    img.onload=function(){img.style.opacity="1";};
+    img.onerror=function(){img.style.opacity="1";};
+    img.src=url;
+    if(img.complete)img.style.opacity="1";
+  },img.getAttribute("src")?220:0);
+  if(cap)cap.textContent=item.name||"कोल्डीहा पंडाल";
   _si++;
 }
 function showTicker(){
@@ -34,10 +49,12 @@ window.speakAnn=function(){
   speechSynthesis.speak(u);
 };
 function startHomeLoops(){
-  showSlide();showTicker();
-  if(_st)clearInterval(_st);if(_at)clearInterval(_at);
-  _st=setInterval(showSlide,4000);
-  _at=setInterval(showTicker,6000);
+  showTicker();
+  if(window._homeLoops)return;
+  window._homeLoops=1;
+  showSlide();
+  _st=setInterval(showSlide,5200);
+  _at=setInterval(showTicker,7000);
 }
 const _rh=window.renderHome;
 window.renderHome=function(){if(typeof _rh==="function")try{_rh();}catch(e){}startHomeLoops();};

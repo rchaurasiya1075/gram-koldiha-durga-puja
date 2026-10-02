@@ -45,7 +45,7 @@ function showPage(name,push){
   document.querySelectorAll(".page").forEach(function(p){
     var on=p.id==="p-"+name;
     p.classList.toggle("on",on);
-    if(on){p.style.animation="none";void p.offsetWidth;p.style.animation="";}
+    if(on&&from!==name){p.style.animation="none";void p.offsetWidth;p.style.animation="";}
   });
   document.querySelectorAll(".nav button").forEach(function(b){b.classList.toggle("on",b.dataset.p===name);});
   if(name==="home")renderHome();

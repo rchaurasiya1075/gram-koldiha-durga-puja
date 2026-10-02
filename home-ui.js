@@ -19,7 +19,7 @@ function showSlide(){
   var item=pool[_si];
   var url=mediaUrl(item.url);
   img.style.display="block";
-  img.style.objectFit="cover";
+  img.style.objectFit="contain";
   img.style.transition="opacity .55s ease";
   if(img.dataset.cur===url){_si++;return;}
   img.dataset.cur=url;

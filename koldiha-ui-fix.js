@@ -99,7 +99,7 @@
       var pad=m.pad||ROLE[m.role]||"सदस्य";
       var face=typeof faceHtml==="function"?faceHtml(m,true):"";
       var up=typeof photoBtn==="function"?photoBtn(m):"";
-      html+='<article class="card pad-full">'+face+'<div><b>'+(m.name||"")+'</b><p class="meta">'+pad+'</p>'+(m.work?("<p>"+m.work+"</p>"):"")+up+'</div></article>';
+      html+='<article class="card pad-full">'+face+'<div><b class="pad-name">'+(m.name||"नाम")+'</b><p class="meta pad-role">'+(pad||"पद")+'</p>'+(m.work?("<p>"+m.work+"</p>"):"")+up+'</div></article>';
     });
     page.innerHTML=html;
   };

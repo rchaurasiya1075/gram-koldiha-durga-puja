@@ -83,9 +83,18 @@
   function sevakList(){
     var d=window.db||{};d.sevakLog=d.sevakLog||[];
     var map={};
-    (d.workers||[]).forEach(function(w){var k=w.phone||w.name;map[k]={name:w.name||"\u0938\u0947\u0935\u0915",phone:w.phone||"",points:Number(w.points||0),pad:w.pad||""};});
-    d.sevakLog.forEach(function(x){var k=x.phone||x.name;if(!map[k])map[k]={name:x.name||"\u0938\u0947\u0935\u0915",phone:x.phone||"",points:0,pad:""};map[k].points+=Number(x.points||0);});
-    return Object.keys(map).map(function(k){return map[k];}).sort(function(a,b){return b.points-a.points;});
+    Object.keys(d.members||{}).forEach(function(ph){
+      var m=d.members[ph];if(!m)return;
+      var k=m.phone||ph;
+      map[k]={name:m.name||"सेवक",phone:m.phone||ph,points:0,pad:"सेवक"};
+    });
+    d.sevakLog.forEach(function(x){
+      var k=x.phone||x.name;
+      if(!map[k])map[k]={name:x.name||"सेवक",phone:x.phone||"",points:0,pad:"सेवक"};
+      map[k].points+=Number(x.points||0);
+      if(x.name)map[k].name=x.name;
+    });
+    return Object.keys(map).map(function(k){return map[k];}).sort(function(a,b){return String(a.name||"").localeCompare(String(b.name||""),"hi");});
   }
   window.addSevakPoint=function(){
     if(!window.user)return typeof go==="function"&&go("account");
@@ -100,7 +109,7 @@
     var page=ensurePage("p-sevak");if(!page)return;
     var list=sevakList();
     var html='<h2>\ud83c\udfc5 \u0938\u0947\u0935\u0915</h2><div class="card"><select id="svWork"><option value="pani">\u092a\u093e\u0928\u0940 (+5)</option><option value="bhojan">\u092d\u094b\u091c\u0928 (+8)</option><option value="safai">\u0938\u092b\u093e\u0908 (+8)</option><option value="gate">\u0917\u0947\u091f (+6)</option><option value="light">\u0932\u093e\u0907\u091f (+7)</option><option value="seva">\u0938\u0947\u0935\u093e (+5)</option></select><button class="btn" type="button" onclick="addSevakPoint()">\u0915\u093e\u092e \u091c\u094b\u0921\u093c\u094b</button></div>';
-    list.forEach(function(s,i){var b=i===0?"\ud83e\udd47":i===1?"\ud83e\udd48":i===2?"\ud83e\udd49":String(i+1);html+='<div class="card"><b>'+b+" "+s.name+'</b><div class="meta">'+(s.points||0)+' \u0905\u0902\u0915</div></div>';});
+    list.forEach(function(s,i){html+='<div class="card"><b class="pad-name">'+(s.name||"सेवक")+'</b><div class="meta pad-role">सेवक</div></div>';});
     page.innerHTML=html;
   };
   var _rh=window.renderHome;

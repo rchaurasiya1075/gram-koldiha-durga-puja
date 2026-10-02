@@ -12,7 +12,8 @@ function refreshOpen(){
     if(id==="p-events"&&typeof renderEvents==="function")renderEvents();
     if(id==="p-gallery"&&typeof renderGal==="function")renderGal();
     if(id==="p-aarti"&&typeof renderAarti==="function")renderAarti();
-    if(id==="p-admin"&&typeof renderAdmin==="function")renderAdmin();
+    if(id==="p-team"&&typeof renderTeam==="function")renderTeam();
+    if(id==="p-sevak"&&typeof renderSevak==="function")renderSevak();
   }catch(e){}
 }
 function bindLiveSync(){

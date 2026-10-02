@@ -94,3 +94,20 @@ input,select,textarea{background:#3a0808!important;color:#FFF8E7!important;borde
 .field{position:relative;height:280px;overflow:hidden;border-radius:16px;border:1px solid rgba(255,215,0,.28);background:rgba(0,0,0,.25)}
 .flower{position:absolute;top:0;border:0;background:transparent;font-size:30px;animation:petalFall 2.1s linear forwards;padding:0}
 @keyframes petalFall{to{transform:translateY(250px)}}
+.workSlide{display:none!important}
+.pad-notice{margin:8px 0 10px;padding:12px 10px 10px;border-radius:18px;background:linear-gradient(180deg,#5a1010,#2a0404);border:1px solid #e8c56b;box-shadow:0 10px 28px rgba(0,0,0,.35)}
+.pad-kicker{text-align:center;letter-spacing:.22em;font-size:11px;font-weight:800;color:#ffb347}
+.pad-notice h2{margin:2px 0 0;text-align:center;color:#ffe08a;font-family:"Rozha One",serif;font-size:28px}
+.pad-sub{margin:2px 0 8px;text-align:center;color:#f3d7a1;font-size:11px}
+.pad-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.pad-card{border:0;background:rgba(255,248,231,.08);color:#fff8e7;border-radius:14px;padding:8px 4px 6px;text-align:center;font-family:inherit}
+.pad-face{width:62px;height:62px;border-radius:50%;object-fit:cover;border:2px solid #ffd76a;display:block;margin:0 auto 4px;box-shadow:0 0 12px rgba(255,183,71,.45)}
+.pad-face.big{width:74px;height:74px}
+.pad-ph{display:flex;align-items:center;justify-content:center;background:#6b1212;color:#ffe08a;font-weight:800;font-size:22px}
+.pad-card b{display:block;font-size:12px;line-height:1.2}
+.pad-card span{display:block;margin-top:2px;font-size:10px;color:#ffd76a;line-height:1.2}
+.pad-full{display:flex;gap:10px;align-items:flex-start}
+.pad-up{display:inline-block;margin-top:6px;background:#ffd76a;color:#3a1608;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:800}
+.pad-up input{display:none}
+.home-grid{grid-template-columns:1fr 1fr 1fr!important}
+.home-grid .tile{min-height:58px!important;font-size:12px;padding:8px 4px}

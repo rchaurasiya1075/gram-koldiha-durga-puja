@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="./gal.css?v=87"/>
 <link rel="stylesheet" href="./theme.css?v=87"/>
 <link rel="stylesheet" href="./work.css?v=87"/>
-<link rel="stylesheet" href="./fix.css?v=94"/>
+<link rel="stylesheet" href="./fix.css?v=100"/>
 </head>
 <body>
 <div class="stage"><div class="phone">
@@ -30,14 +30,11 @@
   </div>
   <div class="slider" id="pandalSlide"><img id="slideImg" alt="पंडाल"/><div class="slideCap" id="slideCap">पंडाल</div></div>
   <div class="ticker"><span id="annText">जय माँ दुर्गा</span><button class="speak" onclick="speakAnn()">🔊</button></div>
+  <div id="padNotice"></div>
   <div class="workSlide" id="workSlide"></div>
   <div class="count"><div><b id="cdD">–</b><span>दिन</span></div><div><b id="cdH">–</b><span>घंटे</span></div><div><b id="cdM">–</b><span>मिनट</span></div></div>
   <div class="home-grid">
-    <button class="tile" onclick="go('events')"><span>📅</span>कार्यक्रम</button>
     <button class="tile" onclick="go('live')"><span>📺</span>Live</button>
-    <button class="tile" onclick="go('chat')"><span>💬</span>चैट</button>
-    <button class="tile" onclick="go('donate')"><span>💰</span>सहयोग</button>
-    <button class="tile" onclick="go('gallery')"><span>📸</span>गैलरी</button>
     <button class="tile" onclick="go('news')"><span>📢</span>सूचना</button>
     <button class="tile" onclick="go('aarti')"><span>🪔</span>आरती</button>
     <button class="tile" onclick="go('map')"><span>📍</span>पंडाल</button>
@@ -144,7 +141,7 @@
 </nav>
 <div class="toast" id="toast"></div>
 </div></div>
-<script src="./firebase-config.js?v=99"></script>
+<script src="./firebase-config.js?v=100"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>

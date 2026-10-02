@@ -96,9 +96,10 @@
     var html='<h2>\ud83e\udd1d \u0938\u092e\u093f\u0924\u093f / \u0915\u093e\u0930\u094d\u092f\u0915\u0930\u094d\u0924\u093e</h2>';
     if(!list.length)html+='<div class="card">\u090f\u0921\u092e\u093f\u0928 \u0938\u0926\u0938\u094d\u092f \u091c\u094b\u0921\u093c\u0947\u0902</div>';
     list.forEach(function(m){
-      var pad=m.pad||ROLE[m.role]||"\u0938\u0926\u0938\u094d\u092f";
-      var role=ROLE[m.role]||m.role||"";
-      html+='<div class="card"><b>'+(m.name||"")+'</b><p class="meta">\u092a\u0926: '+pad+(role?(" \u00b7 \u092d\u0942\u092e\u093f\u0915\u093e: "+role):"")+'</p>'+(m.work?("<p>"+m.work+"</p>"):"")+'<p class="meta">'+(m.phone||"")+'</p></div>';
+      var pad=m.pad||ROLE[m.role]||"सदस्य";
+      var face=typeof faceHtml==="function"?faceHtml(m,true):"";
+      var up=typeof photoBtn==="function"?photoBtn(m):"";
+      html+='<article class="card pad-full">'+face+'<div><b>'+(m.name||"")+'</b><p class="meta">'+pad+'</p>'+(m.work?("<p>"+m.work+"</p>"):"")+up+'</div></article>';
     });
     page.innerHTML=html;
   };

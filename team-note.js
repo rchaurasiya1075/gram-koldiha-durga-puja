@@ -18,16 +18,7 @@ function teamList(){
   if(a.length)return a;
   return Object.values(db.members||{}).filter(function(m){return m&&(m.pad||m.role==="admin"||m.role==="volunteer"||m.role==="treasurer"||m.role==="editor");});
 }
-function teamSlideBox(){
-  var home=document.getElementById("p-home");if(!home)return;
-  var box=document.getElementById("teamSlide");
-  if(!box){box=document.createElement("div");box.id="teamSlide";box.className="workSlide";var sl=document.getElementById("pandalSlide");if(sl&&sl.nextSibling)home.insertBefore(box,sl.nextSibling);else home.appendChild(box);}
-  var list=teamList();
-  if(!list.length){box.innerHTML="";return;}
-  var i=Number(box.dataset.i||0)%list.length;var m=list[i];box.dataset.i=i+1;
-  var photo=m.dp||m.photo||m.url||"";
-  box.innerHTML='<div class="card" style="display:flex;gap:10px;align-items:center" onclick="go(\'team\')">'+(photo?'<img src="'+photo+'" style="width:54px;height:54px;border-radius:50%;object-fit:cover">':'<div style="width:54px;height:54px;border-radius:50%;background:#6B1212;color:#F7E7C3;display:flex;align-items:center;justify-content:center;font-weight:800">'+String(m.name||"?").charAt(0)+'</div>')+'<div><b>'+(m.name||"")+'</b><div class="meta">'+(m.pad||m.role||"कार्यकर्ता")+'</div></div></div>';
-}
+function teamSlideBox(){if(typeof renderPadNotice==="function")renderPadNotice();}
 if(!window._teamTimer)window._teamTimer=setInterval(teamSlideBox,3500);
 function ensureTeam(){
   if(document.getElementById("p-team"))return;
@@ -41,7 +32,7 @@ window.renderTeam=function(){
   var list=teamList();
   if(!list.length)html+='<div class="card">एडमिन नाम, पद, काम जोड़ें</div>';
   list.forEach(function(m){
-    html+='<div class="card"><b>'+(m.name||"")+'</b><p class="meta">पद: '+(m.pad||m.role||"-")+'</p><p>'+(m.work||m.duty||m.resp||"")+'</p><p class="meta">'+(m.phone||"")+'</p></div>';
+    html+='<article class="card pad-full">'+faceHtml(m,true)+'<div><b>'+escPad(m.name||"")+'</b><p class="meta">'+escPad(m.pad||m.role||"-")+'</p><p>'+escPad(m.work||m.duty||m.resp||"")+'</p>'+photoBtn(m)+'</div></article>';
   });
   page.innerHTML=html;
 };
@@ -55,22 +46,22 @@ window.saveWorker=async function(){
 const _goN=window.go;
 window.go=function(n){if(typeof _goN==="function")_goN(n);if(n==="news")setTimeout(renderNews,20);if(n==="team")setTimeout(renderTeam,20);if(n==="home")setTimeout(teamSlideBox,30);};
 const _rhN=window.renderHome;
-window.renderHome=function(){if(typeof _rhN==="function")try{_rhN();}catch(e){}teamSlideBox();var g=document.querySelector(".home-grid");if(g&&!document.getElementById("tileTeam")){var t=document.createElement("button");t.className="tile";t.id="tileTeam";t.onclick=function(){go("team");};t.innerHTML="<span>🤝</span>समिति";g.appendChild(t);}};
+window.renderHome=function(){if(typeof _rhN==="function")try{_rhN();}catch(e){}if(typeof renderPadNotice==="function")renderPadNotice();};
 setTimeout(teamSlideBox,900);
 var PAD_SEED=[
-  {name:"महेंद्र सिंह",pad:"अध्यक्ष",work:"पूरे कार्यक्रम की अगुवाई, निर्णय और सभी को साथ लेकर चलना।",level:1},
-  {name:"अंशु चौरसिया",pad:"कोषाध्यक्ष",work:"खर्च, चंदे और वित्तीय लेन-देन का हिसाब रखना।",level:2},
-  {name:"सुनील मौर्य",pad:"उपाध्यक्ष",work:"अध्यक्ष की सहायता और व्यवस्थाओं पर नज़र रखना।",level:3},
-  {name:"जितेंद्र चौरसिया",pad:"उपाध्यक्ष",work:"पदाधिकारियों व ग्रामीणों से समन्वय बनाकर तैयारियाँ गति देना।",level:4},
-  {name:"नीरज चौरसिया",pad:"उपाध्यक्ष",work:"कार्यक्रम स्थल और व्यवस्थाओं का निरीक्षण व सहयोग।",level:5},
-  {name:"पवन पाल",pad:"उपाध्यक्ष",work:"भीड़ प्रबंधन और व्यवस्था की जिम्मेदारी।",level:6},
-  {name:"नंदन चौरसिया",pad:"पदाधिकारी",work:"लोगों को एकत्र करना और तैयारियों में सक्रिय भूमिका।",level:7},
-  {name:"सोनू राम",pad:"पदाधिकारी",work:"प्रचार-प्रसार और स्थानीय स्तर पर सूचना पहुँचाना।",level:8},
-  {name:"राम ललित",pad:"पदाधिकारी",work:"कार्यक्रम स्थल की बुनियादी तैयारियाँ पूरा कराना।",level:9},
-  {name:"पीयूष चौरसिया",pad:"पदाधिकारी",work:"युवाओं और सहयोगियों को एकजुट कर जिम्मेदारियाँ बाँटना।",level:10},
-  {name:"धीरज चौरसिया",pad:"पदाधिकारी",work:"कार्यक्रम के दौरान व्यवस्था और अनुशासन बनाए रखना।",level:11},
-  {name:"अनिल सिंह",pad:"पदाधिकारी",work:"यात्रा व प्रस्थान की व्यवस्था संभालना।",level:12},
-  {name:"महेश भारती",pad:"विशेष सहयोगी",work:"संगठन व ग्रामीणों के साथ रहकर कार्यक्रम को सफल बनाना।",level:13}
+  {name:"महेंद्र सिंह",pad:"अध्यक्ष (President)",work:"नेतृत्व एवं निर्णय: पूरे कार्यक्रम की अगुवाई करना, मुख्य निर्णय लेना और सभी को सही दिशा देना।",level:1},
+  {name:"अंशु चौरसिया",pad:"कोषाध्यक्ष (Treasurer)",work:"वित्त एवं बजट: कार्यक्रम के खर्चों और पैसों के लेन-देन का हिसाब-किताब संभालना।",level:2},
+  {name:"सुनील मौर्य",pad:"उपाध्यक्ष (Vice President)",work:"सहयोग एवं प्रबंधन: अध्यक्ष के साथ मिलकर व्यवस्थाएँ संभालना और निगरानी करना।",level:3},
+  {name:"जितेंद्र चौरसिया",pad:"उपाध्यक्ष (Vice President)",work:"सहयोग एवं प्रबंधन: सदस्यों से संपर्क बनाना और तैयारियों को आगे बढ़ाना।",level:4},
+  {name:"नीरज चौरसिया",pad:"उपाध्यक्ष (Vice President)",work:"सहयोग एवं प्रबंधन: कार्यक्रम स्थल की तैयारियों और व्यवस्थाओं का ध्यान रखना।",level:5},
+  {name:"पवन पाल",pad:"उपाध्यक्ष (Vice President)",work:"सहयोग एवं प्रबंधन: अनुशासन और भीड़ प्रबंधन की देखरेख करना।",level:6},
+  {name:"नंदन चौरसिया",pad:"पदाधिकारी (Executive Member)",work:"कार्यान्वयन: ग्रामीणों को एकत्र करना और व्यवस्था में सहयोग देना।",level:7},
+  {name:"सोनू राम",pad:"पदाधिकारी (Executive Member)",work:"कार्यान्वयन: सूचना का प्रसार करना और लोगों को आमंत्रित करना।",level:8},
+  {name:"राम ललित",pad:"पदाधिकारी (Executive Member)",work:"कार्यान्वयन: कार्यक्रम स्थल की बुनियादी तैयारियों को पूरा कराना।",level:9},
+  {name:"पीयूष चौरसिया",pad:"पदाधिकारी (Executive Member)",work:"कार्यान्वयन: युवाओं को एकजुट करना और सौंपी गई जिम्मेदारियों को निभाना।",level:10},
+  {name:"धीरज चौरसिया",pad:"पदाधिकारी (Executive Member)",work:"कार्यान्वयन: कार्यक्रम के दौरान व्यवस्था बनाए रखना।",level:11},
+  {name:"अनिल सिंह",pad:"पदाधिकारी (Executive Member)",work:"कार्यान्वयन: यात्रा और प्रस्थान की तैयारियों में सहयोग देना।",level:12},
+  {name:"महेश भारती",pad:"विशेष सहयोगी (Special Invitee)",work:"सक्रिय सहभागिता: टीम के साथ मिलकर कार्यक्रम में उपस्थित रहना और सहयोग देना।",level:13}
 ];
 function padAdmin(){
   return (typeof isAdminUser==="function"&&isAdminUser())||!!(window.user&&(user.role==="admin"||user.phone===window.ADMIN_PHONE));
@@ -81,6 +72,96 @@ function escPad(s){
   var gt=String.fromCharCode(38)+"gt;";
   var qu=String.fromCharCode(38)+"quot;";
   return String(s||"").replace(/&/g,amp).replace(/</g,lt).replace(/>/g,gt).replace(/"/g,qu);
+}
+function padKey(w){return String((w&&(w.id||w.name))||"");}
+function findPad(key){
+  return (db.workers||[]).filter(function(x){return padKey(x)===String(key);})[0]||null;
+}
+function canPhoto(w){
+  if(padAdmin())return true;
+  var u=window.user||null;
+  if(!u||!w)return false;
+  return String(u.name||"").trim()&&String(u.name||"").trim()===String(w.name||"").trim();
+}
+function faceHtml(w,big){
+  var photo=w.photo||w.dp||w.url||"";
+  var cls=big?"pad-face big":"pad-face";
+  if(photo)return '<img class="'+cls+'" alt="" src="'+escPad(photo)+'">';
+  return '<div class="'+cls+' pad-ph">'+escPad(String(w.name||"?").charAt(0))+'</div>';
+}
+function photoBtn(w){
+  if(!canPhoto(w))return "";
+  var id=escPad(padKey(w));
+  return '<label class="pad-up">फोटो बदलें<input type="file" accept="image/*,.jpg,.jpeg,.png,.webp,.heic" onchange="setPadPhoto(\''+id+'\',this)"></label>';
+}
+window.renderPadNotice=function(){
+  var box=document.getElementById("padNotice");if(!box)return;
+  var list=teamList();
+  var html='<div class="pad-notice"><div class="pad-kicker">सूचना</div><h2>पूजा समिति</h2><p class="pad-sub">नाम और फोटो — पूरा काम समिति पेज पर</p><div class="pad-grid">';
+  if(!list.length)html+='<p class="pad-sub">सूची लोड हो रही है</p>';
+  list.forEach(function(w){
+    html+='<button type="button" class="pad-card" onclick="go(\'team\')">'+faceHtml(w,false)+'<b>'+escPad(w.name)+'</b><span>'+escPad(w.pad||w.role||"")+'</span></button>';
+  });
+  html+='</div></div>';
+  box.innerHTML=html;
+};
+function avatarData(file){
+  return new Promise(function(ok,rej){
+    var url=URL.createObjectURL(file);
+    var img=new Image();
+    img.onload=function(){
+      var w=img.width||1,h=img.height||1,max=280,sc=Math.min(1,max/Math.max(w,h));
+      var c=document.createElement("canvas");
+      c.width=Math.max(1,Math.round(w*sc));c.height=Math.max(1,Math.round(h*sc));
+      var g=c.getContext("2d");g.fillStyle="#fff";g.fillRect(0,0,c.width,c.height);g.drawImage(img,0,0,c.width,c.height);
+      try{URL.revokeObjectURL(url);}catch(e){}
+      ok(c.toDataURL("image/jpeg",0.62));
+    };
+    img.onerror=function(){try{URL.revokeObjectURL(url);}catch(e){}rej(new Error("img"));};
+    img.src=url;
+  });
+}
+window.setPadPhoto=async function(key,input){
+  var f=input&&input.files&&input.files[0];
+  try{if(input)input.blur();}catch(e){}
+  var w=findPad(key);
+  if(!f||!w)return;
+  if(!canPhoto(w))return toast("सिर्फ़ अपनी फोटो, या एडमिन");
+  toast("फोटो लग रही है...");
+  try{
+    var url=await avatarData(f);
+    if(!url||url.length>180000)return toast("फोटो बड़ी है, दूसरी चुनें");
+    w.photo=url;
+    if(typeof saveLocal==="function")saveLocal();
+    if(window.fs&&w.id){try{await fs.collection("workers").doc(w.id).set({photo:url},{merge:true});}catch(e){}}
+    toast("फोटो लग गई");
+    renderPadNotice();
+    if(typeof renderTeam==="function")renderTeam();
+    renderPadEditor();
+  }catch(e){toast("यह फोटो नहीं लगी");}
+};
+async function syncPadCopy(){
+  if(localStorage.getItem("koldiha_pad_copy")==="2")return;
+  if(!window.fs||window._padCopyBusy)return;
+  window._padCopyBusy=1;
+  try{
+    var qs=await fs.collection("workers").get();
+    var map={};
+    qs.forEach(function(d){var n=((d.data()||{}).name||"").trim();if(n)map[n]={id:d.id,data:d.data()||{}};});
+    for(var i=0;i<PAD_SEED.length;i++){
+      var s=PAD_SEED[i],hit=map[s.name];
+      if(hit){
+        await fs.collection("workers").doc(hit.id).set({pad:s.pad,work:s.work,level:s.level},{merge:true});
+      }else{
+        await fs.collection("workers").add({name:s.name,phone:"",pad:s.pad,work:s.work,level:s.level,photo:"",created:Date.now()});
+      }
+    }
+    localStorage.setItem("koldiha_pad_copy","2");
+  }catch(e){window._padCopyBusy=0;return;}
+  window._padCopyBusy=0;
+  if(typeof renderTeam==="function")renderTeam();
+  renderPadNotice();
+  renderPadEditor();
 }
 async function seedPads(){
   if(window._padSeedBusy)return;
@@ -120,7 +201,7 @@ window.renderPadEditor=function(){
   if(!list.length)html+="<p class=\"meta\">अभी कोई पद नहीं</p>";
   list.forEach(function(w){
     var id=escPad(w.id||w.name);
-    html+='<div class="card" style="margin:8px 0;padding:8px"><input id="en_'+id+'" value="'+escPad(w.name)+'" placeholder="नाम"/><input id="ep_'+id+'" value="'+escPad(w.pad)+'" placeholder="पद"/><textarea id="ew_'+id+'">'+escPad(w.work)+'</textarea><input id="el_'+id+'" type="number" min="1" value="'+(Number(w.level)||1)+'" placeholder="क्रम"/><button class="btn" type="button" onclick="savePadRow(\''+id+'\')">सेव</button> <button class="btn ghost" type="button" onclick="delPadRow(\''+id+'\')">हटाओ</button></div>';
+    html+='<div class="card" style="margin:8px 0;padding:8px">'+faceHtml(w,true)+photoBtn(w)+'<input id="en_'+id+'" value="'+escPad(w.name)+'" placeholder="नाम"/><input id="ep_'+id+'" value="'+escPad(w.pad)+'" placeholder="पद"/><textarea id="ew_'+id+'">'+escPad(w.work)+'</textarea><input id="el_'+id+'" type="number" min="1" value="'+(Number(w.level)||1)+'" placeholder="क्रम"/><button class="btn" type="button" onclick="savePadRow(\''+id+'\')">सेव</button> <button class="btn ghost" type="button" onclick="delPadRow(\''+id+'\')">हटाओ</button></div>';
   });
   box.innerHTML=html;
 };
@@ -153,4 +234,5 @@ window.delPadRow=async function(id){
 var _raPad=window.renderAdmin;
 window.renderAdmin=function(){if(typeof _raPad==="function")try{_raPad();}catch(e){}renderPadEditor();};
 setTimeout(seedPads,1200);
-setTimeout(seedPads,2800);
+setTimeout(syncPadCopy,1600);
+setTimeout(syncPadCopy,4200);

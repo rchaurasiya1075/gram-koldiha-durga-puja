@@ -105,16 +105,9 @@
   };
   var _sw=window.showWorker;
   window.showWorker=function(){
+    if(typeof paintPadSlide==="function")return paintPadSlide(true);
     var el=document.getElementById("workSlide");
     if(!el){if(typeof _sw==="function")return _sw();return;}
-    var list=samitiList();
-    if(!list.length){el.innerHTML="<p class='meta'>\u090f\u0921\u092e\u093f\u0928 \u0938\u0926\u0938\u094d\u092f \u091c\u094b\u0921\u093c\u0947\u0902</p>";return;}
-    window._sami=window._sami||0;
-    if(window._sami>=list.length)window._sami=0;
-    var w=list[window._sami++];
-    var pad=w.pad||ROLE[w.role]||"\u0938\u0926\u0938\u094d\u092f";
-    var role=ROLE[w.role]||"";
-    el.innerHTML='<div class="wcard"><div class="wrank">'+(w.level||"#")+'</div><div class="wbody"><b>'+(w.name||"")+'</b><div class="meta">\u092a\u0926: '+pad+(role?(" \u00b7 "+role):"")+(w.work?(" \u2022 "+w.work):"")+'</div></div></div>';
   };
   var _cs=window.createStaff;
   window.createStaff=async function(){

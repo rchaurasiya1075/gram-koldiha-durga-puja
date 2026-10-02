@@ -18,8 +18,7 @@ function teamList(){
   if(a.length)return a;
   return Object.values(db.members||{}).filter(function(m){return m&&(m.pad||m.role==="admin"||m.role==="volunteer"||m.role==="treasurer"||m.role==="editor");});
 }
-function teamSlideBox(){if(typeof renderPadNotice==="function")renderPadNotice();}
-if(!window._teamTimer)window._teamTimer=setInterval(teamSlideBox,3500);
+function teamSlideBox(){if(typeof paintPadSlide==="function")paintPadSlide(false);}
 function ensureTeam(){
   if(document.getElementById("p-team"))return;
   var wrap=document.querySelector(".wrap");if(!wrap)return;
@@ -95,15 +94,18 @@ function photoBtn(w){
   return '<label class="pad-up">फोटो बदलें<input type="file" accept="image/*,.jpg,.jpeg,.png,.webp,.heic" onchange="setPadPhoto(\''+id+'\',this)"></label>';
 }
 window.renderPadNotice=function(){
-  var box=document.getElementById("padNotice");if(!box)return;
+  var box=document.getElementById("padNotice");if(box)box.innerHTML="";
+};
+window.paintPadSlide=function(step){
+  var el=document.getElementById("workSlide");if(!el)return;
   var list=teamList();
-  var html='<div class="pad-notice"><div class="pad-kicker">सूचना</div><h2>पूजा समिति</h2><p class="pad-sub">नाम और फोटो — पूरा काम समिति पेज पर</p><div class="pad-grid">';
-  if(!list.length)html+='<p class="pad-sub">सूची लोड हो रही है</p>';
-  list.forEach(function(w){
-    html+='<button type="button" class="pad-card" onclick="go(\'team\')">'+faceHtml(w,false)+'<b>'+escPad(w.name)+'</b><span>'+escPad(w.pad||w.role||"")+'</span></button>';
-  });
-  html+='</div></div>';
-  box.innerHTML=html;
+  if(!list.length){el.innerHTML="";return;}
+  if(step!==false)window._padI=(Number(window._padI)||0)+1;
+  var i=Number(window._padI)||0;
+  if(i>=list.length)i=0;
+  window._padI=i;
+  var w=list[i];
+  el.innerHTML='<button type="button" class="pad-slide" onclick="go(\'team\')">'+faceHtml(w,false)+'<div><b>'+escPad(w.name||"")+'</b><span>'+escPad(w.pad||w.role||"कार्यकर्ता")+'</span></div></button>';
 };
 function avatarData(file){
   return new Promise(function(ok,rej){

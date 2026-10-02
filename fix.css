@@ -94,7 +94,13 @@ input,select,textarea{background:#3a0808!important;color:#FFF8E7!important;borde
 .field{position:relative;height:280px;overflow:hidden;border-radius:16px;border:1px solid rgba(255,215,0,.28);background:rgba(0,0,0,.25)}
 .flower{position:absolute;top:0;border:0;background:transparent;font-size:30px;animation:petalFall 2.1s linear forwards;padding:0}
 @keyframes petalFall{to{transform:translateY(250px)}}
-.workSlide{display:none!important}
+.workSlide{display:block!important;margin:8px 0}
+#padNotice:empty{display:none}
+.pad-slide{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:8px 12px;border-radius:16px;border:1px solid rgba(255,215,0,.45);background:rgba(42,4,4,.82);color:#fff8e7;font-family:inherit;animation:padIn .4s ease}
+.pad-slide .pad-face,.pad-slide .pad-ph{width:54px;height:54px;margin:0;flex:0 0 auto}
+.pad-slide b{display:block;font-size:16px;color:#fff8e7}
+.pad-slide span{display:block;margin-top:2px;font-size:12px;color:#ffd76a}
+@keyframes padIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
 .pad-notice{margin:8px 0 10px;padding:12px 10px 10px;border-radius:18px;background:linear-gradient(180deg,#5a1010,#2a0404);border:1px solid #e8c56b;box-shadow:0 10px 28px rgba(0,0,0,.35)}
 .pad-kicker{text-align:center;letter-spacing:.22em;font-size:11px;font-weight:800;color:#ffb347}
 .pad-notice h2{margin:2px 0 0;text-align:center;color:#ffe08a;font-family:"Rozha One",serif;font-size:28px}

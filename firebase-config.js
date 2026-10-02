@@ -14,6 +14,6 @@ window.FIREBASE_READY = function () {
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("./sw.js?v=86").catch(function () {});
 }
-["kill-jitsi.js?v=86","addr-ui.js?v=86","live-sync.js?v=99","install-pwa.js?v=93","team-note.js?v=100","pull-refresh.js?v=86","gaon-plus.js?v=86","rtdb-init.js?v=86","koldiha-ui-fix.js?v=100","live-stream.js?v=86","donate-receipt.js?v=86"].forEach(function(src){
+["kill-jitsi.js?v=86","addr-ui.js?v=86","live-sync.js?v=99","install-pwa.js?v=93","team-note.js?v=103","pull-refresh.js?v=86","gaon-plus.js?v=86","rtdb-init.js?v=86","koldiha-ui-fix.js?v=103","live-stream.js?v=86","donate-receipt.js?v=86"].forEach(function(src){
   var s=document.createElement("script");s.src="./"+src;document.head.appendChild(s);
 });

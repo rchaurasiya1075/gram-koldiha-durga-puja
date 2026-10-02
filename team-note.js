@@ -14,7 +14,13 @@ setTimeout(function(){
   try{fs.collection("alerts").onSnapshot(function(qs){window._alerts=qs.docs.map(function(d){return d.data();});if(document.querySelector("#p-news.on"))renderNews();});}catch(e){}
 },1200);
 function teamList(){
-  var a=(db.workers||[]).slice().sort(function(x,y){return (Number(x.level)||99)-(Number(y.level)||99);});
+  var a=(db.workers||[]).slice();
+  var have={};
+  a.forEach(function(w){if(w&&w.name)have[String(w.name).trim()]=1;});
+  (window.PAD_SEED||[]).forEach(function(s){
+    if(!have[s.name])a.push({name:s.name,pad:s.pad,work:s.work,level:s.level});
+  });
+  a.sort(function(x,y){return (Number(x.level)||99)-(Number(y.level)||99);});
   if(a.length)return a;
   return Object.values(db.members||{}).filter(function(m){return m&&(m.pad||m.role==="admin"||m.role==="volunteer"||m.role==="treasurer"||m.role==="editor");});
 }
@@ -105,7 +111,10 @@ window.paintPadSlide=function(step){
   if(i>=list.length)i=0;
   window._padI=i;
   var w=list[i];
-  el.innerHTML='<button type="button" class="pad-slide" onclick="go(\'team\')">'+faceHtml(w,false)+'<div><b>'+escPad(w.name||"")+'</b><span>'+escPad(w.pad||w.role||"कार्यकर्ता")+'</span></div></button>';
+  var lines=list.map(function(p){
+    return '<li><b class="pad-name">'+escPad(p.name||"")+'</b><span class="pad-role">'+escPad(p.pad||p.role||"")+'</span></li>';
+  }).join("");
+  el.innerHTML='<button type="button" class="pad-slide" onclick="go(\'team\')">'+faceHtml(w,false)+'<div><b class="pad-name">'+escPad(w.name||"")+'</b><span class="pad-role">'+escPad(w.pad||w.role||"कार्यकर्ता")+'</span></div></button><div class="pad-names"><p>समिति</p><ul>'+lines+'</ul></div>';
 };
 function avatarData(file){
   return new Promise(function(ok,rej){

@@ -86,7 +86,7 @@
       seen[k]=1;
       out.push({name:m.name,phone:m.phone,pad:m.pad||"",role:m.role||"",work:m.work||""});
     });
-    return out;
+    return out.sort(function(a,b){return (Number(a.level)||99)-(Number(b.level)||99);});
   }
   var _rt=window.renderTeam;
   window.renderTeam=function(){

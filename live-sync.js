@@ -26,7 +26,7 @@ function bindLiveSync(){
         if(col==="donations")db.donations=qs.docs.map(function(d){var x=d.data();x.did=d.id;return x;});
         if(col==="slides")db.slides=qs.docs.map(function(d){var x=d.data();x.id=d.id;return x;});
         if(col==="gallery")db.gallery=qs.docs.map(function(d){var x=d.data();x.fid=d.id;return x;});
-        if(col==="workers")db.workers=qs.docs.map(function(d){return d.data();});
+        if(col==="workers")db.workers=qs.docs.map(function(d){var x=d.data()||{};x.id=d.id;return x;}).sort(function(a,b){return (Number(a.level)||99)-(Number(b.level)||99);});
         if(col==="members")qs.forEach(function(d){db.members=db.members||{};db.members[d.id]=d.data();});
         if(typeof saveLocal==="function")saveLocal();
         refreshOpen();

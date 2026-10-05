@@ -98,7 +98,17 @@ input,select,textarea{background:#3a0808!important;color:#FFF8E7!important;borde
 #padNotice:empty{display:none}
 .pad-slide{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:8px 12px;border-radius:16px;border:1px solid rgba(255,215,0,.45);background:rgba(42,4,4,.82);color:#fff8e7;font-family:inherit;animation:padIn .4s ease}
 .pad-slide .pad-face,.pad-slide .pad-ph{width:54px;height:54px;margin:0;flex:0 0 auto}
-#rasidPrev{display:none;width:100%;max-height:220px;object-fit:contain;margin-top:8px;border-radius:12px;background:#1a0606}
+.page.on.from-left{animation:slideInL .32s cubic-bezier(.22,.61,.36,1)}
+.page.on.from-right{animation:slideInR .32s cubic-bezier(.22,.61,.36,1)}
+@keyframes slideInL{from{transform:translateX(40px);opacity:.45}to{transform:none;opacity:1}}
+@keyframes slideInR{from{transform:translateX(-40px);opacity:.45}to{transform:none;opacity:1}}
+.seva-row{flex-wrap:nowrap!important;align-items:center}
+.seva-row > div{min-width:0;flex:1}
+.seva-row b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seva-row .meta{font-size:12px}
+.seva-row .amt{font-size:18px;white-space:nowrap}
+.rasid-thumb{width:52px!important;height:68px!important;object-fit:cover!important;border-radius:8px;border:1px solid #ffd76a;flex:0 0 auto}
+#rasidPrev{display:none;width:100%;max-height:120px;object-fit:contain;margin-top:8px;border-radius:12px;background:#1a0606}
 #rasidFile{display:block;width:100%;margin-top:8px;color:#fff8e7}
 #rasidBox .btn{display:flex;align-items:center;justify-content:center;margin-top:8px}
 #p-team .pad-role,#p-sevak .pad-role{display:block;-webkit-text-fill-color:#ffd76a!important;color:#ffd76a!important}

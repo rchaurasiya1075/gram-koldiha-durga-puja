@@ -45,7 +45,12 @@ function showPage(name,push){
   document.querySelectorAll(".page").forEach(function(p){
     var on=p.id==="p-"+name;
     p.classList.toggle("on",on);
-    if(on&&from!==name){p.style.animation="none";void p.offsetWidth;p.style.animation="";}
+    if(on&&from!==name){
+      p.classList.remove("from-left","from-right");
+      if(window._slideDir==="left")p.classList.add("from-left");
+      else if(window._slideDir==="right")p.classList.add("from-right");
+      p.style.animation="none";void p.offsetWidth;p.style.animation="";
+    }
   });
   document.querySelectorAll(".nav button").forEach(function(b){b.classList.toggle("on",b.dataset.p===name);});
   if(name==="home")renderHome();
@@ -63,8 +68,34 @@ function showPage(name,push){
   if(from!==name&&typeof sayJai==="function")sayJai();
   if(push!==false){_histLock=true;try{history.pushState({p:name},"","#/"+name);}catch(e){}_histLock=false;}
   var w=document.querySelector(".wrap");if(w)w.scrollTop=0;
+  window._slideDir="";
 }
 window.go=function(name){showPage(name,true);};
+(function(){
+  var tabs=["home","events","donate","gallery","chat"];
+  var x0=0,y0=0,on=false;
+  var wrap=document.querySelector(".wrap");
+  if(!wrap)return;
+  wrap.addEventListener("touchstart",function(e){
+    if(e.touches.length!==1)return;
+    var t=e.target;
+    if(t&&t.closest&&t.closest("input,textarea,select,button,a,label"))return;
+    x0=e.touches[0].clientX;y0=e.touches[0].clientY;on=true;
+  },{passive:true});
+  wrap.addEventListener("touchend",function(e){
+    if(!on)return;on=false;
+    var p=e.changedTouches&&e.changedTouches[0];if(!p)return;
+    var dx=p.clientX-x0,dy=p.clientY-y0;
+    if(Math.abs(dx)<64||Math.abs(dx)<Math.abs(dy)*1.3)return;
+    var cur=(location.hash||"#/home").replace("#/","").split("?")[0]||"home";
+    var i=tabs.indexOf(cur);
+    if(i<0)i=0;
+    var next=dx<0?tabs[Math.min(tabs.length-1,i+1)]:tabs[Math.max(0,i-1)];
+    if(!next||next===cur)return;
+    window._slideDir=dx<0?"left":"right";
+    if(typeof go==="function")go(next);
+  },{passive:true});
+})();
 window.addEventListener("popstate",function(e){if(_histLock)return;showPage((e.state&&e.state.p)||"home",false);});
 if(!location.hash)try{history.replaceState({p:"home"},"","#/home");}catch(e){}
 function workerList(){

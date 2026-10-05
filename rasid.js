@@ -24,27 +24,64 @@
     return 0;
   }
   function parseRasid(raw){
-    var t=hiNum(raw).replace(/\r/g,"");
-    var no="",date="",name="",addr="",amt=0;
-    var m=t.match(/क्रमांक\s*[:\-]?\s*(\d{2,4})/);
-    if(m)no=m[1];
-    if(!no){var nums=t.match(/\b(\d{3})\b/g)||[];if(nums.length)no=nums[0];}
-    var dm=t.match(/(\d{1,2}\s*[\/\.\-]\s*\d{1,2}\s*[\/\.\-]\s*\d{2,4})/);
-    if(dm)date=dm[1].replace(/\s/g,"");
-    var nm=t.match(/श्रीमती\s*[:\-]?\s*([^\n]{2,48})/);
-    if(nm)name=cleanName(nm[1]);
-    var ad=t.match(/पता\s*[:\-]?\s*([^\n]{2,40})/);
-    if(ad)addr=cleanName(ad[1]).replace(/के.*/,"").trim();
-    var box=t.match(/(?:रू|रु|रू0|रु0|Rs)\s*0?\s*(\d{1,6})/);
-    if(box)amt=Number(box[1]);
-    if(!(amt>0)){
-      var rm=t.match(/रुपया\s*[:\-]?\s*(\d{1,6})/);
-      if(rm)amt=Number(rm[1]);
+    var text=hiNum(raw);
+    var lines=text.split(/\n/).map(function(s){return s.replace(/\s+/g," ").trim();}).filter(Boolean);
+    function isLabel(s){return /क्रमांक|कमांक|क्मांक|कनांक|दिनांक|श्रीमान|श्रीमती|श्रीती|पता|रूपया|रुपया|सहयोग|राशि|हस्ताक्षर|समिति|पंचायत|कोलडी|सोनभद्र|पूजा हेतु/.test(s);}
+    function after(re){
+      for(var i=0;i<lines.length;i++){
+        if(!re.test(lines[i]))continue;
+        var same=lines[i].replace(re,"").replace(/^[\s.:\-]+/,"").trim();
+        if(same.length>1&&!isLabel(same)&&!/^\d+$/.test(same))return same;
+        for(var j=i+1;j<Math.min(lines.length,i+3);j++){
+          if(!isLabel(lines[j])&&lines[j].length>1&&!/^\d{1,4}$/.test(lines[j]))return lines[j];
+        }
+      }
+      return "";
     }
-    if(!(amt>0))amt=wordAmt(t);
+    function boxAmt(t){
+      var m=t.match(/(?:रू|रु)\s*0\s*([0-9SsOoIl| ]{1,10})/);
+      if(!m)return 0;
+      var d=m[1].replace(/[Ss]/g,"5").replace(/[Oo]/g,"0").replace(/[Il|]/g,"1").replace(/\D/g,"");
+      if(d.length>1&&d.charAt(0)==="0")d=d.slice(1);
+      var n=Number(d);
+      return n>0&&n<1000000?n:0;
+    }
+    var no="";
+    var nmNo=text.match(/(?:क्रमांक|कमांक|क्मांक|कनांक)\s*[:\-]?\s*(\d{2,4})/);
+    if(nmNo)no=nmNo[1];
+    if(!no){
+      lines.forEach(function(s){if(!no&&/^\d{3}$/.test(s))no=s;});
+    }
+    var date="";
+    var dm=text.match(/(\d{1,2}\s*[\/\.\-|]\s*\d{1,2}\s*[\/\.\-|]\s*\d{2,4})/);
+    if(dm)date=dm[1].replace(/[|.\s]/g,"/").replace(/\/+/g,"/");
+    var addr=cleanName(after(/पता/)).replace(/के.*/,"").trim();
+    var amt=boxAmt(text);
+    if(!(amt>0))amt=wordAmt(text);
+    var stop={"क्रमांक":1,"कमांक":1,"क्मांक":1,"कनांक":1,"दिनांक":1,"श्रीमान":1,"श्रीमती":1,"श्रीती":1,"पता":1,"रूपया":1,"रुपया":1,"सहयोग":1,"राशि":1,"पचास":1,"पच्चास":1,"सौ":1,"ग्यारह":1,"रुपय":1,"रुपये":1};
+    lines.forEach(function(s){
+      if(name)return;
+      var words=(s.match(/[\u0900-\u097F]{2,}/g)||[]).filter(function(w){return !stop[w];});
+      var bit=cleanName(words.join(" "));
+      if(bit.length<2||bit===addr||isLabel(bit))return;
+      if(wordAmt(bit)&&bit.length<10)return;
+      name=bit;
+    });
     if(name.length<2)name="";
     if(addr.length<2)addr="";
-    return {no:no,date:date,name:name,addr:addr,amt:amt,text:t};
+    return {no:no,date:date,name:name,addr:addr,amt:amt,text:text};
+  }
+  async function ocrRead(dataUrl){
+    var body=new FormData();
+    body.append("apikey","helloworld");
+    body.append("language","auto");
+    body.append("OCREngine","1");
+    body.append("scale","true");
+    body.append("base64Image",dataUrl);
+    var res=await fetch("https://api.ocr.space/parse/image",{method:"POST",body:body});
+    var j=await res.json();
+    if(!j||j.IsErroredOnProcessing)throw new Error("ocr");
+    return (j.ParsedResults&&j.ParsedResults[0]&&j.ParsedResults[0].ParsedText)||"";
   }
   function loadImg(file){
     return new Promise(function(ok,rej){
@@ -131,18 +168,23 @@
   }
   function askFix(info,img){
     var fix=document.getElementById("rasidFix");if(!fix)return;
-    fix.innerHTML='<label class="lab">नाम</label><input id="rsName" value="'+String(info.name||"").replace(/"/g,"")+'"/>'+
-      '<label class="lab">राशि</label><input id="rsAmt" inputmode="numeric" value="'+(info.amt||"")+'" />'+
-      '<label class="lab">क्रमांक</label><input id="rsNo" value="'+String(info.no||"").replace(/"/g,"")+'" />'+
-      '<label class="lab">पता</label><input id="rsAddr" value="'+String(info.addr||"").replace(/"/g,"")+'" />'+
-      '<button class="btn" type="button" id="rsSave">सूची में जोड़ो</button>';
-    document.getElementById("rsSave").onclick=function(){
-      var name=(document.getElementById("rsName").value||"").trim();
-      var amt=Number(document.getElementById("rsAmt").value);
+    var id="rf"+Date.now()+Math.floor(Math.random()*1000);
+    var block=document.createElement("div");
+    block.className="card";
+    block.innerHTML='<p class="meta">यह रसीद पूरी नहीं पढ़ी</p>'+
+      '<label class="lab">नाम</label><input id="'+id+'n" value="'+String(info.name||"").replace(/"/g,"")+'"/>'+
+      '<label class="lab">राशि</label><input id="'+id+'a" inputmode="numeric" value="'+(info.amt||"")+'" />'+
+      '<label class="lab">क्रमांक</label><input id="'+id+'r" value="'+String(info.no||"").replace(/"/g,"")+'" />'+
+      '<label class="lab">पता</label><input id="'+id+'d" value="'+String(info.addr||"").replace(/"/g,"")+'" />'+
+      '<button class="btn" type="button">सूची में जोड़ो</button>';
+    block.querySelector("button").onclick=function(){
+      var name=(document.getElementById(id+"n").value||"").trim();
+      var amt=Number(document.getElementById(id+"a").value);
       if(!name||!(amt>0))return toast("नाम और राशि लिखो");
-      saveRow({name:name,amt:amt,no:(document.getElementById("rsNo").value||"").trim(),addr:(document.getElementById("rsAddr").value||"").trim(),date:info.date},img);
-      fix.innerHTML="";
+      saveRow({name:name,amt:amt,no:(document.getElementById(id+"r").value||"").trim(),addr:(document.getElementById(id+"d").value||"").trim(),date:info.date},img);
+      block.remove();
     };
+    fix.appendChild(block);
   }
   window.editRasid=function(id){
     if(!canRasid()&&!(typeof hasAccess==="function"&&hasAccess("approve")))return toast("सिर्फ़ एडमिन");
@@ -197,28 +239,33 @@
   };
   window.readRasid=async function(inp){
     if(!canRasid())return toast("रसीद डालने का अधिकार नहीं");
-    var f=inp.files&&inp.files[0];if(!f)return;
+    var files=[].slice.call(inp.files||[]);
+    if(!files.length)return;
     var msg=document.getElementById("rasidMsg");
-    if(msg)msg.textContent="रसीद पढ़ रहे हैं...";
-    try{
-      var img=await loadImg(f);
-      var shot=await smallShot(img);
-      await loadTess();
-      var plate=contrast(img);
-      var out=await Tesseract.recognize(plate,"hin+eng");
-      var info=parseRasid((out&&out.data&&out.data.text)||"");
-      if(info.name&&info.amt>0){
-        if(msg)msg.textContent=info.name+" · ₹"+info.amt+(info.no?(" · रसीद "+info.no):"");
-        await saveRow(info,shot);
-        var fix=document.getElementById("rasidFix");if(fix)fix.innerHTML="";
-      }else{
-        if(msg)msg.textContent="पूरा नहीं पढ़ा। नाम और राशि जाँच कर जोड़ो।";
-        askFix(info,shot);
+    var fix=document.getElementById("rasidFix");
+    if(fix)fix.innerHTML="";
+    var okN=0;
+    for(var i=0;i<files.length;i++){
+      if(msg)msg.textContent=(i+1)+"/"+files.length+" रसीद पढ़ रहे हैं...";
+      try{
+        var img=await loadImg(files[i]);
+        var shot=await smallShot(img);
+        var plate=contrast(img);
+        var ocrUrl=plate.toDataURL("image/jpeg",0.72);
+        var text="";
+        try{text=await ocrRead(ocrUrl);}catch(e){
+          await loadTess();
+          var out=await Tesseract.recognize(plate,"hin+eng");
+          text=(out&&out.data&&out.data.text)||"";
+        }
+        var info=parseRasid(text);
+        if(info.name&&info.amt>0){await saveRow(info,shot);okN++;}
+        else askFix(info,shot);
+      }catch(e){
+        askFix({name:"",amt:"",no:"",addr:"",date:""},"");
       }
-    }catch(e){
-      if(msg)msg.textContent="पढ़ नहीं पाया। नाम और राशि लिख कर जोड़ो।";
-      askFix({name:"",amt:"",no:"",addr:""},"");
     }
+    if(msg)msg.textContent=okN+" रसीद जुड़ गई"+(files.length-okN?" · "+(files.length-okN)+" जाँच बाकी":"");
     inp.value="";
   };
   var _go=window.go;

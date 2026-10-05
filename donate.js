@@ -88,4 +88,4 @@ window.renderDon=function(){
   list.innerHTML=html;
 };
 setTimeout(function(){if(!(window.cloud&&window.fs)&&!fs)return;try{(window.fs||fs).collection("donations").onSnapshot(function(qs){db.donations=qs.docs.map(function(d){var x=d.data();x.did=d.id;return x;});try{saveLocal();}catch(e){}if(document.querySelector("#p-donate.on"))renderDon();});}catch(e){}},2000);
-(function(){["gal-perm.js?v=96","social.js?v=83","chat-ui.js?v=92","notify.js?v=93","fest.js?v=83","notify-extra.js?v=83","welcome.js?v=83","admin-users.js?v=83","pin-dp.js?v=98","live-embed.js?v=83","addr-ui.js?v=83","rasid.js?v=107"].forEach(function(src){var s=document.createElement("script");s.src="./"+src;document.body.appendChild(s);});})();
+(function(){["gal-perm.js?v=96","social.js?v=83","chat-ui.js?v=92","notify.js?v=93","fest.js?v=83","notify-extra.js?v=83","welcome.js?v=83","admin-users.js?v=83","pin-dp.js?v=98","live-embed.js?v=83","addr-ui.js?v=83","rasid.js?v=108"].forEach(function(src){var s=document.createElement("script");s.src="./"+src;document.body.appendChild(s);});})();

@@ -1,8 +1,15 @@
 (function(){
+  if(window._rasidOn)return;window._rasidOn=1;
   function canRasid(){
-    if(!window.user)return false;
-    if(user.phone==="9473746020"||user.phone===window.ADMIN_PHONE||user.role==="admin")return true;
-    return typeof hasAccess==="function"&&hasAccess("rasid");
+    var u=window.user;
+    var ph=String((u&&u.phone)||"").replace(/\D/g,"").slice(-10);
+    var adm=String(window.ADMIN_PHONE||"9473746020").replace(/\D/g,"").slice(-10);
+    if(ph&&(ph===adm||ph==="9473746020"))return true;
+    if(u&&u.role==="admin")return true;
+    if(window.admin)return true;
+    if(typeof isMaster==="function"&&isMaster())return true;
+    if(typeof hasAccess==="function"&&hasAccess("rasid"))return true;
+    return false;
   }
   function hiNum(s){
     var map={"०":"0","१":"1","२":"2","३":"3","४":"4","५":"5","६":"6","७":"7","८":"8","९":"9"};
@@ -95,25 +102,22 @@
     });
   }
   function paintBox(){
-    var page=document.getElementById("p-donate");if(!page)return;
     var box=document.getElementById("rasidBox");
-    if(!canRasid()){if(box)box.style.display="none";return;}
-    if(!box){
-      box=document.createElement("div");
-      box.id="rasidBox";
-      box.className="card";
-      box.innerHTML='<h3>रसीद अपलोड</h3><p class="meta">गुलाबी रसीद की फोटो डालो। नाम, क्रमांक और राशि अपने आप सहयोग में जुड़ेंगे।</p><input id="rasidFile" type="file" accept="image/*,.jpg,.jpeg,.png,.webp,.heic" /><p class="meta" id="rasidMsg"></p><div id="rasidFix"></div>';
-      var h=page.querySelector("h2");
-      if(h&&h.nextSibling)page.insertBefore(box,h.nextSibling);else page.appendChild(box);
-      box.querySelector("#rasidFile").addEventListener("change",function(){readRasid(this);});
-    }
+    var file=document.getElementById("rasidFile");
+    if(!box||!file)return;
     box.style.display="block";
+    if(!file._bound){
+      file._bound=1;
+      file.addEventListener("change",function(){readRasid(this);});
+    }
+    var msg=document.getElementById("rasidMsg");
+    if(msg&&!msg.textContent)msg.textContent=canRasid()?"":"रसीद डालने के लिए एडमिन लॉगिन होना चाहिए।";
   }
   async function saveRow(info,img){
     var row={
       name:info.name,amt:Number(info.amt),visible:true,seva:"सहयोग",status:"approved",
       date:info.date||new Date().toISOString().slice(0,10),created:Date.now(),
-      uid:user.phone,phone:user.phone,rasid:info.no||"",addr:info.addr||"",rasidImg:img,by:user.name||""
+      uid:(window.user&&user.phone)||"",phone:(window.user&&user.phone)||"",rasid:info.no||"",addr:info.addr||"",rasidImg:img,by:(window.user&&user.name)||""
     };
     if(info.no&&(db.donations||[]).some(function(d){return String(d.rasid)===String(info.no);}))return toast("रसीद "+info.no+" पहले से है");
     if((window.cloud&&window.fs)||window.fs){

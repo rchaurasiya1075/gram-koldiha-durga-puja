@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="./gal.css?v=87"/>
 <link rel="stylesheet" href="./theme.css?v=87"/>
 <link rel="stylesheet" href="./work.css?v=87"/>
-<link rel="stylesheet" href="./fix.css?v=106"/>
+<link rel="stylesheet" href="./fix.css?v=108"/>
 </head>
 <body>
 <div class="stage"><div class="phone">
@@ -98,6 +98,14 @@
     <p class="meta">भुगतान और दर्ज राशि एडमिन मिलाएँगे। बिना अप्रूव नाम सूची में नहीं आता।</p>
   </div>
   <div id="donList"></div>
+  <div class="card" id="rasidBox">
+    <h3>रसीद अपलोड</h3>
+    <p class="meta">गुलाबी रसीद की फोटो डालो। नाम, क्रमांक और राशि अपने आप सहयोग में जुड़ जाएँगे।</p>
+    <label class="btn" for="rasidFile">रसीद की फोटो चुनें</label>
+    <input id="rasidFile" type="file" accept="image/*,.jpg,.jpeg,.png,.webp,.heic"/>
+    <p class="meta" id="rasidMsg"></p>
+    <div id="rasidFix"></div>
+  </div>
 </section>
 <section class="page" id="p-news"><h2>📢 सूचना</h2><div id="newsList"></div></section>
 <section class="page" id="p-gallery"></section>
@@ -153,7 +161,8 @@
 <script src="./extra.js?v=87"></script>
 <script src="./home-ui.js?v=104"></script>
 <script src="./nav-fix.js?v=102"></script>
-<script src="./donate.js?v=107"></script>
+<script src="./donate.js?v=108"></script>
+<script src="./rasid.js?v=108"></script>
 <script src="./access.js?v=106"></script>
 <script src="./share.js?v=96"></script>
 <script src="./fest-skin.js?v=88"></script>

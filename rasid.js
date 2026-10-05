@@ -140,6 +140,48 @@
       fix.innerHTML="";
     };
   }
+  window.editRasid=function(id){
+    if(!canRasid()&&!(typeof hasAccess==="function"&&hasAccess("approve")))return toast("सिर्फ़ एडमिन");
+    var d=(db.donations||[]).find(function(x){return String(x.did||x.created)===String(id);});
+    if(!d)return;
+    var box=document.getElementById("rasidEdit");
+    if(!box){
+      box=document.createElement("div");
+      box.id="rasidEdit";
+      box.className="card";
+      var list=document.getElementById("donList");
+      if(list)list.parentNode.insertBefore(box,list);
+    }
+    function v(s){
+      var q=String.fromCharCode(34), amp=String.fromCharCode(38);
+      return String(s||"").split(amp).join(amp+"amp;").split(q).join(amp+"quot;");
+    }
+    box.innerHTML='<h3>रसीद ठीक करें</h3>'+
+      '<label class="lab">नाम</label><input id="edName" value="'+v(d.name)+'"/>'+
+      '<label class="lab">राशि</label><input id="edAmt" inputmode="numeric" value="'+v(d.amt)+'"/>'+
+      '<label class="lab">क्रमांक</label><input id="edNo" value="'+v(d.rasid)+'"/>'+
+      '<label class="lab">पता</label><input id="edAddr" value="'+v(d.addr)+'"/>'+
+      '<label class="lab">तारीख</label><input id="edDate" value="'+v(d.date)+'"/>'+
+      '<button class="btn" type="button" id="edSave">सेव</button> <button class="btn ghost" type="button" id="edClose">बंद</button>';
+    document.getElementById("edClose").onclick=function(){box.remove();};
+    document.getElementById("edSave").onclick=async function(){
+      var name=(document.getElementById("edName").value||"").trim();
+      var amt=Number(document.getElementById("edAmt").value);
+      if(!name||!(amt>0))return toast("नाम और राशि लिखो");
+      d.name=name;d.amt=amt;
+      d.rasid=(document.getElementById("edNo").value||"").trim();
+      d.addr=(document.getElementById("edAddr").value||"").trim();
+      d.date=(document.getElementById("edDate").value||"").trim()||d.date;
+      try{saveLocal();}catch(e){}
+      if(window.fs&&d.did){
+        try{await fs.collection("donations").doc(d.did).set({name:d.name,amt:d.amt,rasid:d.rasid,addr:d.addr,date:d.date},{merge:true});}
+        catch(e){return toast("सेव नहीं हुआ");}
+      }
+      toast("रसीद ठीक हो गई");
+      box.remove();
+      if(typeof renderDon==="function")renderDon();
+    };
+  };
   window.openRasid=function(src){
     var old=document.getElementById("rasidView");if(old)old.remove();
     var d=document.createElement("div");

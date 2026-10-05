@@ -228,6 +228,27 @@
       if(typeof renderDon==="function")renderDon();
     };
   };
+  window.downloadRasidData=function(){
+    if(!canRasid())return toast("डेटा डाउनलोड सिर्फ़ एडमिन कर सकता है");
+    var rows=(db.donations||[]).filter(function(d){return d.status!=="rejected";});
+    rows.sort(function(a,b){return (a.created||0)-(b.created||0);});
+    function cell(s){return '"'+String(s==null?"":s).replace(/"/g,'""')+'"';}
+    var lines=["क्रमांक,नाम,राशि,पता,तारीख,सेवा,स्थिति"];
+    var total=0;
+    rows.forEach(function(d){
+      total+=Number(d.amt||0);
+      lines.push([cell(d.rasid||""),cell(d.name||""),cell(d.amt||0),cell(d.addr||""),cell(d.date||""),cell(d.seva||"सहयोग"),cell(d.status||"")].join(","));
+    });
+    lines.push(["","कुल",cell(total),"","","",""].join(","));
+    var blob=new Blob(["\uFEFF"+lines.join("\n")],{type:"text/csv;charset=utf-8"});
+    var a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download="koldiha-sahyog.csv";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    toast(rows.length+" रसीद का डेटा डाउनलोड हो गया");
+  };
   window.openRasid=function(src){
     var old=document.getElementById("rasidView");if(old)old.remove();
     var d=document.createElement("div");

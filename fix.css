@@ -98,10 +98,17 @@ input,select,textarea{background:#3a0808!important;color:#FFF8E7!important;borde
 #padNotice:empty{display:none}
 .pad-slide{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:8px 12px;border-radius:16px;border:1px solid rgba(255,215,0,.45);background:rgba(42,4,4,.82);color:#fff8e7;font-family:inherit;animation:padIn .4s ease}
 .pad-slide .pad-face,.pad-slide .pad-ph{width:54px;height:54px;margin:0;flex:0 0 auto}
-.page.on.from-left{animation:slideInL .32s cubic-bezier(.22,.61,.36,1)}
-.page.on.from-right{animation:slideInR .32s cubic-bezier(.22,.61,.36,1)}
-@keyframes slideInL{from{transform:translateX(40px);opacity:.45}to{transform:none;opacity:1}}
-@keyframes slideInR{from{transform:translateX(-40px);opacity:.45}to{transform:none;opacity:1}}
+.wrap{position:relative;overflow-x:hidden}
+.page.on.from-left{animation:slideInL .46s cubic-bezier(.16,1,.3,1)}
+.page.on.from-right{animation:slideInR .46s cubic-bezier(.16,1,.3,1)}
+.page.leave-left,.page.leave-right{display:block!important;position:absolute;left:0;right:0;top:0;z-index:4;pointer-events:none}
+.page.leave-left{animation:slideOutL .46s cubic-bezier(.16,1,.3,1) forwards}
+.page.leave-right{animation:slideOutR .46s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes slideInL{from{transform:translate3d(100%,0,0)}to{transform:translate3d(0,0,0)}}
+@keyframes slideInR{from{transform:translate3d(-100%,0,0)}to{transform:translate3d(0,0,0)}}
+@keyframes slideOutL{to{transform:translate3d(-100%,0,0)}}
+@keyframes slideOutR{to{transform:translate3d(100%,0,0)}}
+@media (prefers-reduced-motion:reduce){.page.on.from-left,.page.on.from-right,.page.leave-left,.page.leave-right{animation:none!important}}
 .seva-row{flex-wrap:nowrap!important;align-items:center}
 .seva-row > div{min-width:0;flex:1}
 .seva-row b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

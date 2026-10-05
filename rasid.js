@@ -145,7 +145,7 @@
     box.style.display="block";
     if(!file._bound){
       file._bound=1;
-      file.addEventListener("change",function(){readRasid(this);});
+      file.addEventListener("change",function(){previewRasid(this);});
     }
     var msg=document.getElementById("rasidMsg");
     if(msg&&!msg.textContent)msg.textContent=canRasid()?"":"रसीद डालने के लिए एडमिन लॉगिन होना चाहिए।";
@@ -156,15 +156,16 @@
       date:info.date||new Date().toISOString().slice(0,10),created:Date.now(),
       uid:(window.user&&user.phone)||"",phone:(window.user&&user.phone)||"",rasid:info.no||"",addr:info.addr||"",rasidImg:img,by:(window.user&&user.name)||""
     };
-    if(info.no&&(db.donations||[]).some(function(d){return String(d.rasid)===String(info.no);}))return toast("रसीद "+info.no+" पहले से है");
+    if(info.no&&(db.donations||[]).some(function(d){return String(d.rasid)===String(info.no);})){toast("रसीद "+info.no+" पहले से है");return false;}
     if((window.cloud&&window.fs)||window.fs){
       try{var ref=await (window.fs||fs).collection("donations").add(row);row.did=ref.id;}
-      catch(e){return toast("रसीद सेव नहीं हुई");}
-    }else return toast("क्लाउड बंद है");
+      catch(e){toast("रसीद सेव नहीं हुई");return false;}
+    }else {toast("क्लाउड बंद है");return false;}
     db.donations=db.donations||[];db.donations.push(row);
     try{saveLocal();}catch(e){}
     if(typeof renderDon==="function")renderDon();
     toast((info.name||"नाम")+" — ₹"+info.amt+(info.no?(" — रसीद "+info.no):"")+" जुड़ गई");
+    return true;
   }
   function askFix(info,img){
     var fix=document.getElementById("rasidFix");if(!fix)return;
@@ -227,6 +228,32 @@
       box.remove();
       if(typeof renderDon==="function")renderDon();
     };
+  };
+  window.previewRasid=async function(inp){
+    var f=inp.files&&inp.files[0];if(!f)return;
+    var img=await loadImg(f);
+    window._rasidShot=await smallShot(img);
+    var prev=document.getElementById("rasidPrev");
+    if(prev){prev.src=window._rasidShot;prev.style.display="block";}
+    var msg=document.getElementById("rasidMsg");
+    if(msg)msg.textContent="फोटो लग गई। रसीद नंबर और राशि लिखकर जोड़ो।";
+  };
+  window.addRasidManual=async function(){
+    if(!canRasid())return toast("रसीद डालने के लिए एडमिन लॉगिन करें");
+    var no=((document.getElementById("rsNoIn")||{}).value||"").trim();
+    var amt=Number((document.getElementById("rsAmtIn")||{}).value);
+    var name=((document.getElementById("rsNameIn")||{}).value||"").trim();
+    if(!no)return toast("रसीद नंबर लिखो");
+    if(!(amt>0))return toast("राशि लिखो");
+    if(!window._rasidShot)return toast("रसीद की फोटो चुनो");
+    var ok=await saveRow({name:name||("रसीद "+no),amt:amt,no:no,addr:"",date:new Date().toISOString().slice(0,10)},window._rasidShot);
+    if(ok===false)return;
+    var n=document.getElementById("rsNoIn");if(n)n.value="";
+    var a=document.getElementById("rsAmtIn");if(a)a.value="";
+    var nm=document.getElementById("rsNameIn");if(nm)nm.value="";
+    window._rasidShot="";
+    var prev=document.getElementById("rasidPrev");if(prev){prev.style.display="none";prev.src="";}
+    var file=document.getElementById("rasidFile");if(file)file.value="";
   };
   window.downloadRasidData=function(){
     if(!canRasid())return toast("डेटा डाउनलोड सिर्फ़ एडमिन कर सकता है");

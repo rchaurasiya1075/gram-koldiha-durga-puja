@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="./gal.css?v=87"/>
 <link rel="stylesheet" href="./theme.css?v=87"/>
 <link rel="stylesheet" href="./work.css?v=87"/>
-<link rel="stylesheet" href="./fix.css?v=108"/>
+<link rel="stylesheet" href="./fix.css?v=111"/>
 </head>
 <body>
 <div class="stage"><div class="phone">
@@ -97,16 +97,24 @@
     <button class="btn ghost" type="button" onclick="sendPayShotToAdmin()">रसीद की जानकारी WhatsApp पर भेजें</button>
     <p class="meta">भुगतान और दर्ज राशि एडमिन मिलाएँगे। बिना अप्रूव नाम सूची में नहीं आता।</p>
   </div>
-  <div id="donList"></div>
   <div class="card" id="rasidBox">
-    <h3>रसीद अपलोड</h3>
-    <p class="meta">एक साथ कई गुलाबी रसीद चुन सकते हैं। हिंदी लिखाई पढ़कर नाम, क्रमांक और राशि अपने आप जुड़ जाएँगे।</p>
+    <h3>रसीद जोड़ें</h3>
+    <p class="meta">रसीद की फोटो डालें, रसीद नंबर और राशि लिखें। जुड़ते ही सबको दिखेगा किसने चंदा दिया।</p>
     <label class="btn" for="rasidFile">रसीद की फोटो चुनें</label>
-    <input id="rasidFile" type="file" accept="image/*,.jpg,.jpeg,.png,.webp,.heic" multiple/>
+    <input id="rasidFile" type="file" accept="image/*,.jpg,.jpeg,.png,.webp,.heic"/>
+    <img id="rasidPrev" alt="" style="display:none"/>
+    <label class="lab">रसीद नंबर</label>
+    <input id="rsNoIn" inputmode="numeric" placeholder="जैसे 162"/>
+    <label class="lab">राशि (₹)</label>
+    <input id="rsAmtIn" inputmode="numeric" placeholder="रसीद पर लिखी राशि"/>
+    <label class="lab">नाम</label>
+    <input id="rsNameIn" placeholder="नाम"/>
+    <button class="btn" type="button" onclick="addRasidManual()">सूची में जोड़ो</button>
     <button class="btn ghost" type="button" onclick="downloadRasidData()">डेटा डाउनलोड</button>
     <p class="meta" id="rasidMsg"></p>
     <div id="rasidFix"></div>
   </div>
+  <div id="donList"></div>
 </section>
 <section class="page" id="p-news"><h2>📢 सूचना</h2><div id="newsList"></div></section>
 <section class="page" id="p-gallery"></section>
@@ -162,8 +170,8 @@
 <script src="./extra.js?v=87"></script>
 <script src="./home-ui.js?v=104"></script>
 <script src="./nav-fix.js?v=102"></script>
-<script src="./donate.js?v=108"></script>
-<script src="./rasid.js?v=110"></script>
+<script src="./donate.js?v=111"></script>
+<script src="./rasid.js?v=111"></script>
 <script src="./access.js?v=106"></script>
 <script src="./share.js?v=96"></script>
 <script src="./fest-skin.js?v=88"></script>

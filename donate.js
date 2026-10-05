@@ -77,15 +77,16 @@ window.renderDon=function(){
     html+='<h3 class="seva-h">आपकी लंबित सेवा</h3>';
     minePend.forEach(function(d){html+='<div class="card"><b>'+escDon(d.name)+'</b> · '+inr(d.amt)+'<p class="meta">'+escDon(d.seva||"चंदा")+' — एडमिन अप्रूव करेंगे तब सूची में नाम आएगा</p></div>';});
   }
-  html+='<h3 class="seva-h">सहयोग सूची</h3>';
-  if(!pub.length)html+='<p class="meta">अभी कोई स्वीकृत सेवा नहीं। पहली सेवा आप दर्ज करें।</p>';
-  pub.sort(function(a,b){return (b.created||0)-(a.created||0);}).forEach(function(d){
-    var nm=d.visible===false?"श्रद्धालु":escDon(d.name||"श्रद्धालु");
+  html+='<h3 class="seva-h">किसने चंदा दिया</h3>';
+  if(!pub.length)html+='<p class="meta">अभी कोई रसीद नहीं।</p>';
+  pub.sort(function(a,b){return (Number(a.rasid)||0)-(Number(b.rasid)||0);}).forEach(function(d){
+    var nm=d.visible===false?"श्रद्धालु":escDon(d.name||("रसीद "+(d.rasid||"")));
+    var shot=d.rasidImg?'<img class="rasid-thumb" src="'+d.rasidImg+'" alt="रसीद" onclick="openRasid(this.src)"/>':'';
     var canFix=(user&&(user.role==="admin"||user.phone==="9473746020"||user.phone===window.ADMIN_PHONE))||(typeof hasAccess==="function"&&(hasAccess("rasid")||hasAccess("approve")));
     var fix=canFix?'<button class="btn ghost" type="button" onclick="editRasid(\''+donKey(d)+'\')">ठीक करें</button>':'';
-    html+='<div class="card seva-row">'+shot+'<div><b>'+nm+'</b><div class="meta">'+escDon(d.seva||"चंदा")+(d.rasid?(" · रसीद "+escDon(d.rasid)):"")+(d.addr?(" · "+escDon(d.addr)):"")+(d.date?(" · "+escDon(d.date)):"")+'</div>'+fix+'</div><div class="amt">'+inr(d.amt)+'</div></div>';
+    html+='<div class="card seva-row">'+shot+'<div><b>'+nm+'</b><div class="meta">रसीद '+escDon(d.rasid||"—")+(d.date?(" · "+escDon(d.date)):"")+'</div>'+fix+'</div><div class="amt">'+inr(d.amt)+'</div></div>';
   });
   list.innerHTML=html;
 };
 setTimeout(function(){if(!(window.cloud&&window.fs)&&!fs)return;try{(window.fs||fs).collection("donations").onSnapshot(function(qs){db.donations=qs.docs.map(function(d){var x=d.data();x.did=d.id;return x;});try{saveLocal();}catch(e){}if(document.querySelector("#p-donate.on"))renderDon();});}catch(e){}},2000);
-(function(){["gal-perm.js?v=96","social.js?v=83","chat-ui.js?v=92","notify.js?v=93","fest.js?v=83","notify-extra.js?v=83","welcome.js?v=83","admin-users.js?v=83","pin-dp.js?v=98","live-embed.js?v=83","addr-ui.js?v=83","rasid.js?v=110"].forEach(function(src){var s=document.createElement("script");s.src="./"+src;document.body.appendChild(s);});})();
+(function(){["gal-perm.js?v=96","social.js?v=83","chat-ui.js?v=92","notify.js?v=93","fest.js?v=83","notify-extra.js?v=83","welcome.js?v=83","admin-users.js?v=83","pin-dp.js?v=98","live-embed.js?v=83","addr-ui.js?v=83","rasid.js?v=111"].forEach(function(src){var s=document.createElement("script");s.src="./"+src;document.body.appendChild(s);});})();

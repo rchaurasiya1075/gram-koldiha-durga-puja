@@ -98,7 +98,7 @@ input,select,textarea{background:#3a0808!important;color:#FFF8E7!important;borde
 #padNotice:empty{display:none}
 .pad-slide{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:8px 12px;border-radius:16px;border:1px solid rgba(255,215,0,.45);background:rgba(42,4,4,.82);color:#fff8e7;font-family:inherit;animation:padIn .4s ease}
 .pad-slide .pad-face,.pad-slide .pad-ph{width:54px;height:54px;margin:0;flex:0 0 auto}
-#p-team .pad-name,#p-sevak .pad-name{display:block;font-size:18px;-webkit-text-fill-color:#fff8e7!important;color:#fff8e7!important}
+.rasid-thumb{width:54px;height:54px;object-fit:cover;border-radius:8px;border:1px solid #ffd76a;flex:0 0 auto}
 #p-team .pad-role,#p-sevak .pad-role{display:block;-webkit-text-fill-color:#ffd76a!important;color:#ffd76a!important}
 .pad-role,.pad-full .meta{-webkit-text-fill-color:#ffd76a;color:#ffd76a!important}
 .pad-names{margin-top:8px;padding:8px 10px;border-radius:14px;border:1px solid rgba(255,215,0,.35);background:rgba(42,4,4,.78)}

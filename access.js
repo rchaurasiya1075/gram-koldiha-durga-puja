@@ -1,12 +1,13 @@
 var ACCESS_OPTS=[
   ["events","कार्यक्रम"],["news","सूचना"],["live","Live"],["approve","चंदा अप्रूव"],
   ["donate","चंदा/खर्च"],["gallery","गैलरी"],["aarti","आरती"],["slides","पंडाल स्लाइड"],
-  ["workers","कार्यकर्ता"],["expenses","खर्च"],["members","ID/पिन"],["settings","UPI QR Live"]
+  ["workers","कार्यकर्ता"],["expenses","खर्च"],["members","ID/पिन"],["settings","UPI QR Live"],
+  ["rasid","रसीद अपलोड"]
 ];
 function isMaster(){return !!(user&&(user.phone===window.ADMIN_PHONE||user.phone==="9473746020"));}
 function accMap(u){u=u||user||{};if(isMaster()&&u===user){var all={};ACCESS_OPTS.forEach(function(x){all[x[0]]=true;});return all;}return u.access||{};}
 function hasAccess(k){if(!user)return false;if(isMaster()||user.role==="admin")return true;return !!(user.access&&user.access[k]);}
-function hasPanel(){if(!user)return false;if(isMaster()||user.role==="admin")return true;return ACCESS_OPTS.some(function(x){return user.access&&user.access[x[0]];});}
+function hasPanel(){if(!user)return false;if(isMaster()||user.role==="admin")return true;return ACCESS_OPTS.some(function(x){return x[0]!=="rasid"&&user.access&&user.access[x[0]];});}
 window.isAdminUser=function(){return hasPanel();};
 window.can=function(p){return hasAccess(p);};
 

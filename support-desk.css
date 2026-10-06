@@ -1,0 +1,28 @@
+#sdRoot{position:absolute;right:12px;bottom:74px;z-index:90;font-family:Hind,sans-serif}
+.sd-fab{width:54px;height:54px;border:0;border-radius:50%;background:#00a884;color:#fff;font-size:26px;box-shadow:0 8px 20px rgba(0,0,0,.28);position:relative}
+.sd-fab span{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:99px;background:#e23b3b;color:#fff;font-size:11px;line-height:18px}
+.sd-panel{position:absolute;right:0;bottom:64px;width:min(92vw,340px);height:440px;background:#0b141a;color:#fff;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 16px 40px rgba(0,0,0,.35)}
+.sd-head{display:flex;align-items:center;gap:8px;background:#00a884;padding:10px 12px}
+.sd-head b{display:block;font-size:14px}
+.sd-sub{font-size:11px;opacity:.85}
+.sd-head button{margin-left:auto;background:transparent;border:0;color:#fff;font-size:18px}
+.sd-list,.sd-threads{flex:1;overflow:auto;background:#0b141a;padding:10px}
+.sd-empty{color:rgba(255,255,255,.65);font-size:13px;text-align:center;margin:12px 8px}
+.sd-day{text-align:center;font-size:11px;color:rgba(255,255,255,.45);margin:8px 0}
+.sd-bub{max-width:78%;background:#202c33;border-radius:10px;padding:7px 9px;margin:6px 0;font-size:14px}
+.sd-bub.me{margin-left:auto;background:#005c4b}
+.sd-bub img{max-width:100%;border-radius:8px;margin-top:4px}
+.sd-bub time{display:block;text-align:right;font-size:10px;opacity:.65}
+.sd-form{background:#202c33;padding:8px}
+.sd-row{display:flex;gap:6px;align-items:flex-end}
+.sd-row textarea{flex:1;border:0;border-radius:10px;background:#2a3942;color:#fff;padding:8px;resize:none;max-height:80px}
+.sd-row button{width:36px;height:36px;border:0;border-radius:50%;background:#00a884;color:#fff;font-size:18px}
+#sdPic{background:transparent}
+.sd-prev{height:52px;border-radius:8px;margin-bottom:6px}
+.sd-quick button{display:block;width:100%;text-align:left;background:#111b21;color:#fff;border:0;padding:8px;font-size:12px}
+.sd-quick b{color:#00a884}
+.sd-thread{display:block;width:100%;text-align:left;background:transparent;color:#fff;border:0;border-bottom:1px solid rgba(255,255,255,.08);padding:10px 4px;position:relative}
+.sd-thread b{display:block;font-size:14px}
+.sd-thread span{display:block;font-size:12px;opacity:.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sd-thread i{position:absolute;right:6px;top:14px;background:#00a884;border-radius:99px;min-width:18px;text-align:center;font-style:normal;font-size:11px}
+@media(max-width:520px){.sd-panel{height:min(68vh,440px)}}
